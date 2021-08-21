@@ -6,9 +6,9 @@ class CollectionUtils {
     public static Collection<String> filterPhones(Collection<String> phones,
                                                   Collection<String> blacklist) {
         // write your code here
-        HashSet<String> phonesSet = new HashSet<>(phones);
+        List<String> phonesSet = new LinkedList(phones);
         phonesSet.removeAll(blacklist);
-        return Collections.unmodifiableSet(phonesSet);
+        return Collections.unmodifiableList(phonesSet);
     }
 }
 

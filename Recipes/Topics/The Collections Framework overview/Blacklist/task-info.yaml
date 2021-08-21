@@ -36,21 +36,8 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/8397#comment
-status: Failed
+status: Solved
 feedback:
-  message: |
-    Failed test #1 of 3. Wrong answer
-
-    This is a sample test from the problem statement!
-
-    Test input:
-    387-968-2999 505-468-5235 739-738-3272
-    505-468-5235
-    Correct output:
-    387-968-2999 739-738-3272
-
-
-    Your code output:
-    739-738-3272 387-968-2999
-  time: Sat, 21 Aug 2021 07:22:46 UTC
+  message: <html>Correct solution</html>
+  time: Sat, 21 Aug 2021 07:25:59 UTC
 record: -1
