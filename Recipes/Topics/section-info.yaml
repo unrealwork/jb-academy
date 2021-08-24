@@ -5,3 +5,7 @@ content:
 - The List interface
 - Branching statements
 - The Set interface
+- Threads as objects
+- Custom threads
+- Thread management
+- Types and variables
