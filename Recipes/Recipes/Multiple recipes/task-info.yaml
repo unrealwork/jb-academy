@@ -185,33 +185,6 @@ files:
         }
     }
   learner_created: false
-- name: src/recipes/RecipeController.java
-  visible: true
-  text: |
-    package recipes;
-
-    import org.springframework.web.bind.annotation.*;
-
-    @RestController
-    @RequestMapping("/api")
-    public class RecipeController {
-        private final RecipeService recipeService;
-
-        public RecipeController(RecipeService recipeService) {
-            this.recipeService = recipeService;
-        }
-
-        @GetMapping("recipe")
-        public Recipe get() {
-            return recipeService.get();
-        }
-
-        @PostMapping("recipe")
-        public void add(@RequestBody Recipe recipe) {
-            recipeService.set(recipe);
-        }
-    }
-  learner_created: true
 - name: src/recipes/Recipe.java
   visible: true
   text: |
@@ -247,6 +220,42 @@ files:
         }
     }
   learner_created: true
+- name: src/recipes/AdditionResult.java
+  visible: true
+  learner_created: true
+- name: src/recipes/MapRecipeService.java
+  visible: true
+  learner_created: true
+- name: src/recipes/RecipeApiController.java
+  visible: true
+  text: |
+    package recipes;
+
+    import org.springframework.web.bind.annotation.*;
+
+    @RestController
+    @RequestMapping("/api")
+    public class RecipeController {
+        private final RecipeService recipeService;
+
+        public RecipeController(RecipeService recipeService) {
+            this.recipeService = recipeService;
+        }
+
+        @GetMapping("recipe")
+        public Recipe get() {
+            return recipeService.get();
+        }
+
+        @PostMapping("recipe")
+        public void add(@RequestBody Recipe recipe) {
+            recipeService.set(recipe);
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/180/stages/918/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 25 Aug 2021 17:53:40 UTC
 record: -1

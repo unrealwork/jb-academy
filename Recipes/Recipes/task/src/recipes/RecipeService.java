@@ -2,15 +2,22 @@ package recipes;
 
 import org.springframework.stereotype.Service;
 
-@Service
-public class RecipeService {
-    private Recipe storedRecipe = null;
+import java.util.HashMap;
+import java.util.Map;
 
-    public synchronized void set(Recipe recipe) {
-        storedRecipe = recipe;
+@Service
+public class RecipeService implements MapRecipeService {
+    private final Map<Integer, Recipe> storage = new HashMap<>();
+
+    @Override
+    public synchronized AdditionResult add(Recipe recipe) {
+        final int id = storage.size();
+        storage.put(id, recipe);
+        return AdditionResult.of(id);
     }
 
-    public synchronized Recipe get() {
-        return storedRecipe;
+    @Override
+    public synchronized Recipe findById(final int id) {
+        return storage.get(id);
     }
 }
