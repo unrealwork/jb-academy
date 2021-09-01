@@ -300,7 +300,34 @@ files:
         }
     }
   learner_created: false
-- name: src/recipes/RecipeApiController.java
+- name: src/recipes/service/RecipeService.java
+  visible: true
+  text: |
+    package recipes;
+
+    import org.springframework.stereotype.Service;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    @Service
+    public class RecipeService implements MapRecipeService {
+        private final Map<Integer, Recipe> storage = new HashMap<>();
+
+        @Override
+        public synchronized AdditionResult add(Recipe recipe) {
+            final int id = storage.size();
+            storage.put(id, recipe);
+            return AdditionResult.of(id);
+        }
+
+        @Override
+        public synchronized Recipe findById(final int id) {
+            return storage.get(id);
+        }
+    }
+  learner_created: true
+- name: src/recipes/presentation/RecipeApiController.java
   visible: true
   text: |
     package recipes;
@@ -333,7 +360,7 @@ files:
         }
     }
   learner_created: true
-- name: src/recipes/MapRecipeService.java
+- name: src/recipes/service/MapRecipeService.java
   visible: true
   text: |
     package recipes;
@@ -344,49 +371,7 @@ files:
         Recipe findById(int id);
     }
   learner_created: true
-- name: src/recipes/Recipe.java
-  visible: true
-  text: |
-    package recipes;
-
-    import lombok.Data;
-
-    @Data
-    public class Recipe {
-        private String name;
-        private String description;
-        private String[] ingredients;
-        private String[] directions;
-    }
-  learner_created: true
-- name: src/recipes/RecipeService.java
-  visible: true
-  text: |
-    package recipes;
-
-    import org.springframework.stereotype.Service;
-
-    import java.util.HashMap;
-    import java.util.Map;
-
-    @Service
-    public class RecipeService implements MapRecipeService {
-        private final Map<Integer, Recipe> storage = new HashMap<>();
-
-        @Override
-        public synchronized AdditionResult add(Recipe recipe) {
-            final int id = storage.size();
-            storage.put(id, recipe);
-            return AdditionResult.of(id);
-        }
-
-        @Override
-        public synchronized Recipe findById(final int id) {
-            return storage.get(id);
-        }
-    }
-  learner_created: true
-- name: src/recipes/AdditionResult.java
+- name: src/recipes/service/AdditionResult.java
   visible: true
   text: |
     package recipes;
@@ -407,6 +392,36 @@ files:
         }
     }
   learner_created: true
+- name: src/recipes/persistance/RecipeRepository.java
+  visible: true
+  learner_created: true
+- name: src/recipes/presentation/RecipeModel.java
+  visible: true
+  learner_created: true
+- name: src/recipes/presentation/BaseModel.java
+  visible: true
+  learner_created: true
+- name: src/recipes/persistance/BaseDTO.java
+  visible: true
+  learner_created: true
+- name: src/recipes/persistance/Recipe.java
+  visible: true
+  text: |
+    package recipes;
+
+    import lombok.Data;
+
+    @Data
+    public class Recipe {
+        private String name;
+        private String description;
+        private String[] ingredients;
+        private String[] directions;
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/180/stages/919/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 01 Sep 2021 09:45:58 UTC
 record: -1
