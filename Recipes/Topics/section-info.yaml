@@ -19,3 +19,9 @@ content:
 - Regexes in programs
 - Instance methods
 - Standard functional interfaces
+- LocalDateTime
+- LocalDate
+- Package
+- Optional
+- Processing strings (1)
+- toString()
