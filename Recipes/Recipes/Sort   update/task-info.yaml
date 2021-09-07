@@ -627,6 +627,197 @@ files:
         }
     }
   learner_created: false
+- name: src/recipes/presentation/BaseModel.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import recipes.persistance.BaseDTO;
+
+    public interface BaseModel<T extends BaseDTO<?>> {
+        T toDto();
+    }
+  learner_created: true
+- name: src/recipes/presentation/RecipeApiController.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.server.ResponseStatusException;
+    import recipes.service.AdditionResult;
+    import recipes.persistance.Recipe;
+    import recipes.service.RecipeService;
+
+    import javax.validation.Valid;
+
+    @RestController
+    @RequestMapping("/api")
+    public class RecipeApiController {
+        private final RecipeService recipeService;
+
+        public RecipeApiController(RecipeService recipeService) {
+            this.recipeService = recipeService;
+        }
+
+        @GetMapping("recipe/{id}")
+        public RecipeModel get(final @PathVariable Integer id) {
+            return recipeService.findById(id)
+                    .map(Recipe::toModel)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        }
+
+        @PostMapping("recipe/new")
+        public AdditionResult add(@RequestBody @Valid RecipeModel recipe) {
+            return recipeService.add(recipe.toDto());
+        }
+
+        @DeleteMapping("recipe/{id}")
+        public ResponseEntity<Void> delete(@PathVariable int id) {
+            Recipe recipe = recipeService.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            recipeService.deleteById(recipe.getId());
+            return ResponseEntity.noContent().build();
+        }
+    }
+  learner_created: true
+- name: src/recipes/presentation/RecipeModel.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
+    import recipes.persistance.Recipe;
+
+    import javax.validation.constraints.NotBlank;
+    import javax.validation.constraints.NotEmpty;
+    import java.util.Arrays;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class RecipeModel implements BaseModel<Recipe> {
+        @NotBlank
+        private String name;
+        @NotBlank
+        private String description;
+        @NotEmpty
+        private String[] ingredients;
+        @NotEmpty
+        private String[] directions;
+
+        @Override
+        public Recipe toDto() {
+            Recipe recipe = new Recipe();
+            recipe.setDescription(description);
+            recipe.setName(name);
+            recipe.setIngredients(Arrays.asList(ingredients));
+            recipe.setDirections(Arrays.asList(directions));
+            return recipe;
+        }
+    }
+  learner_created: true
+- name: src/recipes/persistance/RecipeRepository.java
+  visible: true
+  text: |
+    package recipes.persistance;
+
+    import org.springframework.data.repository.CrudRepository;
+
+    public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
+    }
+  learner_created: true
+- name: src/recipes/service/RecipeService.java
+  visible: true
+  text: |
+    package recipes.service;
+
+    import lombok.RequiredArgsConstructor;
+    import org.springframework.stereotype.Service;
+    import recipes.persistance.Recipe;
+    import recipes.persistance.RecipeRepository;
+
+    import java.util.Optional;
+
+    @Service
+    @RequiredArgsConstructor
+    public class RecipeService implements MapRecipeService {
+        private final RecipeRepository recipeRepository;
+
+        @Override
+        public synchronized AdditionResult add(Recipe recipe) {
+            final Recipe savedRecipe = recipeRepository.save(recipe);
+            return AdditionResult.of(savedRecipe.getId());
+        }
+
+        @Override
+        public synchronized Optional<Recipe> findById(final int id) {
+            return recipeRepository.findById(id);
+        }
+
+        @Override
+        public void deleteById(int id) {
+            recipeRepository.deleteById(id);
+        }
+    }
+  learner_created: true
+- name: src/recipes/service/MapRecipeService.java
+  visible: true
+  text: "package recipes.service;\n\nimport recipes.persistance.Recipe;\n\nimport\
+    \ java.util.Optional;\n\npublic interface MapRecipeService {\n    AdditionResult\
+    \ add(Recipe recipe);\n\n    Optional<Recipe> findById(int id);\n    \n    void\
+    \ deleteById(int id);\n}\n"
+  learner_created: true
+- name: src/recipes/service/AdditionResult.java
+  visible: true
+  text: |
+    package recipes.service;
+
+    public class AdditionResult {
+        private final int id;
+
+        public static AdditionResult of(final int id) {
+            return new AdditionResult(id);
+        }
+
+        private AdditionResult(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+  learner_created: true
+- name: src/recipes/persistance/Recipe.java
+  visible: true
+  text: "package recipes.persistance;\n\nimport lombok.Data;\nimport recipes.persistance.BaseDTO;\n\
+    import recipes.presentation.RecipeModel;\n\nimport javax.persistence.ElementCollection;\n\
+    import javax.persistence.Entity;\nimport javax.persistence.GeneratedValue;\nimport\
+    \ javax.persistence.GenerationType;\nimport javax.persistence.Id;\nimport java.util.List;\n\
+    \n@Data\n@Entity\npublic class Recipe implements BaseDTO<RecipeModel> {\n    @Id\n\
+    \    @GeneratedValue(strategy = GenerationType.AUTO)\n    private int id;\n\n\
+    \    private String name;\n    private String description;\n    @ElementCollection\n\
+    \    private List<String> ingredients;\n    @ElementCollection\n    private List<String>\
+    \ directions;\n\n    @Override\n    public RecipeModel toModel() {\n        return\
+    \ new RecipeModel(name, description, \n                ingredients.toArray(String[]::new),\
+    \ directions.toArray(String[]::new)\n        );\n    }\n}\n"
+  learner_created: true
+- name: src/recipes/persistance/BaseDTO.java
+  visible: true
+  text: |
+    package recipes.persistance;
+
+    import recipes.presentation.BaseModel;
+
+    public interface BaseDTO<T extends BaseModel<?>> {
+        T toModel();
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/180/stages/920/implement#comment
 status: Unchecked
 record: -1

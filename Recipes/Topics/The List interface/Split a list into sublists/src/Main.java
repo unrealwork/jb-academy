@@ -31,7 +31,7 @@ public class Main {
 
         final String[] values = scanner.nextLine().split("\\s+");
 
-        final List<Integer> list = Arrays.stream(values)
+        final List<Integer> list = Arrays.asList(values).stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
 

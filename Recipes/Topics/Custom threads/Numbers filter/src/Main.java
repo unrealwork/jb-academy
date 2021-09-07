@@ -8,5 +8,12 @@ class NumbersFilter extends Thread {
     @Override
     public void run() {
         // implement this method
+        int num = scanner.nextInt();
+        while (num != 0) {
+            if (num % 2 == 0) {
+                System.out.println(num);
+            }
+            num = scanner.nextInt();
+        }
     }
 }
