@@ -6,7 +6,6 @@ import recipes.persistance.Recipe;
 import recipes.persistance.RecipeRepository;
 import recipes.presentation.RecipeModel;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +38,7 @@ public class RecipeService implements MapRecipeService {
 
     @Override
     public List<RecipeModel> findByCategory(String category) {
-        return recipeRepository.findAllByCategory(category)
+        return recipeRepository.findByCategoryIgnoreCaseOrderByDateDesc(category)
                 .stream()
                 .map(Recipe::toModel)
                 .collect(Collectors.toList());
@@ -47,7 +46,7 @@ public class RecipeService implements MapRecipeService {
 
     @Override
     public List<RecipeModel> findByName(String name) {
-        return recipeRepository.findAllByName(name)
+        return recipeRepository.findByNameContainsIgnoreCaseOrderByDateDesc(name)
                 .stream()
                 .map(Recipe::toModel)
                 .collect(Collectors.toList());

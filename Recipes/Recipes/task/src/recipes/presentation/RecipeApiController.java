@@ -42,7 +42,8 @@ public class RecipeApiController {
     }
 
     @GetMapping("recipe/search")
-    public List<RecipeModel> update(@RequestParam String category, @RequestParam String name) {
+    public List<RecipeModel> update(@RequestParam(required = false) String category,
+                                    @RequestParam(required = false) String name) {
         if (category != null && name != null || category == null && name == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
