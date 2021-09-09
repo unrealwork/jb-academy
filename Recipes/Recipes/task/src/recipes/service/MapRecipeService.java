@@ -1,13 +1,21 @@
 package recipes.service;
 
 import recipes.persistance.Recipe;
+import recipes.presentation.RecipeModel;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MapRecipeService {
-    AdditionResult add(Recipe recipe);
+    AdditionResult save(RecipeModel recipe);
 
-    Optional<Recipe> findById(int id);
-    
+    void update(int id, RecipeModel recipe);
+
+    Optional<RecipeModel> findById(int id);
+
+    List<RecipeModel> findByCategory(String category);
+
+    List<RecipeModel> findByName(String name);
+
     void deleteById(int id);
 }

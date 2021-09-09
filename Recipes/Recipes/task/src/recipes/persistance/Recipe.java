@@ -24,11 +24,16 @@ public class Recipe implements BaseDTO<RecipeModel> {
     private List<String> ingredients;
     @ElementCollection
     private List<String> directions;
+    private String category;
+    private String date;
+
 
     @Override
     public RecipeModel toModel() {
-        return new RecipeModel(name, description, 
-                ingredients.toArray(String[]::new), directions.toArray(String[]::new)
+        return new RecipeModel(name, description,
+                ingredients.toArray(String[]::new),
+                directions.toArray(String[]::new),
+                category, date
         );
     }
 }

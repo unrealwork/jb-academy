@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import recipes.persistance.Recipe;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Arrays;
@@ -21,6 +22,10 @@ public class RecipeModel implements BaseModel<Recipe> {
     private String[] ingredients;
     @NotEmpty
     private String[] directions;
+    @NotBlank
+    private String category;
+    @Min(8)
+    private String date;
 
     @Override
     public Recipe toDto() {
@@ -29,6 +34,8 @@ public class RecipeModel implements BaseModel<Recipe> {
         recipe.setName(name);
         recipe.setIngredients(Arrays.asList(ingredients));
         recipe.setDirections(Arrays.asList(directions));
+        recipe.setCategory(category);
+        recipe.setDate(date);
         return recipe;
     }
 }
