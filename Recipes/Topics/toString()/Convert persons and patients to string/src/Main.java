@@ -7,6 +7,13 @@ class Person {
         this.name = name;
         this.age = age;
     }
+
+
+    @Override
+    public String toString() {
+        return String.format("Person{name=%s,age=%d}",
+                name, age);
+    }
 }
 
 class Patient extends Person {
@@ -16,5 +23,12 @@ class Patient extends Person {
     public Patient(String name, int age, int height) {
         super(name, age);
         this.height = height;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Patient{name=%s,age=%d,height=%d}",
+                name, age, height
+        );
     }
 }

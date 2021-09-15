@@ -1,10 +1,12 @@
 package recipes.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import recipes.persistance.Recipe;
 import recipes.persistance.RecipeRepository;
 import recipes.presentation.RecipeModel;
+import recipes.presentation.UserModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,11 +17,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecipeService implements MapRecipeService {
     private final RecipeRepository recipeRepository;
+    private final UserService userService;
 
     @Override
     public synchronized AdditionResult save(RecipeModel recipe) {
         recipe.setDate(LocalDateTime.now().toString());
-        final Recipe savedRecipe = recipeRepository.save(recipe.toDto());
+        Recipe entity = recipe.toDto();
+        if (recipe.getAuthor() != null) {
+            userService.findByEmail(recipe.getAuthor())
+                    .map(UserDetails::getUsername)
+                    .ifPresent(entity::setAuthor);
+        }
+        final Recipe savedRecipe = recipeRepository.save(entity);
         return AdditionResult.of(savedRecipe.getId());
     }
 

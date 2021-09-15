@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/529086/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sun, 12 Sep 2021 03:45:04 UTC
+update_date: Wed, 15 Sep 2021 08:11:54 UTC
 stages:
 - id: 917
   step: 13088
@@ -156,6 +156,8 @@ topics:
     theory_id: 7427
   - title: IntelliJ IDEA
     theory_id: 3801
+  - title: Pseudocode
+    theory_id: 15090
   - title: Fixed-size array
     theory_id: 7255
   - title: Dynamic array
@@ -168,6 +170,8 @@ topics:
     theory_id: 9746
   - title: Errors in programs
     theory_id: 3536
+  - title: Package
+    theory_id: 3621
   - title: What is an exception
     theory_id: 3497
   - title: NPE
@@ -206,12 +210,20 @@ topics:
     theory_id: 3495
   - title: Multiple constructors
     theory_id: 3538
-  - title: Package
-    theory_id: 3621
+  - title: Annotations basics
+    theory_id: 3622
+  - title: Objects
+    theory_id: 4727
+  - title: Static members
+    theory_id: 3534
+  - title: Interface
+    theory_id: 3615
   - title: Access modifiers
     theory_id: 3589
   - title: Getters and setters
     theory_id: 3599
+  - title: Comparable
+    theory_id: 14456
   - title: Inheritance
     theory_id: 3583
   - title: The keyword super
@@ -220,22 +232,12 @@ topics:
     theory_id: 6692
   - title: Referencing subclass objects
     theory_id: 3585
-  - title: The Object class
-    theory_id: 3596
-  - title: Annotations basics
-    theory_id: 3622
-  - title: Objects
-    theory_id: 4727
-  - title: Static members
-    theory_id: 3534
   - title: Hiding and overriding
     theory_id: 3572
+  - title: The Object class
+    theory_id: 3596
   - title: toString()
     theory_id: 3584
-  - title: Interface
-    theory_id: 3615
-  - title: Comparable
-    theory_id: 14456
   - title: Boxing and unboxing
     theory_id: 3595
   1:
@@ -266,12 +268,6 @@ topics:
   2:
   - title: The concept of patterns
     theory_id: 3611
-  - title: Introduction to databases
-    theory_id: 8497
-  - title: Relational Data Model
-    theory_id: 13785
-  - title: What is SQL
-    theory_id: 7054
   - title: H2 database
     theory_id: 8762
   - title: Introduction to JPA
@@ -300,8 +296,14 @@ topics:
     theory_id: 3687
   - title: Regexes in programs
     theory_id: 3696
+  - title: Introduction to databases
+    theory_id: 8497
+  - title: What is SQL
+    theory_id: 7054
   - title: Object-Relational Mapping (ORM)
     theory_id: 8312
+  - title: Relational Data Model
+    theory_id: 13785
   - title: Lambda expressions
     theory_id: 11635
   - title: Method references

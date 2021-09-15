@@ -27,6 +27,8 @@ public class RecipeModel implements BaseModel<Recipe> {
     @Min(8)
     private String date;
 
+    private String author;
+
     @Override
     public Recipe toDto() {
         Recipe recipe = new Recipe();

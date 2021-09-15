@@ -1,7 +1,6 @@
 package recipes.persistance;
 
 import lombok.Data;
-import recipes.persistance.BaseDTO;
 import recipes.presentation.RecipeModel;
 
 import javax.persistence.ElementCollection;
@@ -26,6 +25,7 @@ public class Recipe implements BaseDTO<RecipeModel> {
     private List<String> directions;
     private String category;
     private String date;
+    private String author;
 
 
     @Override
@@ -33,7 +33,7 @@ public class Recipe implements BaseDTO<RecipeModel> {
         return new RecipeModel(name, description,
                 ingredients.toArray(String[]::new),
                 directions.toArray(String[]::new),
-                category, date
+                category, date, author
         );
     }
 }
