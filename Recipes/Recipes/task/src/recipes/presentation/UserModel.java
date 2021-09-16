@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class UserModel {
-    @Email
+    @Email(regexp = ".+@.+\\..+")
     @NotBlank
     private String email;
     @NotBlank

@@ -1,6 +1,7 @@
 package recipes.presentation;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Slf4j
 public class RecipeApiController {
     private final RecipeService recipeService;
     private final UserService userService;
@@ -45,10 +47,11 @@ public class RecipeApiController {
         if (updatedRecipe.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
-            if (!Objects.equals(updatedRecipe.get().getAuthor(), principal.getName())) {
+            if (!updatedRecipe.get().getAuthor().equalsIgnoreCase(principal.getName())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
         }
+        recipe.setAuthor(updatedRecipe.get().getAuthor());
         recipeService.update(id, recipe);
         return ResponseEntity.noContent().build();
     }
@@ -71,7 +74,11 @@ public class RecipeApiController {
         if (recipeToDelete.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
-            if (!Objects.equals(recipeToDelete.get().getAuthor(), principal.getName())) {
+            final String actualAuthor = recipeToDelete.get().getAuthor();
+            String email = principal.getName();
+            log.info("Actual author: {}, req author: {}",
+                    actualAuthor, email);
+            if (actualAuthor == null || !actualAuthor.equalsIgnoreCase(email)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
         }

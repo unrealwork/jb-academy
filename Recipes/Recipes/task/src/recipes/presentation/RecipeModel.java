@@ -1,5 +1,6 @@
 package recipes.presentation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class RecipeModel implements BaseModel<Recipe> {
     private String category;
     @Min(8)
     private String date;
-
+    @JsonIgnore
     private String author;
 
     @Override

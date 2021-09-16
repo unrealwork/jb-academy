@@ -1,43 +1,5 @@
 type: edu
 files:
-- name: src/recipes/RecipesApplication.java
-  visible: true
-  text: |
-    package recipes;
-
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-    @SpringBootApplication
-    public class RecipesApplication {
-        public static void main(String[] args) {
-            SpringApplication.run(RecipesApplication.class, args);
-        }
-    }
-  learner_created: false
-- name: build.gradle
-  visible: true
-  text: |
-    plugins {
-        id 'java'
-        id 'org.springframework.boot' version '2.3.1.RELEASE'
-        id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    }
-
-    sourceCompatibility = 11
-
-    repositories {
-        mavenCentral()
-    }
-
-    sourceSets.main.resources.srcDirs = ["resources"]
-
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter'
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-    }
-  learner_created: false
 - name: test/RecipesApplicationTest.java
   visible: false
   text: |
@@ -878,51 +840,6 @@ files:
         }
     }
   learner_created: true
-- name: src/recipes/presentation/RecipeModel.java
-  visible: true
-  text: |
-    package recipes.presentation;
-
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
-    import recipes.persistance.Recipe;
-
-    import javax.validation.constraints.Min;
-    import javax.validation.constraints.NotBlank;
-    import javax.validation.constraints.NotEmpty;
-    import java.util.Arrays;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class RecipeModel implements BaseModel<Recipe> {
-        @NotBlank
-        private String name;
-        @NotBlank
-        private String description;
-        @NotEmpty
-        private String[] ingredients;
-        @NotEmpty
-        private String[] directions;
-        @NotBlank
-        private String category;
-        @Min(8)
-        private String date;
-
-        @Override
-        public Recipe toDto() {
-            Recipe recipe = new Recipe();
-            recipe.setDescription(description);
-            recipe.setName(name);
-            recipe.setIngredients(Arrays.asList(ingredients));
-            recipe.setDirections(Arrays.asList(directions));
-            recipe.setCategory(category);
-            recipe.setDate(date);
-            return recipe;
-        }
-    }
-  learner_created: true
 - name: src/recipes/persistance/RecipeRepository.java
   visible: true
   text: |
@@ -1103,14 +1020,94 @@ files:
 - name: src/recipes/service/UserService.java
   visible: true
   learner_created: true
-- name: src/recipes/presentation/UserModel.java
+- name: src/recipes/RecipesApplication.java
   visible: true
-  learner_created: true
+  text: |
+    package recipes;
+
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+    @SpringBootApplication
+    public class RecipesApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(RecipesApplication.class, args);
+        }
+    }
+  learner_created: false
+- name: build.gradle
+  visible: true
+  text: |
+    plugins {
+        id 'java'
+        id 'org.springframework.boot' version '2.3.1.RELEASE'
+        id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    }
+
+    sourceCompatibility = 11
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceSets.main.resources.srcDirs = ["resources"]
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+  learner_created: false
 - name: src/recipes/presentation/UserController.java
   visible: true
   learner_created: true
-- name: src/recipes/config/WebSecurityConfig.java
+- name: src/recipes/presentation/UserModel.java
   visible: true
+  learner_created: true
+- name: src/recipes/presentation/RecipeModel.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
+    import recipes.persistance.Recipe;
+
+    import javax.validation.constraints.Min;
+    import javax.validation.constraints.NotBlank;
+    import javax.validation.constraints.NotEmpty;
+    import java.util.Arrays;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class RecipeModel implements BaseModel<Recipe> {
+        @NotBlank
+        private String name;
+        @NotBlank
+        private String description;
+        @NotEmpty
+        private String[] ingredients;
+        @NotEmpty
+        private String[] directions;
+        @NotBlank
+        private String category;
+        @Min(8)
+        private String date;
+
+        @Override
+        public Recipe toDto() {
+            Recipe recipe = new Recipe();
+            recipe.setDescription(description);
+            recipe.setName(name);
+            recipe.setIngredients(Arrays.asList(ingredients));
+            recipe.setDirections(Arrays.asList(directions));
+            recipe.setCategory(category);
+            recipe.setDate(date);
+            return recipe;
+        }
+    }
   learner_created: true
 - name: resources/application.properties
   visible: true
@@ -1119,63 +1116,13 @@ files:
     management.endpoints.web.exposure.include=*
     management.endpoint.shutdown.enabled=true
   learner_created: false
+- name: src/recipes/config/WebSecurityConfig.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/180/stages/921/implement#comment
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #5
-
-    POST /api/register should respond with status code 400, responded: 200
-
-    Response body:
-
-    Please find below the output of your program during this failed test.
-
-    ---
-
-    .   ____          _            __ _ _
-     /\\ / ___&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
-    ( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _` | \ \ \ \
-     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-      &#39;  |____| .__|_| |_|_| |_\__, | / / / /
-     =========|_|==============|___/=/_/_/_/
-     :: Spring Boot ::        (v2.3.1.RELEASE)
-
-    2021-09-14 12:10:18.691  INFO 3340 --- [    Test worker] recipes.RecipesApplication               : Starting RecipesApplication on DESKTOP-SUO3NSU with PID 3340 (started by unrea in C:\Users\unrea\IdeaProjects\jb-academy\Recipes\Recipes\task)
-    2021-09-14 12:10:18.694  INFO 3340 --- [    Test worker] recipes.RecipesApplication               : No active profile set, falling back to default profiles: default
-    2021-09-14 12:10:19.553  INFO 3340 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
-    2021-09-14 12:10:19.612  INFO 3340 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51ms. Found 1 JPA repository interfaces.
-    2021-09-14 12:10:20.137  INFO 3340 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8881 (http)
-    2021-09-14 12:10:20.150  INFO 3340 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-    2021-09-14 12:10:20.151  INFO 3340 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
-    2021-09-14 12:10:20.258  INFO 3340 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-    2021-09-14 12:10:20.258  INFO 3340 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1524 ms
-    2021-09-14 12:10:20.383  INFO 3340 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-    2021-09-14 12:10:20.574  INFO 3340 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-    2021-09-14 12:10:20.581  INFO 3340 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at &#39;/h2&#39;. Database available at &#39;jdbc:h2:file:../recipes_db&#39;
-    2021-09-14 12:10:20.734  INFO 3340 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService &#39;applicationTaskExecutor&#39;
-    2021-09-14 12:10:20.793  INFO 3340 --- [         task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-    2021-09-14 12:10:20.833  WARN 3340 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-    2021-09-14 12:10:20.860  INFO 3340 --- [         task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.17.Final
-    2021-09-14 12:10:20.894  INFO 3340 --- [    Test worker] o.s.s.p.JdbcUserDetailsManager           : No authentication manager set. Reauthentication of users when changing passwords will not be performed.
-    2021-09-14 12:10:21.020  INFO 3340 --- [         task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-    2021-09-14 12:10:21.136  INFO 3340 --- [         task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-    2021-09-14 12:10:21.306  INFO 3340 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path &#39;/actuator&#39;
-    2021-09-14 12:10:21.359  INFO 3340 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@46b23524, org.springframework.security.web.context.SecurityContextPersistenceFilter@130325ab, org.springframework.security.web.header.HeaderWriterFilter@3dc35474, org.springframework.security.web.authentication.logout.LogoutFilter@71c33778, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@45af12ec, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@996f1a3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6b51ba3c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@e9b43c2, org.springframework.security.web.session.SessionManagementFilter@29e10a16, org.springframework.security.web.access.ExceptionTranslationFilter@225ec74c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@186cd9b3]
-    Hibernate: create table recipe (id integer not null, author varchar(255), category varchar(255), date varchar(255), description varchar(255), name varchar(255), primary key (id))
-    Hibernate: create table recipe_directions (recipe_id integer not null, directions varchar(255))
-    Hibernate: create table recipe_ingredients (recipe_id integer not null, ingredients varchar(255))
-    Hibernate: create sequence hibernate_sequence start with 1 increment by 1
-    Hibernate: alter table recipe_directions add constraint FKkopnyxdjmwwlt5vlvw4rd28gy foreign key (recipe_id) references recipe
-    Hibernate: alter table recipe_ingredients add constraint FKhnsmvxdlwxqq6x2wbgnoef5gr foreign key (recipe_id) references recipe
-    2021-09-14 12:10:21.831  INFO 3340 --- [         task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-    2021-09-14 12:10:21.839  INFO 3340 --- [         task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit &#39;default&#39;
-    2021-09-14 12:10:21.912  INFO 3340 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8881 (http) with context path &#39;&#39;
-    2021-09-14 12:10:21.914  INFO 3340 --- [    Test worker] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
-    2021-09-14 12:10:22.189  INFO 3340 --- [    Test worker] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
-    2021-09-14 12:10:22.202  INFO 3340 --- [    Test worker] recipes.RecipesApplication               : Started RecipesApplication in 3.951 seconds (JVM running for 5.282)
-    2021-09-14 12:10:22.545  INFO 3340 --- [nio-8881-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet &#39;dispatcherServlet&#39;
-    2021-09-14 12:10:22.546  INFO 3340 --- [nio-8881-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet &#39;dispatcherServlet&#39;
-    2021-09-14 12:10:22.557  INFO 3340 --- [nio-8881-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
-  time: Tue, 14 Sep 2021 09:10:23 UTC
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Thu, 16 Sep 2021 08:32:10 UTC
 record: -1

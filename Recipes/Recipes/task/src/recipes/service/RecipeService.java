@@ -28,6 +28,9 @@ public class RecipeService implements MapRecipeService {
                     .map(UserDetails::getUsername)
                     .ifPresent(entity::setAuthor);
         }
+        if (entity.getAuthor() == null) {
+            throw new IllegalStateException();
+        }
         final Recipe savedRecipe = recipeRepository.save(entity);
         return AdditionResult.of(savedRecipe.getId());
     }
@@ -36,6 +39,7 @@ public class RecipeService implements MapRecipeService {
     public void update(int id, RecipeModel recipe) {
         Recipe entity = recipe.toDto();
         entity.setId(id);
+        entity.setAuthor(recipe.getAuthor());
         entity.setDate(LocalDateTime.now().toString());
         recipeRepository.save(entity);
     }
