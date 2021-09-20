@@ -157,6 +157,24 @@ files:
         }
     }
   learner_created: false
+- name: src/platform/PresentationConfig.java
+  visible: true
+  learner_created: true
+- name: src/platform/CodeController.java
+  visible: true
+  learner_created: true
+- name: src/resources/code.html
+  visible: true
+  learner_created: true
+- name: src/platform/ApiCodeController.java
+  visible: true
+  learner_created: true
+- name: src/platform/Code.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/692/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 20 Sep 2021 06:39:20 UTC
 record: -1
