@@ -1,12 +1,11 @@
 type: code
-custom_name: I like JavaScript!
 files:
 - name: main.js
   visible: true
   learner_created: false
-feedback_link: https://hyperskill.org/learn/step/8020#comment
+feedback_link: https://hyperskill.org/learn/step/8159#comment
 status: Solved
 feedback:
   message: <html>Correct solution</html>
-  time: Mon, 20 Sep 2021 15:00:18 UTC
+  time: Mon, 20 Sep 2021 15:05:09 UTC
 record: -1

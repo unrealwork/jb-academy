@@ -157,9 +157,6 @@ files:
         }
     }
   learner_created: false
-- name: src/platform/PresentationConfig.java
-  visible: true
-  learner_created: true
 - name: src/platform/CodeController.java
   visible: true
   learner_created: true
@@ -177,4 +174,4 @@ status: Solved
 feedback:
   message: Congratulations!
   time: Mon, 20 Sep 2021 06:39:20 UTC
-record: -1
+record: 1
