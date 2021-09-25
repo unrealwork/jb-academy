@@ -7,3 +7,6 @@ content:
 - Relational operators
 - Functional decomposition
 - Generic methods
+- Integer types and operations
+- Processing strings
+- Runtime type checking
