@@ -19,6 +19,7 @@ public class ApiCodeController {
     private Code code() {
         Code code = new Code();
         code.setCode("public static void main(String[] args) {\n    SpringApplication.run(CodeSharingPlatform.class, args);\n}");
+        code.setTimestamp(System.currentTimeMillis());
         return code;
     }
 }

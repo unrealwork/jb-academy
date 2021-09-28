@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Code {
     private String code;
+    private long timestamp;
 
     @Override
     public boolean equals(Object o) {
@@ -28,5 +29,13 @@ public class Code {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

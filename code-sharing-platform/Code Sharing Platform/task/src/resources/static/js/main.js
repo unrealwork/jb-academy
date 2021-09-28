@@ -1,14 +1,17 @@
-const API = {
-    get : function (success, error) {
+function Api() {
+
+    let get = function (url, success, error) {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/code", true);
+        xhr.open("GET", url, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         xhr.onload = function (e) {
             if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    success()
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    success(JSON.parse(xhr.response))
                 } else {
-                    error()
+                    if (error) {
+                        error()
+                    }
                 }
             }
         };
@@ -17,8 +20,29 @@ const API = {
         };
         xhr.send(null);
     }
+
+    Api.prototype.code = function (success, error) {
+        get('/api/code', success, error)
+    }
 }
 
-API.get(function (){
-    console.log('Resp is received')
+window.API = new Api();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const elements = {
+        codeSnippet: document.getElementById('code_snippet'),
+        loadDate: document.getElementById('load_date')
+    }
+
+
+    API.code(function (data) {
+        if (data.timestamp) {
+            const dt = new Date(data.timestamp);
+            let ruLocale = 'ru-RU';
+            elements.loadDate.innerText = dt.toLocaleDateString(ruLocale) + ' ' + dt.toLocaleTimeString(ruLocale);
+        }
+        elements.codeSnippet.innerHTML = data.code;
+    })
 })
+
+
