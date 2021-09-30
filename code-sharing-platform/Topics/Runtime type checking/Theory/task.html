@@ -2,7 +2,7 @@
 <html>
  <head></head>
  <body>
-  <h2 style="text-align: center;">Runtime type checking</h2> 
+  <h5 style="text-align: center;">Runtime type checking</h5> 
   <p>A variable of a base class can always refer to an object of a subclass. We can determine the actual type of the referred object at runtime.</p> 
   <p>Java provides several ways to do it:</p> 
   <ul> 
@@ -17,7 +17,7 @@ class Circle extends Shape {...}
 
 class Rectangle extends Shape {...}</code></pre> 
   <p>The hierarchy is very simple, the fields and methods of classes are hidden for clarity. However, this hierarchy demonstrates the <strong>"IS-A"</strong> relation pretty well.</p> 
-  <h2 style="text-align: center;">The keyword instanceof</h2> 
+  <h5 style="text-align: center;">The keyword instanceof</h5> 
   <p>The binary operator <code class="language-java">instanceof</code> returns <code class="language-java">true</code> if an object is an instance of a particular class or its subclass.</p> 
   <p>The base syntax is the following:</p> 
   <pre><code class="language-java">obj instanceof Class</code></pre> 
@@ -40,7 +40,7 @@ boolean rectIsShape = rect instanceof Shape; // true</code></pre>
   <pre><code class="language-java">Circle c = new Circle();
 boolean circleIsRect = c instanceof Rectangle; // Inconvertible types</code></pre> 
   <p>The second line contains the compile-time error: <strong>Inconvertible types</strong>.</p> 
-  <h2 style="text-align: center;">Use reflection</h2> 
+  <h5 style="text-align: center;">Use reflection</h5> 
   <p>Each object has a method <code class="language-java">getClass</code> that can be used to obtain an object representing the class. We can directly compare the classes represented by objects at runtime using <strong>java reflection</strong>.</p> 
   <p>Let's consider an example. Here is an instance of <code class="language-java">Circle</code>:</p> 
   <pre><code class="language-java">Shape circle = new Circle();</code></pre> 
@@ -58,7 +58,7 @@ boolean isInstanceOfRectangle = Rectangle.class.isInstance(circle); // false</co
   <pre><code class="language-java">Circle c = new Circle();
 boolean circleIsRect = Rectangle.class.isInstance(c); // false</code></pre> 
   <p>You can use any of the described approaches to determine the actual type of the referred object.</p> 
-  <h2 style="text-align: center;">When to use it</h2> 
+  <h5 style="text-align: center;">When to use it</h5> 
   <p>If you cast a superclass object to its subclass, you may get a <code class="language-java">ClassCastException</code> if the object has another type. Before casting, you can check the actual type using one of the approaches we've considered in this topic.</p> 
   <p>The following example demonstrates it.</p> 
   <pre><code class="language-java">Shape shape = new Circle();

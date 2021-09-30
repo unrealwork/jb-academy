@@ -3,7 +3,7 @@
  <head></head>
  <body>
   <p>The classes <code class="language-java">LocalDate</code>, <code class="language-java">LocalTime</code>, <code class="language-java">LocalDateTime</code> have methods for comparing their instances according to their position on the timeline. The methods compare instances as they go in chronological order (or the order of time).</p> 
-  <h2 style="text-align: center;">The method compareTo</h2> 
+  <h5 style="text-align: center;">The method compareTo</h5> 
   <p>The method <code class="language-java">compareTo</code> compares <strong>this </strong>instance and another one passed as the method's argument. It returns <em>0</em> if they are equal, a <em>negative </em>value if this instance is less than the other, and a <em>positive </em>value if this instance is greater.</p> 
   <p>Here is an example of comparing two instances of the class <code class="language-java">LocalDate</code>:</p> 
   <pre><code class="language-java">LocalDate date1 = LocalDate.parse("2017-01-02");
@@ -27,7 +27,7 @@ dateTime1.compareTo(dateTime1); // 0, dateTime1 and dateTime are equal
 dateTime1.compareTo(dateTime2); // -1, dateTime1 is less than dateTime2
 dateTime2.compareTo(dateTime1); // 1, dateTime2 is greater than dateTime1</code></pre> 
   <p> </p> 
-  <h2 style="text-align: center;">The methods isAfter, isBefore and isEqual</h2> 
+  <h5 style="text-align: center;">The methods isAfter, isBefore and isEqual</h5> 
   <p>The classes have also some concise methods to compare dates and time on a timeline that return <code class="language-java">boolean</code> value.</p> 
   <ul> 
    <li>The method <code class="language-java">isAfter</code> returns <code class="language-java">true</code>, only if this instance is strictly after another instance passed as the argument, otherwise, the method returns <code class="language-java">false</code>.</li> 

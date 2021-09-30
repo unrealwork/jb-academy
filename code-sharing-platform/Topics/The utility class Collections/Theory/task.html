@@ -14,7 +14,7 @@
    <code class="language-java">java.util</code> package but represent completely different things.
   </div>
   <p></p> 
-  <h2 style="text-align: center;">Creating immutable collections</h2> 
+  <h5 style="text-align: center;">Creating immutable collections</h5> 
   <p>The first group is a set of methods for creating empty and single-element <strong>immutable</strong> collections.</p> 
   <pre><code class="language-java">List&lt;String&gt; emptyList = Collections.emptyList();
 Set&lt;Integer&gt; emptySet = Collections.emptySet();
@@ -65,7 +65,7 @@ singletonList.add(20); // throws UnsupportedOperationException</code></pre>
   </div>
   <p></p> 
   <p>We skipped the methods for creating maps, but they look very similar. If you need them, just look into the <a target="_blank" href="https://docs.oracle.com/en/java/javase/13/docs/api/java.base/java/util/Map.html" rel="noopener noreferrer nofollow">documentation</a>.</p> 
-  <h2 style="text-align: center;">Processing lists</h2> 
+  <h5 style="text-align: center;">Processing lists</h5> 
   <p>There are also some methods for performing list-specific operations: <strong>sorting</strong>, <strong>reversing</strong>, <strong>rotating,</strong> and <strong>shuffling</strong> lists.</p> 
   <p>Check them out on the following example:</p> 
   <pre><code class="language-java">var numbers = new ArrayList&lt;&gt;(List.of(1, 2, 3, 2, 3, 4)); // getting a mutable list
@@ -81,7 +81,7 @@ System.out.println(numbers);  // a result can be any: [4, 2, 3, 2, 3, 1]</code><
 Collections.rotate(numbers, 1); // [4, 1, 2, 3, 2, 3]
 Collections.rotate(numbers, 2); // [2, 3, 4, 1, 2, 3]</code></pre> 
   <p>These methods can be very useful in many applications. The listed methods have overloaded versions as well.</p> 
-  <h2 style="text-align: center;">Calculations on collections</h2> 
+  <h5 style="text-align: center;">Calculations on collections</h5> 
   <p>There are some methods that can be applied to any collections since the methods take the <code class="language-java">Collection</code> interface as the argument.</p> 
   <ul> 
    <li><span style="color: #000000;"><code class="language-java">frequency</code> counts the number of elements equal to a specified object;</span></li> 
@@ -107,7 +107,7 @@ System.out.println(Collections.disjoint(numbers, List.of(5, 6))); // true</code>
   </div>
   <p></p> 
   <p>The <code class="language-java">Collections</code> class contains some other methods for working with collections as well.</p> 
-  <h2 style="text-align: center;">A tricky example</h2> 
+  <h5 style="text-align: center;">A tricky example</h5> 
   <p>We would like to demonstrate one tricky and interesting example with some modifying operations on <strong>immutable</strong> collections. Just take a look at the following code:</p> 
   <pre><code class="language-java">List&lt;Integer&gt; singletonList = Collections.singletonList(1);
 
@@ -122,7 +122,7 @@ Collections.shuffle(numbers); // it throws UnsupportedOperationException</code><
    In order not to confuse other programmers it's better not to rely on such somewhat counterintuitive features of Java in your solutions, even if they are fun enough. After a while, you will also forget why such code works.
   </div>
   <p></p> 
-  <h2 style="text-align: center;">Conclusion</h2> 
+  <h5 style="text-align: center;">Conclusion</h5> 
   <p>We've considered the <code class="language-java">Collections</code> class that provides a set of useful methods for collections. Before you start writing your code when working on a problem related to processing collections it is a good idea to check the suitable methods in this class. It will allow you not to reinvent a wheel and use standard methods achieving good performance.</p>
  </body>
 </html>
