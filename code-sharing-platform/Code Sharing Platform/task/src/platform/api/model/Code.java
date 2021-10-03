@@ -1,10 +1,10 @@
-package platform;
+package platform.api.model;
 
 import java.util.Objects;
 
 public class Code {
     private String code;
-    private long timestamp;
+    private String date;
 
     @Override
     public boolean equals(Object o) {
@@ -31,11 +31,11 @@ public class Code {
         this.code = code;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public String getDate() {
+        return date;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(String date) {
+        this.date = date;
     }
 }
