@@ -413,6 +413,310 @@ files:
         }
     }
   learner_created: false
+- name: src/resources/static/js/code-new.js
+  visible: true
+  text: |+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = {
+            codeSnippet: document.getElementById('code_snippet'),
+            sendSnippetBtn: document.getElementById('send_snippet')
+        }
+
+
+        elements.sendSnippetBtn.onclick = function (e) {
+            e.preventDefault();
+            const code = {
+                code: elements.codeSnippet.value
+            }
+            console.log(code);
+            API.update(code, function () {
+            })
+            return false;
+        }
+    })
+
+
+  learner_created: true
+- name: src/platform/api/CodeService.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    public interface CodeService {
+        Code code();
+
+        CodeUpdateResult update(NewCode code);
+    }
+  learner_created: true
+- name: src/resources/static/js/api.js
+  visible: true
+  text: |
+    function Api() {
+
+        let req = function (url, method, data, success, error) {
+            let xhr = new XMLHttpRequest();
+            const m = method ? method : "GET";
+            xhr.open(m, url, true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        success(JSON.parse(xhr.response))
+                    } else {
+                        if (error) {
+                            error()
+                        }
+                    }
+                }
+            };
+            xhr.onerror = function (e) {
+                error();
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+        let get = function (url, success, error) {
+            req(url, "GET", null, success, error)
+        }
+
+        let post = function (url, data, success, error) {
+            req(url, "POST", data, success, error)
+        }
+
+        Api.prototype.code = function (success, error) {
+            get('/api/code', success, error)
+        }
+
+        Api.prototype.update = function (data, success, error) {
+            post('/api/code/new', data, success, error)
+        }
+    }
+
+    window.API = new Api();
+  learner_created: true
+- name: src/resources/views/code.html
+  visible: true
+  text: "<html lang=\"en\">\n<head>\n    <title>Code</title>\n    <link rel=\"stylesheet\"\
+    \ href=\"/css/mini-default.min.css\">\n    <script defer src=\"/js/api.js\"></script>\n\
+    \    <script defer src=\"/js/code-preview.js\"></script>\n</head>\n<body>\n<div\
+    \ class=\"row\">\n    \n    <div class=\"col-sm-12 col-md-6\">\n        <p>\n\
+    \            <mark class=\"tertiary\">\n                <span id=\"load_date\"\
+    ></span>\n            </mark>\n        </p>\n        <pre id=\"code_snippet\"\
+    >\n    </pre>\n    </div>\n</div>\n</body>\n</html>\n"
+  learner_created: true
+- name: src/platform/api/model/NewCode.java
+  visible: true
+  text: |
+    package platform.api.model;
+
+    public class NewCode {
+        private String code;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+    }
+  learner_created: true
+- name: src/resources/static/js/code-preview.js
+  visible: true
+  text: |+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = {
+            codeSnippet: document.getElementById('code_snippet'),
+            loadDate: document.getElementById('load_date')
+        }
+
+
+        API.code(function (data) {
+            if (data.date) {
+                elements.loadDate.innerText = data.date
+            }
+            elements.codeSnippet.innerHTML = data.code;
+        })
+    })
+
+
+  learner_created: true
+- name: src/platform/presentation/CodeController.java
+  visible: true
+  text: "package platform.presentation;\n\nimport org.springframework.beans.factory.annotation.Value;\n\
+    import org.springframework.core.io.Resource;\nimport org.springframework.http.MediaType;\n\
+    import org.springframework.http.ResponseEntity;\nimport org.springframework.stereotype.Controller;\n\
+    import org.springframework.web.bind.annotation.GetMapping;\nimport platform.api.CodeService;\n\
+    import platform.api.model.Code;\n\n@Controller\npublic class CodeController {\n\
+    \    private final CodeService codeService;\n    \n    @Value(\"classpath:views/code.html\"\
+    )\n    private Resource codeView;\n    \n    @Value(\"classpath:views/code-new.html\"\
+    )\n    private Resource codeNewView;\n\n    public CodeController(CodeService\
+    \ codeService) {\n        this.codeService = codeService;\n    }\n\n    @GetMapping(value\
+    \ = \"/code\", produces = MediaType.TEXT_HTML_VALUE)\n    public ResponseEntity<String>\
+    \ code() {\n        final Code code = codeService.code();\n        return ResponseEntity.ok()\n\
+    \                .body(\"<html lang=\\\"en\\\">\\n\" +\n                     \
+    \   \"<head>\\n\" +\n                        \"    <title>Code</title>\\n\" +\n\
+    \                        \"    <link rel=\\\"stylesheet\\\" href=\\\"/css/mini-default.min.css\\\
+    \">\\n\" +\n                        \"</head>\\n\" +\n                       \
+    \ \"<body>\\n\" +\n                        \"<div class=\\\"row\\\">\\n\" +\n\
+    \                        \"    \\n\" +\n                        \"    <div class=\\\
+    \"col-sm-12 col-md-6\\\">\\n\" +\n                        \"        <p>\\n\" +\n\
+    \                        \"            <mark class=\\\"tertiary\\\">\\n\" +\n\
+    \                        \"                <span id=\\\"load_date\\\">\" + code.getDate()\
+    \ + \" </span>\\n\" +\n                        \"            </mark>\\n\" +\n\
+    \                        \"        </p>\\n\" +\n                        \"   \
+    \     <pre id=\\\"code_snippet\\\">\\n\" +\n                        code.getCode()\
+    \ +\n                        \"    </pre>\\n\" +\n                        \" \
+    \   </div>\\n\" +\n                        \"</div>\\n\" +\n                 \
+    \       \"</body>\");\n    }\n\n\n    @GetMapping(\"/code/new\")\n    public ResponseEntity<Resource>\
+    \ codenew() {\n        return ResponseEntity\n                .ok()\n        \
+    \        .contentType(MediaType.TEXT_HTML)\n                .body(codeNewView);\n\
+    \    }\n}\n"
+  learner_created: true
+- name: src/platform/api/CodeServiceImpl.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import org.springframework.stereotype.Service;
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    import java.time.LocalDate;
+    import java.time.LocalDateTime;
+    import java.util.concurrent.atomic.AtomicReference;
+
+    @Service
+    public class CodeServiceImpl implements CodeService {
+        private static final AtomicReference<Code> STORING_CODE = new AtomicReference<>(initialCode());
+
+        @Override
+        public Code code() {
+            return STORING_CODE.get();
+        }
+
+        @Override
+        public CodeUpdateResult update(NewCode newCode) {
+            Code c = new Code();
+            c.setCode(newCode.getCode());
+            c.setDate(LocalDateTime.now().toString());
+            STORING_CODE.set(c);
+            return new CodeUpdateResult();
+        }
+
+        private static Code initialCode() {
+            Code code = new Code();
+            code.setCode("public static void main(String[] args) {\n    SpringApplication.run(CodeSharingPlatform.class, args);\n}");
+            code.setDate(LocalDateTime.now().toString());
+            return code;
+        }
+    }
+  learner_created: true
+- name: src/platform/api/model/Code.java
+  visible: true
+  text: |
+    package platform.api.model;
+
+    import java.util.Objects;
+
+    public class Code {
+        private String code;
+        private String date;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Code code1 = (Code) o;
+            return Objects.equals(code, code1.code);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(code);
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+    }
+  learner_created: true
+- name: src/platform/api/ApiCodeController.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.ResponseBody;
+    import org.springframework.web.bind.annotation.RestController;
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    import java.util.Collections;
+    import java.util.Map;
+    import java.util.stream.Collectors;
+
+    @RestController
+    @RequestMapping("/api/code")
+    public class ApiCodeController {
+        private final CodeService codeService;
+
+        public ApiCodeController(CodeService codeService) {
+            this.codeService = codeService;
+        }
+
+        @GetMapping
+        @ResponseBody
+        public Code get() {
+            return code();
+        }
+
+        private Code code() {
+            return codeService.code();
+        }
+
+
+        @PostMapping("/new")
+        @ResponseBody
+        public Map<String, String> newCode(final @RequestBody NewCode code) {
+            codeService.update(code);
+            return Collections.emptyMap();
+        }
+    }
+  learner_created: true
+- name: src/platform/api/model/CodeUpdateResult.java
+  visible: true
+  text: |
+    package platform.api.model;
+
+    public class CodeUpdateResult {
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/694/implement#comment
 status: Unchecked
 record: -1
