@@ -5,9 +5,13 @@ public class Main {
     public static void main(String[] args) {
         List<GreekLetter> letterList = new ArrayList<>();
 
-        letterList.add(new GreekLetter("Gamma",  3));
+        letterList.add(new GreekLetter("Gamma", 3));
         letterList.add(new GreekLetter("Omega", 24));
-        letterList.add(new GreekLetter("Alpha",  1));
+        letterList.add(new GreekLetter("Alpha", 1));
+
+        for (GreekLetter l : letterList) {
+            System.out.println(l);
+        }
     }
 
     static class GreekLetter {

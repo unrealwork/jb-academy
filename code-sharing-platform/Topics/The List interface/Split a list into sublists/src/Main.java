@@ -7,13 +7,19 @@ import java.util.stream.Collectors;
 class ListUtils {
 
     /**
-     * It splits the passed list into a sequence of sublists with a predefined size 
+     * It splits the passed list into a sequence of sublists with a predefined size
      */
     public static <T> List<List<T>> splitListIntoSubLists(List<T> list, int subListSize) {
         List<List<T>> sublists = new ArrayList<>();
-
+        for (int i = 0; i < list.size(); i += subListSize) {
+            final int size = Math.min(subListSize, list.size() - i);
+            List<T> subList = new ArrayList<>(size);
+            for (int j = i; j < i + size; j++) {
+                subList.add(list.get(j));
+            }
+            sublists.add(subList);
+        }
         // write your code here
-
         return sublists;
     }
 }

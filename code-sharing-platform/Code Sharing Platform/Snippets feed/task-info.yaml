@@ -498,16 +498,6 @@ files:
 
     window.API = new Api();
   learner_created: true
-- name: src/resources/views/code.html
-  visible: true
-  text: "<html lang=\"en\">\n<head>\n    <title>Code</title>\n    <link rel=\"stylesheet\"\
-    \ href=\"/css/mini-default.min.css\">\n    <script defer src=\"/js/api.js\"></script>\n\
-    \    <script defer src=\"/js/code-preview.js\"></script>\n</head>\n<body>\n<div\
-    \ class=\"row\">\n    \n    <div class=\"col-sm-12 col-md-6\">\n        <p>\n\
-    \            <mark class=\"tertiary\">\n                <span id=\"load_date\"\
-    ></span>\n            </mark>\n        </p>\n        <pre id=\"code_snippet\"\
-    >\n    </pre>\n    </div>\n</div>\n</body>\n</html>\n"
-  learner_created: true
 - name: src/platform/api/model/NewCode.java
   visible: true
   text: |
@@ -716,6 +706,16 @@ files:
 
     public class CodeUpdateResult {
     }
+  learner_created: true
+- name: src/resources/views/ftl/code.ftl
+  visible: true
+  text: "<html lang=\"en\">\n<head>\n    <title>Code</title>\n    <link rel=\"stylesheet\"\
+    \ href=\"/css/mini-default.min.css\">\n    <script defer src=\"/js/api.js\"></script>\n\
+    \    <script defer src=\"/js/code-preview.js\"></script>\n</head>\n<body>\n<div\
+    \ class=\"row\">\n    \n    <div class=\"col-sm-12 col-md-6\">\n        <p>\n\
+    \            <mark class=\"tertiary\">\n                <span id=\"load_date\"\
+    ></span>\n            </mark>\n        </p>\n        <pre id=\"code_snippet\"\
+    >\n    </pre>\n    </div>\n</div>\n</body>\n</html>\n"
   learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/694/implement#comment
 status: Unchecked

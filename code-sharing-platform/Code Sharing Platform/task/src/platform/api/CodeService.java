@@ -6,6 +6,7 @@ import platform.api.model.NewCode;
 
 public interface CodeService {
     Code code();
-
+    Code latest();
+    Code findByIndex(int id);
     CodeUpdateResult update(NewCode code);
 }

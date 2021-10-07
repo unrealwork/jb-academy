@@ -160,7 +160,7 @@ files:
 - name: src/platform/CodeController.java
   visible: true
   learner_created: true
-- name: src/resources/code.html
+- name: src/resources/code.ftl
   visible: true
   learner_created: true
 - name: src/platform/ApiCodeController.java
