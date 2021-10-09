@@ -16,3 +16,5 @@ content:
 - Anonymous classes properties
 - Custom threads
 - Conditional statement
+- Regexes in programs
+- hashCode() and equals()
