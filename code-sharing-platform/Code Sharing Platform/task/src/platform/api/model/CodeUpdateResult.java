@@ -1,13 +1,10 @@
 package platform.api.model;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@RequiredArgsConstructor
 public class CodeUpdateResult {
-    public String getId() {
-        return id;
-    }
-
     private final String id;
-
-    public CodeUpdateResult(int id) {
-        this.id = Integer.toString(id);
-    }
 }

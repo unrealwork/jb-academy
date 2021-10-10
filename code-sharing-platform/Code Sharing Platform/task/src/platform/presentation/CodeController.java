@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import platform.api.CodeService;
-import platform.api.model.Code;
+import platform.api.model.CodeDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +29,7 @@ public class CodeController {
 
     @GetMapping(value = "latest")
     public String code(Model model) {
-        final List<Code> codes = codeService.latest();
+        final List<CodeDto> codes = codeService.latest();
         model.addAttribute("codes", codes);
         model.addAttribute("title","Latest");
         return "code";
@@ -37,7 +37,7 @@ public class CodeController {
     
     @GetMapping("{id}")
     public String idCode(Model model, @PathVariable int id) {
-        final Code code = codeService.findByIndex(id);
+        final CodeDto code = codeService.findByIndex(id);
         model.addAttribute("codes", Collections.singleton(code));
         
         return "code";

@@ -1,52 +1,41 @@
 package platform.api;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import platform.api.model.Code;
+import platform.api.model.CodeDto;
 import platform.api.model.CodeUpdateResult;
-import platform.api.model.NewCode;
+import platform.persistence.Code;
+import platform.persistence.CodeRepository;
+import platform.util.ModelMapper;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CodeServiceImpl implements CodeService {
-    private static final List<Code> CODES = initialCode();
+    private final CodeRepository codeRepository;
 
     @Override
-    public List<Code> latest() {
-        List<Code> res = new ArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-
-            final int index = CODES.size() - i - 1;
-            if (index < 0) {
-                break;
-            }
-            res.add(CODES.get(index));
-        }
-        return Collections.unmodifiableList(res);
+    public List<CodeDto> latest() {
+        Pageable limit = PageRequest.of(0, 10);
+        return codeRepository.findByOrderByTsDesc(limit)
+                .stream().map(ModelMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Code findByIndex(int id) {
-        return CODES.get(id);
+    public CodeDto findByIndex(long id) {
+        return codeRepository.findById(id).map(ModelMapper::toDto).orElse(null);
     }
 
     @Override
-    public CodeUpdateResult update(NewCode newCode) {
-        Code c = new Code();
-        c.setCode(newCode.getCode());
-        c.setDate(LocalDateTime.now().toString());
-        final int id = CODES.size();
-        CODES.add(c);
-        return new CodeUpdateResult(id);
-    }
-
-    private static List<Code> initialCode() {
-        final List<Code> codes = new CopyOnWriteArrayList<>();
-        return codes;
+    public CodeUpdateResult update(CodeDto newCode) {
+        final Code code = ModelMapper.toEntity(newCode);
+        code.setTs(System.currentTimeMillis());
+        final Code codeUpdated = codeRepository.save(code);
+        return new CodeUpdateResult(Long.toString(codeUpdated.getId()));
     }
 }
