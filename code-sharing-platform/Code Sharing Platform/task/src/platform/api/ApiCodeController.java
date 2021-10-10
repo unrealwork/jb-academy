@@ -1,6 +1,7 @@
 package platform.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +12,8 @@ import platform.api.model.CodeUpdateResult;
 import platform.api.model.NewCode;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/code")
@@ -23,21 +24,22 @@ public class ApiCodeController {
         this.codeService = codeService;
     }
 
-    @GetMapping
+    @GetMapping("latest")
     @ResponseBody
-    public Code get() {
-        return code();
+    public List<Code> get() {
+        return codeService.latest();
     }
 
-    private Code code() {
-        return codeService.code();
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Code get(@PathVariable int id) {
+        return codeService.findByIndex(id);
     }
 
 
     @PostMapping("/new")
     @ResponseBody
-    public Map<String, String> newCode(final @RequestBody NewCode code) {
-        codeService.update(code);
-        return Collections.emptyMap();
+    public CodeUpdateResult newCode(final @RequestBody NewCode code) {
+        return codeService.update(code);
     }
 }

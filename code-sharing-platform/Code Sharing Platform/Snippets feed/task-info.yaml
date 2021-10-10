@@ -718,5 +718,8 @@ files:
     >\n    </pre>\n    </div>\n</div>\n</body>\n</html>\n"
   learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/694/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 10 Oct 2021 08:07:49 UTC
 record: -1
