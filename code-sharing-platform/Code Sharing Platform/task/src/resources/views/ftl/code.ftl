@@ -1,4 +1,5 @@
 <#-- @ftlvariable name="codes" type="java.util.List<platform.api.model.CodeDto>" -->
+<#-- @ftlvariable name="isDeleted" type="java.lang.Boolean" -->
 
 <html lang="en">
 <head>
@@ -21,6 +22,12 @@
             <pre id="code_snippet">
                 <code>${code.code}</code>
             </pre>
+            <#if (code.time > 0) >
+                <span id="time_restriction">Time: ${code.time}</span>
+            </#if>
+            <#if (code.views > 0 || isDeleted??) >
+                <span id="views_restriction">Time: ${code.views}</span>
+            </#if>
         </div>
     </div>
 

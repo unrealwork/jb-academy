@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import platform.api.CodeService;
 import platform.api.model.CodeDto;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/code")
@@ -36,9 +39,13 @@ public class CodeController {
     }
     
     @GetMapping("{id}")
-    public String idCode(Model model, @PathVariable int id) {
+    public String idCode(Model model, @PathVariable UUID id) {
         final CodeDto code = codeService.findByIndex(id);
+        if (code == null) {
+            return null;
+        }
         model.addAttribute("codes", Collections.singleton(code));
+        model.addAttribute("isDeleted", codeService.isDeleted(id));
         
         return "code";
     }

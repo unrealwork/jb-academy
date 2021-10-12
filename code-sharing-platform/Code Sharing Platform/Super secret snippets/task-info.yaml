@@ -634,6 +634,393 @@ files:
         }
     }
   learner_created: false
+- name: src/resources/static/css/default.min.css
+  visible: true
+  learner_created: true
+- name: src/resources/static/js/code-new.js
+  visible: true
+  text: |+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = {
+            codeSnippet: document.getElementById('code_snippet'),
+            sendSnippetBtn: document.getElementById('send_snippet')
+        }
+
+
+        elements.sendSnippetBtn.onclick = function (e) {
+            e.preventDefault();
+            const code = {
+                code: elements.codeSnippet.value
+            }
+            console.log(code);
+            API.update(code, function () {
+            })
+            return false;
+        }
+    })
+
+
+  learner_created: true
+- name: src/platform/persistence/Code.java
+  visible: true
+  learner_created: true
+- name: src/platform/api/CodeService.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    import java.util.List;
+
+    public interface CodeService {
+        List<Code> latest();
+        Code findByIndex(int id);
+        CodeUpdateResult update(NewCode code);
+    }
+  learner_created: true
+- name: src/resources/static/js/api.js
+  visible: true
+  text: |
+    function Api() {
+
+        let req = function (url, method, data, success, error) {
+            let xhr = new XMLHttpRequest();
+            const m = method ? method : "GET";
+            xhr.open(m, url, true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        success(JSON.parse(xhr.response))
+                    } else {
+                        if (error) {
+                            error()
+                        }
+                    }
+                }
+            };
+            xhr.onerror = function (e) {
+                error();
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+        let get = function (url, success, error) {
+            req(url, "GET", null, success, error)
+        }
+
+        let post = function (url, data, success, error) {
+            req(url, "POST", data, success, error)
+        }
+
+        Api.prototype.code = function (success, error) {
+            get('/api/code', success, error)
+        }
+
+        Api.prototype.update = function (data, success, error) {
+            post('/api/code/new', data, success, error)
+        }
+    }
+
+    window.API = new Api();
+  learner_created: true
+- name: src/resources/views/ftl/code.ftl
+  visible: true
+  text: |
+    <#-- @ftlvariable name="codes" type="java.util.List<platform.api.model.Code>" -->
+
+    <html lang="en">
+    <head>
+        <title>${title!"Code"}</title>
+        <link rel="stylesheet" href="/css/mini-default.min.css">
+    </head>
+    <body>
+    <#list codes as code>
+        <div class="row">
+
+            <div class="col-sm-12 col-md-6">
+                <p>
+                    <mark class="tertiary">
+                        <span id="load_date">${code.date}</span>
+                    </mark>
+                </p>
+                <pre id="code_snippet">${code.code}</pre>
+            </div>
+        </div>
+
+    </#list>
+    </body>
+    </html>
+  learner_created: true
+- name: src/resources/static/js/code-preview.js
+  visible: true
+  text: |+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = {
+            codeSnippet: document.getElementById('code_snippet'),
+            loadDate: document.getElementById('load_date')
+        }
+
+
+        API.code(function (data) {
+            if (data.date) {
+                elements.loadDate.innerText = data.date
+            }
+            elements.codeSnippet.innerHTML = data.code;
+        })
+    })
+
+
+  learner_created: true
+- name: src/platform/presentation/CodeController.java
+  visible: true
+  text: "package platform.presentation;\n\nimport org.springframework.beans.factory.annotation.Value;\n\
+    import org.springframework.core.io.Resource;\nimport org.springframework.http.MediaType;\n\
+    import org.springframework.http.ResponseEntity;\nimport org.springframework.stereotype.Controller;\n\
+    import org.springframework.ui.Model;\nimport org.springframework.web.bind.annotation.GetMapping;\n\
+    import org.springframework.web.bind.annotation.PathVariable;\nimport org.springframework.web.bind.annotation.RequestMapping;\n\
+    import platform.api.CodeService;\nimport platform.api.model.Code;\n\nimport java.util.Collections;\n\
+    import java.util.List;\n\n@Controller\n@RequestMapping(\"/code\")\npublic class\
+    \ CodeController {\n    private final CodeService codeService;\n\n    @Value(\"\
+    classpath:views/code-new.html\")\n    private Resource codeNewView;\n\n    public\
+    \ CodeController(CodeService codeService) {\n        this.codeService = codeService;\n\
+    \    }\n\n    @GetMapping(value = \"latest\")\n    public String code(Model model)\
+    \ {\n        final List<Code> codes = codeService.latest();\n        model.addAttribute(\"\
+    codes\", codes);\n        model.addAttribute(\"title\",\"Latest\");\n        return\
+    \ \"code\";\n    }\n    \n    @GetMapping(\"{id}\")\n    public String idCode(Model\
+    \ model, @PathVariable int id) {\n        final Code code = codeService.findByIndex(id);\n\
+    \        model.addAttribute(\"codes\", Collections.singleton(code));\n       \
+    \ \n        return \"code\";\n    }\n    \n    @GetMapping(\"new\")\n    public\
+    \ ResponseEntity<Resource> codenew() {\n        return ResponseEntity\n      \
+    \          .ok()\n                .contentType(MediaType.TEXT_HTML)\n        \
+    \        .body(codeNewView);\n    }\n}\n"
+  learner_created: true
+- name: src/resources/static/js/highlight.min.js
+  visible: true
+  learner_created: true
+- name: src/platform/persistence/CodeRepository.java
+  visible: true
+  learner_created: true
+- name: src/platform/api/CodeServiceImpl.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import org.springframework.stereotype.Service;
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    import java.time.LocalDateTime;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.LinkedList;
+    import java.util.List;
+    import java.util.concurrent.CopyOnWriteArrayList;
+
+    @Service
+    public class CodeServiceImpl implements CodeService {
+        private static final List<Code> CODES = initialCode();
+
+        @Override
+        public List<Code> latest() {
+            List<Code> res = new ArrayList<>(10);
+            for (int i = 0; i < 10; i++) {
+
+                final int index = CODES.size() - i - 1;
+                if (index < 0) {
+                    break;
+                }
+                res.add(CODES.get(index));
+            }
+            return Collections.unmodifiableList(res);
+        }
+
+        @Override
+        public Code findByIndex(int id) {
+            return CODES.get(id);
+        }
+
+        @Override
+        public CodeUpdateResult update(NewCode newCode) {
+            Code c = new Code();
+            c.setCode(newCode.getCode());
+            c.setDate(LocalDateTime.now().toString());
+            final int id = CODES.size();
+            CODES.add(c);
+            return new CodeUpdateResult(id);
+        }
+
+        private static List<Code> initialCode() {
+            final List<Code> codes = new CopyOnWriteArrayList<>();
+            return codes;
+        }
+    }
+  learner_created: true
+- name: src/platform/api/ApiCodeController.java
+  visible: true
+  text: |
+    package platform.api;
+
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PathVariable;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.ResponseBody;
+    import org.springframework.web.bind.annotation.RestController;
+    import platform.api.model.Code;
+    import platform.api.model.CodeUpdateResult;
+    import platform.api.model.NewCode;
+
+    import java.util.Collections;
+    import java.util.List;
+    import java.util.Map;
+
+    @RestController
+    @RequestMapping("/api/code")
+    public class ApiCodeController {
+        private final CodeService codeService;
+
+        public ApiCodeController(CodeService codeService) {
+            this.codeService = codeService;
+        }
+
+        @GetMapping("latest")
+        @ResponseBody
+        public List<Code> get() {
+            return codeService.latest();
+        }
+
+        @GetMapping("/{id}")
+        @ResponseBody
+        public Code get(@PathVariable int id) {
+            return codeService.findByIndex(id);
+        }
+
+
+        @PostMapping("/new")
+        @ResponseBody
+        public CodeUpdateResult newCode(final @RequestBody NewCode code) {
+            return codeService.update(code);
+        }
+    }
+  learner_created: true
+- name: src/platform/api/model/CodeUpdateResult.java
+  visible: true
+  text: |
+    package platform.api.model;
+
+    public class CodeUpdateResult {
+        public String getId() {
+            return id;
+        }
+
+        private final String id;
+
+        public CodeUpdateResult(int id) {
+            this.id = Integer.toString(id);
+        }
+    }
+  learner_created: true
+- name: src/platform/api/model/CodeDto.java
+  visible: true
+  text: |
+    package platform.api.model;
+
+    import java.util.Objects;
+
+    public class Code {
+        private String code;
+        private String date;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Code code1 = (Code) o;
+            return Objects.equals(code, code1.code);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(code);
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+    }
+  learner_created: true
+- name: src/platform/util/ModelMapper.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/696/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #4
+
+    GET /code/6e2b22a7-ae80-49db-9f82-bbb0b9a562f9 shouldn&#39;t contain an element with id &quot;views_restriction&quot;, but one was found
+
+    Please find below the output of your program during this failed test.
+
+    ---
+
+    .   ____          _            __ _ _
+     /\\ / ___&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      &#39;  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+     :: Spring Boot ::        (v2.3.3.RELEASE)
+
+    2021-10-12 03:43:19.786  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : Starting CodeSharingPlatform on pc with PID 237914 (started by shmagrinsky in /home/shmagrinsky/dev/git/jb-academy/code-sharing-platform/Code Sharing Platform/task)
+    2021-10-12 03:43:19.789  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : No active profile set, falling back to default profiles: default
+    2021-10-12 03:43:20.335  INFO 237914 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+    2021-10-12 03:43:20.369  INFO 237914 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30ms. Found 1 JPA repository interfaces.
+    2021-10-12 03:43:20.718  INFO 237914 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8889 (http)
+    2021-10-12 03:43:20.725  INFO 237914 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+    2021-10-12 03:43:20.725  INFO 237914 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.37]
+    2021-10-12 03:43:20.782  INFO 237914 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+    2021-10-12 03:43:20.783  INFO 237914 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 959 ms
+    2021-10-12 03:43:20.874  INFO 237914 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+    2021-10-12 03:43:20.974  INFO 237914 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+    2021-10-12 03:43:20.978  INFO 237914 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at &#39;/h2-console&#39;. Database available at &#39;jdbc:h2:file:../snippets&#39;
+    2021-10-12 03:43:21.091  INFO 237914 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService &#39;applicationTaskExecutor&#39;
+    2021-10-12 03:43:21.121  INFO 237914 --- [         task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+    2021-10-12 03:43:21.166  WARN 237914 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+    2021-10-12 03:43:21.166  INFO 237914 --- [         task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.20.Final
+    2021-10-12 03:43:21.263  INFO 237914 --- [         task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+    2021-10-12 03:43:21.336  INFO 237914 --- [         task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+    2021-10-12 03:43:21.728  INFO 237914 --- [         task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+    2021-10-12 03:43:21.733  INFO 237914 --- [         task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit &#39;default&#39;
+    2021-10-12 03:43:21.866  INFO 237914 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path &#39;/actuator&#39;
+    2021-10-12 03:43:21.905  INFO 237914 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8889 (http) with context path &#39;&#39;
+    2021-10-12 03:43:21.906  INFO 237914 --- [    Test worker] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+    2021-10-12 03:43:22.060  INFO 237914 --- [    Test worker] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+    2021-10-12 03:43:22.074  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : Started CodeSharingPlatform in 2.519 seconds (JVM running for 3.083)
+    2021-10-12 03:43:22.290  INFO 237914 --- [nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet &#39;dispatcherServlet&#39;
+    2021-10-12 03:43:22.290  INFO 237914 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet &#39;dispatcherServlet&#39;
+    2021-10-12 03:43:22.295  INFO 237914 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+  time: Tue, 12 Oct 2021 00:43:22 UTC
 record: -1

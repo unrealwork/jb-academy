@@ -10,7 +10,12 @@ import platform.persistence.Code;
 import platform.persistence.CodeRepository;
 import platform.util.ModelMapper;
 
+import javax.transaction.Transactional;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,14 +26,35 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public List<CodeDto> latest() {
         Pageable limit = PageRequest.of(0, 10);
-        return codeRepository.findByOrderByTsDesc(limit)
+        return codeRepository.findByTimeLessThanEqualAndViewsLessThanEqualOrderByTsDesc(0, 0, limit)
                 .stream().map(ModelMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CodeDto findByIndex(long id) {
-        return codeRepository.findById(id).map(ModelMapper::toDto).orElse(null);
+    @Transactional
+    public CodeDto findByIndex(UUID id) {
+        return codeRepository.findById(id).map(c -> {
+            
+            if (c.getViews() > 0) {
+                int views = c.getViews() - 1;
+                c.setViews(views);
+                if (views == 0) {
+                    codeRepository.delete(c);
+                } else {
+                    codeRepository.save(c);
+                }
+            }
+            if (c.getTime() > 0) {
+                long duration = ChronoUnit.SECONDS.between(Instant.ofEpochMilli(c.getTs()), Instant.now());
+                if (duration > c.getTime()) {
+                    codeRepository.delete(c);
+                    return null;
+                }
+                c.setTime(c.getTime() - (int) duration);
+            }
+            return c;
+        }).map(ModelMapper::toDto).orElse(null);
     }
 
     @Override
@@ -36,6 +62,11 @@ public class CodeServiceImpl implements CodeService {
         final Code code = ModelMapper.toEntity(newCode);
         code.setTs(System.currentTimeMillis());
         final Code codeUpdated = codeRepository.save(code);
-        return new CodeUpdateResult(Long.toString(codeUpdated.getId()));
+        return new CodeUpdateResult(codeUpdated.getId().toString());
+    }
+
+    @Override
+    public boolean isDeleted(UUID id) {
+        return codeRepository.findById(id).isEmpty();
     }
 }

@@ -1,5 +1,6 @@
 package platform.api;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import platform.api.model.CodeDto;
 import platform.api.model.CodeUpdateResult;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/code")
@@ -29,8 +31,12 @@ public class ApiCodeController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public CodeDto get(@PathVariable int id) {
-        return codeService.findByIndex(id);
+    public ResponseEntity<?> get(@PathVariable UUID id) {
+        final CodeDto code = codeService.findByIndex(id);
+        if (code == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(code);
     }
 
 
