@@ -11,7 +11,6 @@ import platform.persistence.CodeRepository;
 import platform.util.ModelMapper;
 
 import javax.transaction.Transactional;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public CodeDto findByIndex(UUID id) {
         return codeRepository.findById(id).map(c -> {
-            
+            final CodeDto codeDto = ModelMapper.toDto(c);
             if (c.getViews() > 0) {
                 int views = c.getViews() - 1;
                 c.setViews(views);
@@ -51,10 +50,10 @@ public class CodeServiceImpl implements CodeService {
                     codeRepository.delete(c);
                     return null;
                 }
-                c.setTime(c.getTime() - (int) duration);
+                codeDto.setTime(c.getTime() - (int) duration);
             }
-            return c;
-        }).map(ModelMapper::toDto).orElse(null);
+            return codeDto;
+        }).orElse(null);
     }
 
     @Override

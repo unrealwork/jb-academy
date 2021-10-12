@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import platform.api.CodeService;
 import platform.api.model.CodeDto;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

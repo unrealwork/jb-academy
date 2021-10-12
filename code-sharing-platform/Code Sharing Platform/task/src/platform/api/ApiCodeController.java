@@ -31,10 +31,13 @@ public class ApiCodeController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> get(@PathVariable UUID id) {
+    public ResponseEntity<Object> get(@PathVariable UUID id) {
         final CodeDto code = codeService.findByIndex(id);
         if (code == null) {
             return ResponseEntity.notFound().build();
+        }
+        if (code.getViews() > 0) {
+            code.setViews(code.getViews() -1);
         }
         return ResponseEntity.ok(code);
     }

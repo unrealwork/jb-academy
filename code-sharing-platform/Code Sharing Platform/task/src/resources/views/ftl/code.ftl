@@ -25,8 +25,8 @@
             <#if (code.time > 0) >
                 <span id="time_restriction">Time: ${code.time}</span>
             </#if>
-            <#if (code.views > 0 || isDeleted??) >
-                <span id="views_restriction">Time: ${code.views}</span>
+            <#if (code.views > 0) >
+                <span id="views_restriction">Time: ${code.views - 1}</span>
             </#if>
         </div>
     </div>

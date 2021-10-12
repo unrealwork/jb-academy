@@ -975,52 +975,9 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/130/stages/696/implement#comment
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #4
-
-    GET /code/6e2b22a7-ae80-49db-9f82-bbb0b9a562f9 shouldn&#39;t contain an element with id &quot;views_restriction&quot;, but one was found
-
-    Please find below the output of your program during this failed test.
-
-    ---
-
-    .   ____          _            __ _ _
-     /\\ / ___&#39;_ __ _ _(_)_ __  __ _ \ \ \ \
-    ( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _` | \ \ \ \
-     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-      &#39;  |____| .__|_| |_|_| |_\__, | / / / /
-     =========|_|==============|___/=/_/_/_/
-     :: Spring Boot ::        (v2.3.3.RELEASE)
-
-    2021-10-12 03:43:19.786  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : Starting CodeSharingPlatform on pc with PID 237914 (started by shmagrinsky in /home/shmagrinsky/dev/git/jb-academy/code-sharing-platform/Code Sharing Platform/task)
-    2021-10-12 03:43:19.789  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : No active profile set, falling back to default profiles: default
-    2021-10-12 03:43:20.335  INFO 237914 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
-    2021-10-12 03:43:20.369  INFO 237914 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30ms. Found 1 JPA repository interfaces.
-    2021-10-12 03:43:20.718  INFO 237914 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8889 (http)
-    2021-10-12 03:43:20.725  INFO 237914 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-    2021-10-12 03:43:20.725  INFO 237914 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.37]
-    2021-10-12 03:43:20.782  INFO 237914 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-    2021-10-12 03:43:20.783  INFO 237914 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 959 ms
-    2021-10-12 03:43:20.874  INFO 237914 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-    2021-10-12 03:43:20.974  INFO 237914 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-    2021-10-12 03:43:20.978  INFO 237914 --- [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at &#39;/h2-console&#39;. Database available at &#39;jdbc:h2:file:../snippets&#39;
-    2021-10-12 03:43:21.091  INFO 237914 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService &#39;applicationTaskExecutor&#39;
-    2021-10-12 03:43:21.121  INFO 237914 --- [         task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-    2021-10-12 03:43:21.166  WARN 237914 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-    2021-10-12 03:43:21.166  INFO 237914 --- [         task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.20.Final
-    2021-10-12 03:43:21.263  INFO 237914 --- [         task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-    2021-10-12 03:43:21.336  INFO 237914 --- [         task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-    2021-10-12 03:43:21.728  INFO 237914 --- [         task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-    2021-10-12 03:43:21.733  INFO 237914 --- [         task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit &#39;default&#39;
-    2021-10-12 03:43:21.866  INFO 237914 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path &#39;/actuator&#39;
-    2021-10-12 03:43:21.905  INFO 237914 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8889 (http) with context path &#39;&#39;
-    2021-10-12 03:43:21.906  INFO 237914 --- [    Test worker] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
-    2021-10-12 03:43:22.060  INFO 237914 --- [    Test worker] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
-    2021-10-12 03:43:22.074  INFO 237914 --- [    Test worker] platform.CodeSharingPlatform             : Started CodeSharingPlatform in 2.519 seconds (JVM running for 3.083)
-    2021-10-12 03:43:22.290  INFO 237914 --- [nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet &#39;dispatcherServlet&#39;
-    2021-10-12 03:43:22.290  INFO 237914 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet &#39;dispatcherServlet&#39;
-    2021-10-12 03:43:22.295  INFO 237914 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
-  time: Tue, 12 Oct 2021 00:43:22 UTC
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Tue, 12 Oct 2021 15:45:56 UTC
 record: -1
