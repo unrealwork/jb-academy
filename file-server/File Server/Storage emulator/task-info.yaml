@@ -297,36 +297,54 @@ files:
         }
     }
   learner_created: false
-- name: src/server/ActionType.java
-  visible: true
-  learner_created: true
-- name: src/server/ActionFactory.java
-  visible: true
-  learner_created: true
-- name: src/server/Action.java
-  visible: true
-  learner_created: true
-- name: src/server/FileService.java
-  visible: true
-  learner_created: true
-- name: src/server/FileServiceEmulation.java
-  visible: true
-  learner_created: true
 - name: src/server/FileServer.java
   visible: true
   learner_created: true
-- name: src/server/ActionReader.java
+- name: src/server/action/Action.java
   visible: true
   learner_created: true
-- name: src/server/DefaultActionReader.java
+- name: src/server/action/builder/ActionBuilder.java
   visible: true
   learner_created: true
-- name: src/server/SimulationActionFactory.java
+- name: src/server/action/ActionFactory.java
   visible: true
   learner_created: true
-- name: src/server/ActionBuilder.java
+- name: src/server/action/validator/ActionArgsValidator.java
+  visible: true
+  learner_created: true
+- name: src/server/action/ActionReader.java
+  visible: true
+  learner_created: true
+- name: src/server/action/ActionType.java
+  visible: true
+  learner_created: true
+- name: src/server/action/DefaultActionReader.java
+  visible: true
+  learner_created: true
+- name: src/server/action/SimulationActionFactory.java
+  visible: true
+  learner_created: true
+- name: src/server/action/validator/ValidationResult.java
+  visible: true
+  learner_created: true
+- name: src/server/service/FileService.java
+  visible: true
+  learner_created: true
+- name: src/server/service/FileServiceEmulation.java
+  visible: true
+  learner_created: true
+- name: src/server/action/builder/ActionBuilderFactory.java
+  visible: true
+  learner_created: true
+- name: src/server/action/builder/ExitActionBuilder.java
+  visible: true
+  learner_created: true
+- name: src/server/action/builder/ExitAction.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/52/stages/283/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 13 Oct 2021 10:57:30 UTC
+record: 1

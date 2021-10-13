@@ -1,4 +1,4 @@
-package server;
+package server.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +40,10 @@ public class FileServiceEmulation implements FileService {
 
   @Override
   public boolean delete(String name) {
+    if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
+      STORAGE.put(name, false);
+      return true;
+    }
     return false;
   }
 }

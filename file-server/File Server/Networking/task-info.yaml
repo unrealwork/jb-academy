@@ -82,6 +82,329 @@ files:
         }
     }
   learner_created: false
+- name: src/server/action/ActionType.java
+  visible: true
+  text: |
+    package server.action;
+
+    /** Type of action that can be selected by user. */
+    public enum ActionType {
+      GET(null),
+      ADD(null),
+      DELETE(null),
+      EXIT(null);
+
+      private final Action action;
+
+      ActionType(Action action) {
+        this.action = action;
+      }
+
+      public static ActionType from(String part) {
+        for (ActionType value : values()) {
+          if (value.name().equalsIgnoreCase(part)) {
+            return value;
+          }
+        }
+        return null;
+      }
+
+      public Action action() {
+        return action;
+      }
+    }
+  learner_created: true
+- name: src/server/service/FileService.java
+  visible: true
+  text: |
+    package server.service;
+
+    /** Allows different interactions with server */
+    public interface FileService {
+      boolean add(final String name);
+
+      String get(final String name);
+
+      boolean delete(final String name);
+    }
+  learner_created: true
+- name: src/server/action/ActionReader.java
+  visible: true
+  text: |
+    package server.action;
+
+    public interface ActionReader {
+      Action next();
+    }
+  learner_created: true
+- name: src/server/action/DefaultActionReader.java
+  visible: true
+  text: |
+    package server.action;
+
+    import server.action.builder.ActionBuilderFactory;
+
+    import java.util.Scanner;
+
+    public class DefaultActionReader implements ActionReader, AutoCloseable {
+      private final ActionBuilderFactory actionBuilderFactory = ActionBuilderFactory.get();
+
+      @Override
+      public Action next() {
+        final Scanner scanner = scanner();
+        if (scanner.hasNextLine()) {
+          final String line = scanner.nextLine();
+          String[] parts = line.split("\\s", 2);
+          ActionType type = ActionType.from(parts[0]);
+          final String[] args = parts.length == 2 ? parts[1].split("\\s+") : new String[] {};
+          return actionBuilderFactory.byType(type).withArgs(args).build();
+        }
+        return null;
+      }
+
+      private Scanner scanner() {
+        return ScannerLazyHolder.SCANNER;
+      }
+
+      @Override
+      public void close() {
+        scanner().close();
+      }
+
+      private static class ScannerLazyHolder {
+        private static final Scanner SCANNER = new Scanner(System.in);
+      }
+    }
+  learner_created: true
+- name: src/server/action/builder/ActionBuilder.java
+  visible: true
+  text: |
+    package server.action.builder;
+
+    import server.action.Action;
+
+    public interface ActionBuilder {
+      ActionBuilder withArgs(String... args);
+
+      Action build();
+    }
+  learner_created: true
+- name: src/server/action/validator/ActionArgsValidator.java
+  visible: true
+  text: |
+    package server.action.validator;
+
+    public interface ActionArgsValidator {
+      ValidationResult validate();
+    }
+  learner_created: true
+- name: src/server/action/SimulationActionFactory.java
+  visible: true
+  text: |
+    package server.action;
+
+    import java.util.EnumMap;
+
+    class SimulationActionFactory implements ActionFactory {
+      private static final EnumMap<ActionType, Action> ACTION_STORAGE = new EnumMap<>(ActionType.class);
+
+      @Override
+      public Action byType(ActionType type) {
+        return ACTION_STORAGE.computeIfAbsent(type, ActionType::action);
+      }
+    }
+  learner_created: true
+- name: src/server/action/validator/ValidationResult.java
+  visible: true
+  text: |
+    package server.action.validator;
+
+    public class ValidationResult {
+      private final boolean isValid;
+
+      public ValidationResult(boolean isValid) {
+        this.isValid = isValid;
+      }
+    }
+  learner_created: true
+- name: src/server/action/Action.java
+  visible: true
+  text: |
+    package server.action;
+
+    public interface Action {
+      void perform();
+    }
+  learner_created: true
+- name: src/server/FileServer.java
+  visible: true
+  text: |
+    package server;
+
+    import server.action.Action;
+    import server.action.ActionReader;
+    import server.action.DefaultActionReader;
+
+    public class FileServer {
+      private final ActionReader actionReader;
+
+      private FileServer() {
+        actionReader = new DefaultActionReader();
+      }
+
+      public static FileServer simulation() {
+        return new FileServer();
+      }
+
+      public void start() {
+        while (true) {
+          Action action = actionReader.next();
+          if (action == null) {
+            break;
+          }
+          action.perform();
+        }
+      }
+    }
+  learner_created: true
+- name: src/server/action/ActionFactory.java
+  visible: true
+  text: |
+    package server.action;
+
+    public interface ActionFactory {
+      static ActionFactory simulation() {
+        return new SimulationActionFactory();
+      }
+
+      Action byType(final ActionType type);
+    }
+  learner_created: true
+- name: src/server/action/builder/ExitActionBuilder.java
+  visible: true
+  text: |
+    package server.action.builder;
+
+    import server.action.Action;
+
+    public class ExitActionBuilder implements ActionBuilder {
+        @Override
+        public ActionBuilder withArgs(String... args) {
+            return this;
+        }
+
+        @Override
+        public Action build() {
+            return new ExitAction();
+        }
+    }
+  learner_created: true
+- name: src/server/action/builder/ActionBuilderFactory.java
+  visible: true
+  text: |
+    package server.action.builder;
+
+    import server.action.ActionType;
+    import server.service.FileService;
+    import server.service.FileServiceEmulation;
+
+    public class ActionBuilderFactory {
+      private ActionBuilderFactory() {}
+
+      public static ActionBuilderFactory get() {
+        return new ActionBuilderFactory();
+      }
+
+      public ActionBuilder byType(ActionType actionType) {
+        switch (actionType) {
+          case ADD:
+            return new NewActionBuilder(fileService());
+          case GET:
+            return new GetActionBuilder(fileService());
+          case DELETE:
+            return new DeleteActionBuilder(fileService());
+          case EXIT:
+            return new ExitActionBuilder();
+        }
+        return null;
+      }
+
+      private FileService fileService() {
+        return LazyHolder.FILE_SERVICE;
+      }
+
+      private static class LazyHolder {
+        private static final FileService FILE_SERVICE = new FileServiceEmulation();
+      }
+    }
+  learner_created: true
+- name: src/server/service/FileServiceEmulation.java
+  visible: true
+  text: |
+    package server.service;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    /** Simulated implementation of {@link FileService}. */
+    public class FileServiceEmulation implements FileService {
+      private static final int FILE_AMOUNT = 10;
+      private static final Map<String, Boolean> STORAGE = initFilesStorage();
+
+      private static Map<String, Boolean> initFilesStorage() {
+        Map<String, Boolean> res = new HashMap<>();
+        for (int i = 0; i < FILE_AMOUNT; i++) {
+          res.put("file" + (i + 1), false);
+        }
+        return res;
+      }
+
+      @Override
+      public boolean add(String name) {
+        if (STORAGE.containsKey(name)) {
+          final boolean isFileExist = STORAGE.get(name);
+          if (isFileExist) {
+            return false;
+          } else {
+            STORAGE.put(name, true);
+            return true;
+          }
+        }
+        return false;
+      }
+
+      @Override
+      public String get(String name) {
+        if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
+          return name;
+        }
+        return null;
+      }
+
+      @Override
+      public boolean delete(String name) {
+        if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
+          STORAGE.put(name, false);
+          return true;
+        }
+        return false;
+      }
+    }
+  learner_created: true
+- name: src/server/action/builder/ExitAction.java
+  visible: true
+  text: |
+    package server.action.builder;
+
+    import server.action.Action;
+
+    public class ExitAction implements Action {
+      @Override
+      public void perform() {
+        System.exit(0);
+      }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/52/stages/284/implement#comment
 status: Unchecked
 record: -1

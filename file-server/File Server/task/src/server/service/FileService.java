@@ -1,8 +1,6 @@
-package server;
+package server.service;
 
-/**
- * Allows different interactions with server
- */
+/** Allows different interactions with server */
 public interface FileService {
   boolean add(final String name);
 

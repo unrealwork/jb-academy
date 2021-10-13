@@ -1,8 +1,8 @@
-package server;
+package server.action;
 
 import java.util.EnumMap;
 
-public class SimulationActionFactory implements ActionFactory {
+class SimulationActionFactory implements ActionFactory {
   private static final EnumMap<ActionType, Action> ACTION_STORAGE = new EnumMap<>(ActionType.class);
 
   @Override

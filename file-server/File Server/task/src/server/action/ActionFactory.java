@@ -1,4 +1,4 @@
-package server;
+package server.action;
 
 public interface ActionFactory {
   static ActionFactory simulation() {

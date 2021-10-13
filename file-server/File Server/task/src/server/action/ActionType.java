@@ -1,4 +1,4 @@
-package server;
+package server.action;
 
 /** Type of action that can be selected by user. */
 public enum ActionType {
@@ -14,6 +14,11 @@ public enum ActionType {
   }
 
   public static ActionType from(String part) {
+    for (ActionType value : values()) {
+      if (value.name().equalsIgnoreCase(part)) {
+        return value;
+      }
+    }
     return null;
   }
 

@@ -1,8 +1,11 @@
-package server;
+package server.action;
+
+import server.action.builder.ActionBuilderFactory;
 
 import java.util.Scanner;
 
 public class DefaultActionReader implements ActionReader, AutoCloseable {
+  private final ActionBuilderFactory actionBuilderFactory = ActionBuilderFactory.get();
 
   @Override
   public Action next() {
@@ -11,8 +14,8 @@ public class DefaultActionReader implements ActionReader, AutoCloseable {
       final String line = scanner.nextLine();
       String[] parts = line.split("\\s", 2);
       ActionType type = ActionType.from(parts[0]);
-      ActionFactory actionFactory = ActionFactory.simulation();
-      return actionFactory.byType(type);
+      final String[] args = parts.length == 2 ? parts[1].split("\\s+") : new String[] {};
+      return actionBuilderFactory.byType(type).withArgs(args).build();
     }
     return null;
   }
@@ -22,7 +25,7 @@ public class DefaultActionReader implements ActionReader, AutoCloseable {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     scanner().close();
   }
 

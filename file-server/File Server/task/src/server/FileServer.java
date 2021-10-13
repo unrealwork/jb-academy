@@ -1,5 +1,9 @@
 package server;
 
+import server.action.Action;
+import server.action.ActionReader;
+import server.action.DefaultActionReader;
+
 public class FileServer {
   private final ActionReader actionReader;
 
