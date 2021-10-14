@@ -4,7 +4,7 @@ import server.action.builder.ActionBuilderFactory;
 
 import java.util.Scanner;
 
-public class DefaultActionReader implements ActionReader, AutoCloseable {
+public class DefaultActionReader implements ActionReader {
   private final ActionBuilderFactory actionBuilderFactory = ActionBuilderFactory.get();
 
   @Override

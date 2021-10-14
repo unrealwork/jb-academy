@@ -1,5 +1,5 @@
 package server.action;
 
-public interface ActionReader {
+public interface ActionReader extends AutoCloseable {
   Action next();
 }

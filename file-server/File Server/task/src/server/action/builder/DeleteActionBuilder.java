@@ -8,7 +8,8 @@ import java.util.List;
 
 public class DeleteActionBuilder implements ActionBuilder {
   private final FileService fileService;
-  private List<String> args;  
+  private List<String> args;
+
   public DeleteActionBuilder(FileService fileService) {
     this.fileService = fileService;
   }
@@ -23,6 +24,4 @@ public class DeleteActionBuilder implements ActionBuilder {
   public Action build() {
     return new DeleteAction(fileService, args.get(0));
   }
-
-
 }

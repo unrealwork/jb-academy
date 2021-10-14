@@ -236,37 +236,6 @@ files:
       void perform();
     }
   learner_created: true
-- name: src/server/FileServer.java
-  visible: true
-  text: |
-    package server;
-
-    import server.action.Action;
-    import server.action.ActionReader;
-    import server.action.DefaultActionReader;
-
-    public class FileServer {
-      private final ActionReader actionReader;
-
-      private FileServer() {
-        actionReader = new DefaultActionReader();
-      }
-
-      public static FileServer simulation() {
-        return new FileServer();
-      }
-
-      public void start() {
-        while (true) {
-          Action action = actionReader.next();
-          if (action == null) {
-            break;
-          }
-          action.perform();
-        }
-      }
-    }
-  learner_created: true
 - name: src/server/action/ActionFactory.java
   visible: true
   text: |
@@ -405,6 +374,58 @@ files:
       }
     }
   learner_created: true
+- name: src/client/FileClient.java
+  visible: true
+  learner_created: true
+- name: src/client/Main.java
+  visible: true
+  learner_created: true
+- name: src/server/SimulationMain.java
+  visible: true
+  learner_created: true
+- name: src/server/SimulationFileServer.java
+  visible: true
+  text: |
+    package server;
+
+    import server.action.Action;
+    import server.action.ActionReader;
+    import server.action.DefaultActionReader;
+
+    public class FileServer {
+      private final ActionReader actionReader;
+
+      private FileServer() {
+        actionReader = new DefaultActionReader();
+      }
+
+      public static FileServer simulation() {
+        return new FileServer();
+      }
+
+      public void start() {
+        while (true) {
+          Action action = actionReader.next();
+          if (action == null) {
+            break;
+          }
+          action.perform();
+        }
+      }
+    }
+  learner_created: true
+- name: src/server/FileServer.java
+  visible: true
+  learner_created: true
+- name: src/server/Session.java
+  visible: true
+  learner_created: true
+- name: src/client/ClientSession.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/52/stages/284/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 13 Oct 2021 23:23:36 UTC
 record: -1
