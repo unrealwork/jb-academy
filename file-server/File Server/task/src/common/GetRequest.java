@@ -19,6 +19,6 @@ public class GetRequest implements Request {
 
   @Override
   public String toMessage() {
-    return type().toString();
+    return type().toString() + " " + path;
   }
 }

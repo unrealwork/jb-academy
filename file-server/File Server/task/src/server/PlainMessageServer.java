@@ -11,35 +11,37 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 
-public class FileServer implements AutoCloseable {
+public class PlainMessageServer implements AutoCloseable, MessageServer {
   private static final String HOST = "127.0.0.1";
   private static final ExecutorService POOL =
       new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
-  private final Collection<Consumer<String>> messageCallbacks = new ConcurrentLinkedQueue<>();
-  private final Collection<Session> sessions = new HashSet<>();
+  private final Collection<Handler<String, String>> messageCallbacks =
+      new ConcurrentLinkedQueue<>();
+  private final Collection<MessageSession> sessions = new HashSet<>();
   private final AtomicBoolean isListening = new AtomicBoolean();
 
-  private FileServer() {}
+  private PlainMessageServer() {}
 
-  static FileServer socket() {
-    return new FileServer();
+  static PlainMessageServer socket() {
+    return new PlainMessageServer();
   }
 
+  @Override
   public void start() throws Exception {
     listen();
   }
 
-  private void listen() throws Exception {
+  @Override
+  public void listen() throws Exception {
     isListening.set(true);
     while (isListening.get()) {
       try {
-        final Session session =
-            new Session(
+        final MessageSession session =
+            new MessageSession(
                 serverSocket().accept(),
-                m -> messageCallbacks.forEach(callback -> callback.accept(m)));
-        POOL.execute(session);
+                (m, s) -> messageCallbacks.forEach(callback -> callback.handle(m, s)));
+        PlainMessageServer.POOL.execute(session);
         sessions.add(session);
       } catch (SocketException e) {
         break;
@@ -47,12 +49,21 @@ public class FileServer implements AutoCloseable {
     }
   }
 
-  public void sendMessage(final String message) throws IOException {
-    for (Session s : sessions) {
+  @Override
+  public void sendMessage(String message) throws IOException {
+    for (MessageSession session : sessions) {
+      session.sendMessage(message);
+    }
+  }
+
+  @Override
+  public void send(final String message) throws IOException {
+    for (MessageSession s : sessions) {
       s.sendMessage(message);
     }
   }
 
+  @Override
   public void stop() {
     this.isListening.set(false);
     Thread thread =
@@ -67,7 +78,8 @@ public class FileServer implements AutoCloseable {
     thread.start();
   }
 
-  public void addMessageCallback(final Consumer<String> callback) {
+  @Override
+  public void addMessageCallback(final Handler<String, String> callback) {
     messageCallbacks.add(callback);
   }
 
@@ -78,7 +90,7 @@ public class FileServer implements AutoCloseable {
   @Override
   public void close() throws Exception {
     isListening.set(false);
-    for (Session session : sessions) {
+    for (MessageSession session : sessions) {
       session.close();
     }
     if (!serverSocket().isClosed()) {

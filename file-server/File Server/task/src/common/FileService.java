@@ -1,15 +1,15 @@
 package common;
 
+import client.DeleteResult;
+import common.action.GetResult;
+
 /** Allows different interactions with server */
 public interface FileService {
-  boolean add(final String name, final String content);
+  AdditionResult add(final String name, final String content);
 
-  default boolean add(final String name) {
-    return add(name, null);
-  }
-  ;
+  GetResult get(final String name);
 
-  String get(final String name);
+  DeleteResult delete(final String name);
 
-  boolean delete(final String name);
+  void exit();
 }

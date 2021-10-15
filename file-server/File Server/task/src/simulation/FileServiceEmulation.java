@@ -1,6 +1,10 @@
 package simulation;
 
+import client.DeleteResult;
+import client.FileStatus;
+import common.AdditionResult;
 import common.FileService;
+import common.action.GetResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,33 +23,38 @@ public class FileServiceEmulation implements FileService {
   }
 
   @Override
-  public boolean add(String name) {
+  public AdditionResult add(String name, String content) {
     if (STORAGE.containsKey(name)) {
       final boolean isFileExist = STORAGE.get(name);
       if (isFileExist) {
-        return false;
+        return AdditionResult.of(FileStatus.FORBIDDEN);
       } else {
         STORAGE.put(name, true);
-        return true;
+        return AdditionResult.of(FileStatus.SUCCESSFUL);
       }
     }
-    return false;
+    return AdditionResult.of(FileStatus.FORBIDDEN);
   }
 
   @Override
-  public String get(String name) {
+  public GetResult get(String name) {
     if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
-      return name;
+      return GetResult.of(FileStatus.SUCCESSFUL, name, null);
     }
-    return null;
+    return GetResult.of(FileStatus.NOT_FOUND, name, null);
   }
 
   @Override
-  public boolean delete(String name) {
+  public DeleteResult delete(String name) {
     if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
       STORAGE.put(name, false);
-      return true;
+      return DeleteResult.of(FileStatus.SUCCESSFUL, name);
     }
-    return false;
+    return DeleteResult.of(FileStatus.NOT_FOUND, name);
+  }
+
+  @Override
+  public void exit() {
+    System.exit(0);
   }
 }

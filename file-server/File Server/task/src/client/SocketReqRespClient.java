@@ -1,7 +1,7 @@
 package client;
 
 import common.Request;
-import common.RespStatus;
+import common.Response;
 
 import java.io.IOException;
 
@@ -13,8 +13,8 @@ public class SocketReqRespClient implements ReqRespClient {
   }
 
   @Override
-  public RespStatus receive() throws IOException {
-    return RespStatus.fromMessage(messageClient.receive());
+  public Response receive() throws IOException {
+    return Response.parse(messageClient.receive());
   }
 
   @Override
@@ -25,11 +25,5 @@ public class SocketReqRespClient implements ReqRespClient {
   @Override
   public void close() throws Exception {
     messageClient.close();
-  }
-
-  @Override
-  public RespStatus request(Request request) throws IOException {
-    send(request);
-    return receive();
   }
 }

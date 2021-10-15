@@ -238,28 +238,6 @@ files:
     }
 
   learner_created: false
-- name: src/server/Session.java
-  visible: true
-  text: "package server;\n\nimport java.io.DataInputStream;\nimport java.io.DataOutputStream;\n\
-    import java.io.IOException;\nimport java.net.Socket;\nimport java.util.concurrent.atomic.AtomicBoolean;\n\
-    import java.util.function.Consumer;\n\npublic class Session implements Runnable,\
-    \ AutoCloseable {\n  private final Consumer<String> messageCallback;\n  private\
-    \ final AtomicBoolean isOpened = new AtomicBoolean();\n  private Socket socket;\n\
-    \  private DataInputStream is;\n  private DataOutputStream os;\n\n  public Session(Socket\
-    \ socket, Consumer<String> messageCallback) {\n    this.socket = socket;\n   \
-    \ this.messageCallback = messageCallback;\n  }\n\n  @Override\n  public void run()\
-    \ {\n    try {\n\n      if (socket.isConnected()) {\n        this.os = new DataOutputStream(this.socket.getOutputStream());\n\
-    \        this.is = new DataInputStream(socket.getInputStream());\n        isOpened.set(true);\n\
-    \      }\n      while (isOpened.get()) {\n        final String message = receiveMessage();\n\
-    \        if (message != null) {\n          messageCallback.accept(message);\n\
-    \        }\n      }\n    } catch (IOException e) {\n      throw new IllegalStateException(e);\n\
-    \    } \n  }\n\n  public void sendMessage(final String message) throws IOException\
-    \ {\n    this.os.writeUTF(message);\n  }\n\n  public String receiveMessage() throws\
-    \ IOException {\n    return this.is.readUTF();\n  }\n\n  @Override\n  public void\
-    \ close() throws Exception {\n    isOpened.set(false);\n    if (this.socket !=\
-    \ null && !this.socket.isClosed()) {\n      this.socket.close();\n    }\n  }\n\
-    }\n"
-  learner_created: true
 - name: src/client/ClientSession.java
   visible: true
   text: |
@@ -330,118 +308,6 @@ files:
           System.out.println("Sent: " + messageToSend);
           final String receivedMessage = client.recieveMessage();
           System.out.println("Received: " + receivedMessage);
-        }
-      }
-    }
-  learner_created: true
-- name: src/server/FileServer.java
-  visible: true
-  text: |
-    package server;
-
-    import java.io.IOException;
-    import java.net.InetAddress;
-    import java.net.ServerSocket;
-    import java.net.SocketException;
-    import java.util.Collection;
-    import java.util.HashSet;
-    import java.util.concurrent.ConcurrentLinkedQueue;
-    import java.util.concurrent.ExecutorService;
-    import java.util.concurrent.ForkJoinPool;
-    import java.util.concurrent.TimeUnit;
-    import java.util.concurrent.atomic.AtomicBoolean;
-    import java.util.function.Consumer;
-
-    public class FileServer implements AutoCloseable {
-      private static final String HOST = "127.0.0.1";
-      private static final ExecutorService POOL =
-          new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
-      private final Collection<Consumer<String>> messageCallbacks = new ConcurrentLinkedQueue<>();
-      private final Collection<Session> sessions = new HashSet<>();
-      private final AtomicBoolean isListening = new AtomicBoolean();
-
-      private FileServer() {}
-
-      static FileServer socket() {
-        return new FileServer();
-      }
-
-      public void start() throws Exception {
-        listen();
-      }
-
-      private void listen() throws Exception {
-        isListening.set(true);
-        while (isListening.get()) {
-          try {
-            final Session session =
-                new Session(
-                    serverSocket().accept(),
-                    m -> messageCallbacks.forEach(callback -> callback.accept(m)));
-            POOL.execute(session);
-            sessions.add(session);
-          } catch (SocketException e) {
-            break;
-          }
-        }
-      }
-
-      public void sendMessage(final String message) throws IOException {
-        for (Session s : sessions) {
-          s.sendMessage(message);
-        }
-      }
-
-      public void stop() {
-        this.isListening.set(false);
-        Thread thread =
-            new Thread(
-                () -> {
-                  try {
-                    close();
-                  } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                  }
-                });
-        thread.start();
-      }
-
-      public void addMessageCallback(final Consumer<String> callback) {
-        messageCallbacks.add(callback);
-      }
-
-      private ServerSocket serverSocket() {
-        return LazyHolder.SERVER_SOCKET;
-      }
-
-      @Override
-      public void close() throws Exception {
-        isListening.set(false);
-        for (Session session : sessions) {
-          session.close();
-        }
-        if (!serverSocket().isClosed()) {
-          serverSocket().close();
-        }
-        if (!POOL.isShutdown()) {
-          POOL.shutdown();
-        }
-        final boolean isSucceed = POOL.awaitTermination(1, TimeUnit.MINUTES);
-        if (!isSucceed) {
-          throw new IllegalStateException("Failed to shutdown executor service");
-        }
-      }
-
-      private static class LazyHolder {
-        private static final int PORT = 23456;
-        private static final ServerSocket SERVER_SOCKET = getServerSocket();
-
-        private static ServerSocket getServerSocket() {
-          try {
-            return new ServerSocket(PORT, 50, InetAddress.getByName(HOST));
-          } catch (IOException e) {
-            throw new IllegalStateException(e);
-          }
         }
       }
     }
@@ -647,28 +513,6 @@ files:
       Action build();
     }
   learner_created: true
-- name: src/common/action/validator/ActionArgsValidator.java
-  visible: true
-  text: |
-    package server.action.validator;
-
-    public interface ActionArgsValidator {
-      ValidationResult validate();
-    }
-  learner_created: true
-- name: src/common/action/validator/ValidationResult.java
-  visible: true
-  text: |
-    package server.action.validator;
-
-    public class ValidationResult {
-      private final boolean isValid;
-
-      public ValidationResult(boolean isValid) {
-        this.isValid = isValid;
-      }
-    }
-  learner_created: true
 - name: src/common/action/Action.java
   visible: true
   text: |
@@ -689,22 +533,6 @@ files:
       }
 
       Action byType(final ActionType type);
-    }
-  learner_created: true
-- name: src/simulation/SimulationActionFactory.java
-  visible: true
-  text: |
-    package server.action;
-
-    import java.util.EnumMap;
-
-    class SimulationActionFactory implements ActionFactory {
-      private static final EnumMap<ActionType, Action> ACTION_STORAGE = new EnumMap<>(ActionType.class);
-
-      @Override
-      public Action byType(ActionType type) {
-        return ACTION_STORAGE.computeIfAbsent(type, ActionType::action);
-      }
     }
   learner_created: true
 - name: src/common/action/builder/ActionBuilderFactory.java
@@ -894,6 +722,212 @@ files:
 - name: src/common/Response.java
   visible: true
   learner_created: true
+- name: src/common/AdditionResult.java
+  visible: true
+  learner_created: true
+- name: src/common/AdditionStatus.java
+  visible: true
+  learner_created: true
+- name: src/common/action/GetResult.java
+  visible: true
+  learner_created: true
+- name: src/common/action/GetStatus.java
+  visible: true
+  learner_created: true
+- name: src/common/ResponseImpl.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/AddCliActionBuilder.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/ExitCliActionBuilder.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/RemoteExitAction.java
+  visible: true
+  learner_created: true
+- name: src/client/ExitRequest.java
+  visible: true
+  learner_created: true
+- name: src/client/DeleteResult.java
+  visible: true
+  learner_created: true
+- name: src/client/FileStatus.java
+  visible: true
+  learner_created: true
+- name: src/server/PlainMessageServer.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.IOException;
+    import java.net.InetAddress;
+    import java.net.ServerSocket;
+    import java.net.SocketException;
+    import java.util.Collection;
+    import java.util.HashSet;
+    import java.util.concurrent.ConcurrentLinkedQueue;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.ForkJoinPool;
+    import java.util.concurrent.TimeUnit;
+    import java.util.concurrent.atomic.AtomicBoolean;
+    import java.util.function.Consumer;
+
+    public class FileServer implements AutoCloseable {
+      private static final String HOST = "127.0.0.1";
+      private static final ExecutorService POOL =
+          new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
+      private final Collection<Consumer<String>> messageCallbacks = new ConcurrentLinkedQueue<>();
+      private final Collection<Session> sessions = new HashSet<>();
+      private final AtomicBoolean isListening = new AtomicBoolean();
+
+      private FileServer() {}
+
+      static FileServer socket() {
+        return new FileServer();
+      }
+
+      public void start() throws Exception {
+        listen();
+      }
+
+      private void listen() throws Exception {
+        isListening.set(true);
+        while (isListening.get()) {
+          try {
+            final Session session =
+                new Session(
+                    serverSocket().accept(),
+                    m -> messageCallbacks.forEach(callback -> callback.accept(m)));
+            POOL.execute(session);
+            sessions.add(session);
+          } catch (SocketException e) {
+            break;
+          }
+        }
+      }
+
+      public void sendMessage(final String message) throws IOException {
+        for (Session s : sessions) {
+          s.sendMessage(message);
+        }
+      }
+
+      public void stop() {
+        this.isListening.set(false);
+        Thread thread =
+            new Thread(
+                () -> {
+                  try {
+                    close();
+                  } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                  }
+                });
+        thread.start();
+      }
+
+      public void addMessageCallback(final Consumer<String> callback) {
+        messageCallbacks.add(callback);
+      }
+
+      private ServerSocket serverSocket() {
+        return LazyHolder.SERVER_SOCKET;
+      }
+
+      @Override
+      public void close() throws Exception {
+        isListening.set(false);
+        for (Session session : sessions) {
+          session.close();
+        }
+        if (!serverSocket().isClosed()) {
+          serverSocket().close();
+        }
+        if (!POOL.isShutdown()) {
+          POOL.shutdown();
+        }
+        final boolean isSucceed = POOL.awaitTermination(1, TimeUnit.MINUTES);
+        if (!isSucceed) {
+          throw new IllegalStateException("Failed to shutdown executor service");
+        }
+      }
+
+      private static class LazyHolder {
+        private static final int PORT = 23456;
+        private static final ServerSocket SERVER_SOCKET = getServerSocket();
+
+        private static ServerSocket getServerSocket() {
+          try {
+            return new ServerSocket(PORT, 50, InetAddress.getByName(HOST));
+          } catch (IOException e) {
+            throw new IllegalStateException(e);
+          }
+        }
+      }
+    }
+  learner_created: true
+- name: src/server/Handler.java
+  visible: true
+  learner_created: true
+- name: src/server/MessageServer.java
+  visible: true
+  learner_created: true
+- name: src/server/Server.java
+  visible: true
+  learner_created: true
+- name: src/server/MessageSession.java
+  visible: true
+  text: "package server;\n\nimport java.io.DataInputStream;\nimport java.io.DataOutputStream;\n\
+    import java.io.IOException;\nimport java.net.Socket;\nimport java.util.concurrent.atomic.AtomicBoolean;\n\
+    import java.util.function.Consumer;\n\npublic class Session implements Runnable,\
+    \ AutoCloseable {\n  private final Consumer<String> messageCallback;\n  private\
+    \ final AtomicBoolean isOpened = new AtomicBoolean();\n  private Socket socket;\n\
+    \  private DataInputStream is;\n  private DataOutputStream os;\n\n  public Session(Socket\
+    \ socket, Consumer<String> messageCallback) {\n    this.socket = socket;\n   \
+    \ this.messageCallback = messageCallback;\n  }\n\n  @Override\n  public void run()\
+    \ {\n    try {\n\n      if (socket.isConnected()) {\n        this.os = new DataOutputStream(this.socket.getOutputStream());\n\
+    \        this.is = new DataInputStream(socket.getInputStream());\n        isOpened.set(true);\n\
+    \      }\n      while (isOpened.get()) {\n        final String message = receiveMessage();\n\
+    \        if (message != null) {\n          messageCallback.accept(message);\n\
+    \        }\n      }\n    } catch (IOException e) {\n      throw new IllegalStateException(e);\n\
+    \    } \n  }\n\n  public void sendMessage(final String message) throws IOException\
+    \ {\n    this.os.writeUTF(message);\n  }\n\n  public String receiveMessage() throws\
+    \ IOException {\n    return this.is.readUTF();\n  }\n\n  @Override\n  public void\
+    \ close() throws Exception {\n    isOpened.set(false);\n    if (this.socket !=\
+    \ null && !this.socket.isClosed()) {\n      this.socket.close();\n    }\n  }\n\
+    }\n"
+  learner_created: true
+- name: src/server/Session.java
+  visible: true
+  learner_created: true
+- name: src/server/LocalFileService.java
+  visible: true
+  learner_created: true
+- name: src/server/LocalFileStorage.java
+  visible: true
+  learner_created: true
+- name: src/server/ReqRespServer.java
+  visible: true
+  learner_created: true
+- name: src/server/FileServerHandler.java
+  visible: true
+  learner_created: true
+- name: src/server/Servers.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/RemoteAddFileAction.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/DeleteCliActionBuilder.java
+  visible: true
+  learner_created: true
+- name: src/client/cli/RemoteDeleteAction.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/52/stages/285/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 15 Oct 2021 21:49:08 UTC
+record: 3

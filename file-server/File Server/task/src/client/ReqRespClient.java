@@ -1,10 +1,13 @@
 package client;
 
 import common.Request;
-import common.RespStatus;
+import common.Response;
 
 import java.io.IOException;
 
-public interface ReqRespClient extends Receiver<RespStatus>, Sender<Request>, AutoCloseable {
-  RespStatus request(Request request) throws IOException;
+public interface ReqRespClient extends Receiver<Response>, Sender<Request>, AutoCloseable {
+  default Response request(Request request) throws IOException {
+    send(request);
+    return receive();
+  }
 }

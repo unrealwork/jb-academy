@@ -1,9 +1,11 @@
 package common;
 
 public class PutRequest implements Request, Bodied {
+  private final String fileName;
   private final String body;
 
-  public PutRequest(String body) {
+  public PutRequest(String fileName, String body) {
+    this.fileName = fileName;
     this.body = body;
   }
 
@@ -14,12 +16,12 @@ public class PutRequest implements Request, Bodied {
 
   @Override
   public String path() {
-    return null;
+    return fileName;
   }
 
   @Override
   public String toMessage() {
-    return null;
+    return type() + " " + path() + " " + body();
   }
 
   @Override

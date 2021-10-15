@@ -1,7 +1,9 @@
 package simulation.action;
 
-import common.action.Action;
+import client.DeleteResult;
+import client.FileStatus;
 import common.FileService;
+import common.action.Action;
 
 class DeleteAction implements Action {
   private final FileService fileService;
@@ -14,8 +16,8 @@ class DeleteAction implements Action {
 
   @Override
   public void perform() {
-    final boolean isSucceed = fileService.delete(fileName);
-    if (isSucceed) {
+    final DeleteResult result = fileService.delete(fileName);
+    if (result.getStatus() == FileStatus.SUCCESSFUL) {
       System.out.printf("The file %s was deleted%n", fileName);
     } else {
       System.out.printf("The file %s not found%n", fileName);

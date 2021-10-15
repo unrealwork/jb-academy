@@ -1,7 +1,7 @@
 package simulation.action;
 
-import common.action.Action;
 import common.FileService;
+import common.action.Action;
 import common.action.builder.ActionBuilder;
 
 import java.util.Arrays;
@@ -23,6 +23,6 @@ class NewActionBuilder implements ActionBuilder {
 
   @Override
   public Action build() {
-    return new NewFileAction(fileService, args.get(0));
+    return new NewFileAction(fileService, args.get(0), null);
   }
 }

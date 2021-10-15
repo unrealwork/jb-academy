@@ -296,6 +296,1868 @@ files:
 
 
   learner_created: false
+- name: src/server/Session.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.IOException;
+
+    public interface Session<T,S> {
+      void sendMessage(T message) throws IOException;
+      S receiveMessage() throws IOException;
+    }
+  learner_created: true
+- name: src/client/ExitRequest.java
+  visible: true
+  text: |
+    package client;
+
+    import common.ReqType;
+    import common.Request;
+
+    public class ExitRequest implements Request {
+      @Override
+      public ReqType type() {
+        return ReqType.EXIT;
+      }
+
+      @Override
+      public String path() {
+        return "";
+      }
+
+      @Override
+      public String toMessage() {
+        return type().toString();
+      }
+    }
+  learner_created: true
+- name: src/client/DeleteResult.java
+  visible: true
+  text: |
+    package client;
+
+    public class DeleteResult {
+        private final FileStatus status;
+        private final String fileName;
+
+        public FileStatus getStatus() {
+            return status;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        private DeleteResult(FileStatus status, String fileName) {
+            this.status = status;
+            this.fileName = fileName;
+        }
+
+        public static DeleteResult of(FileStatus status, String fileName) {
+            return new DeleteResult(status, fileName);
+        }
+    }
+  learner_created: true
+- name: src/client/Sender.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+
+    public interface Sender<T> {
+      void send(T t) throws IOException;
+    }
+  learner_created: true
+- name: src/common/GetRequest.java
+  visible: true
+  text: |
+    package common;
+
+    public class GetRequest implements Request {
+      private final String path;
+
+      public GetRequest(String path) {
+        this.path = path;
+      }
+
+      @Override
+      public ReqType type() {
+        return ReqType.GET;
+      }
+
+      @Override
+      public String path() {
+        return path;
+      }
+
+      @Override
+      public String toMessage() {
+        return type().toString() + " " + path;
+      }
+    }
+  learner_created: true
+- name: src/server/Handler.java
+  visible: true
+  text: |
+    package server;
+
+    @FunctionalInterface
+    public interface Handler<T, S> {
+      void handle(final T response, final Session<S, T> session);
+    }
+  learner_created: true
+- name: src/client/Receiver.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+
+    public interface Receiver<T> {
+        T receive() throws IOException;
+
+    }
+  learner_created: true
+- name: src/client/cli/RemoteAddFileAction.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import client.FileStatus;
+    import common.AdditionResult;
+    import common.FileService;
+    import common.action.Action;
+
+    public class RemoteAddFileAction implements Action {
+      private final String fileName;
+      private final FileService fileService;
+      private final String content;
+
+      public RemoteAddFileAction(String fileName, FileService fileService, String content) {
+        this.fileName = fileName;
+        this.fileService = fileService;
+        this.content = content;
+      }
+
+      @Override
+      public void perform() {
+        final AdditionResult result = fileService.add(fileName, content);
+        System.out.println("The request was sent.");
+        if (result.getStatus() == FileStatus.SUCCESSFUL) {
+          System.out.println("The response says that file was created!");
+        } else {
+          System.out.println("The response says that creating the file was forbidden!");
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/Main.java
+  visible: true
+  text: |
+    package client;
+
+    import client.cli.CliActionReader;
+    import common.action.Action;
+
+    @SuppressWarnings("squid:S106")
+    public class Main {
+      public static void main(String[] args) throws Exception {
+        try (CliActionReader reader = new CliActionReader()) {
+          Action action = reader.next();
+          action.perform();
+        }
+      }
+    }
+  learner_created: true
+- name: src/common/action/Action.java
+  visible: true
+  text: |
+    package common.action;
+
+    public interface Action {
+      void perform();
+    }
+  learner_created: true
+- name: src/common/action/ActionType.java
+  visible: true
+  text: |
+    package common.action;
+
+    /** Type of action that can be selected by user. */
+    public enum ActionType {
+      GET(),
+      ADD(),
+      DELETE(),
+      EXIT();
+
+      public static ActionType from(String part) {
+        for (ActionType value : values()) {
+          if (value.name().equalsIgnoreCase(part)) {
+            return value;
+          }
+        }
+        return null;
+      }
+    }
+  learner_created: true
+- name: src/client/SocketMessageClient.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+    import java.net.InetAddress;
+    import java.net.Socket;
+
+    public class SocketMessageClient implements AutoCloseable, MessageClient {
+      private final ClientSession session;
+
+      public SocketMessageClient(Socket socket) {
+        this.session = new ClientSession(socket);
+        session.run();
+      }
+
+      public static SocketMessageClient connect(final String host, final int port) throws IOException {
+        Socket socket = new Socket(InetAddress.getByName(host), port);
+        return new SocketMessageClient(socket);
+      }
+
+      @Override
+      public void send(String message) throws IOException {
+        session.send(message);
+      }
+
+      @Override
+      public String receive() throws IOException {
+        return session.receive();
+      }
+
+      @Override
+      public void close() throws Exception {
+        if (session != null) {
+          session.close();
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/cli/AddCliActionBuilder.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.Action;
+    import common.action.builder.ActionBuilder;
+
+    import java.io.BufferedReader;
+    import java.io.IOException;
+    import java.io.InputStreamReader;
+    import java.util.Scanner;
+
+    public class AddCliActionBuilder extends CliActionBuilder {
+      public AddCliActionBuilder(Scanner scanner, FileService fileService) {
+        super(scanner, fileService);
+      }
+
+      @Override
+      public ActionBuilder withArgs(String... args) {
+        return this;
+      }
+
+      @Override
+      public Action build() {
+        return new RemoteAddFileAction(readFileName(), fileService, readContent());
+      }
+
+      private String readContent() {
+        System.out.print("Enter file content: ");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+          return reader.readLine();
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+    }
+  learner_created: true
+- name: src/simulation/action/ExitActionBuilder.java
+  visible: true
+  text: |
+    package simulation.action;
+
+    import common.action.Action;
+    import common.action.builder.ActionBuilder;
+
+    class ExitActionBuilder implements ActionBuilder {
+      @Override
+      public ActionBuilder withArgs(String... args) {
+        return this;
+      }
+
+      @Override
+      public Action build() {
+        return new ExitAction();
+      }
+    }
+  learner_created: true
+- name: src/client/SocketReqRespClient.java
+  visible: true
+  text: |
+    package client;
+
+    import common.Request;
+    import common.Response;
+
+    import java.io.IOException;
+
+    public class SocketReqRespClient implements ReqRespClient {
+      private final MessageClient messageClient;
+
+      public SocketReqRespClient(MessageClient messageClient) {
+        this.messageClient = messageClient;
+      }
+
+      @Override
+      public Response receive() throws IOException {
+        return Response.parse(messageClient.receive());
+      }
+
+      @Override
+      public void send(Request request) throws IOException {
+        messageClient.send(request.toMessage());
+      }
+
+      @Override
+      public void close() throws Exception {
+        messageClient.close();
+      }
+    }
+  learner_created: true
+- name: src/client/cli/RemoteExitAction.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.Action;
+
+    public class RemoteExitAction implements Action {
+        private final FileService fileService;
+
+        public RemoteExitAction(FileService fileService) {
+            this.fileService = fileService;
+        }
+
+        @Override
+        public void perform() {
+            fileService.exit();
+        }
+    }
+  learner_created: true
+- name: src/common/Response.java
+  visible: true
+  text: |
+    package common;
+
+    public interface Response {
+      public static Response parse(String message) {
+        String[] parts = message.split("\\s+", 2);
+        final RespStatus status = RespStatus.fromMessage(parts[0]);
+        final String body = parts.length == 2 ? parts[1] : null;
+        return new ResponseImpl(status, body);
+      }
+
+      public static Response of(final RespStatus status, final String content) {
+        return new ResponseImpl(status, content);
+      }
+
+      default String asMessage() {
+        String bodyPart = body() != null ? (" " + body()) : "";
+        return status().getCode() + bodyPart;
+      }
+
+      RespStatus status();
+
+      String body();
+    }
+  learner_created: true
+- name: src/server/MessageServer.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.IOException;
+    import java.net.SocketException;
+    import java.util.function.Consumer;
+
+    public interface MessageServer extends Server<String, String>, AutoCloseable {
+        void start() throws Exception;
+
+        void listen() throws Exception;
+
+        void sendMessage(String message) throws IOException;
+
+        void stop();
+
+        void addMessageCallback(Handler<String, String> callback);
+    }
+  learner_created: true
+- name: src/client/cli/DeleteCliActionBuilder.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.Action;
+    import common.action.builder.ActionBuilder;
+
+    import java.util.Scanner;
+
+    public class DeleteCliActionBuilder extends CliActionBuilder{
+        public DeleteCliActionBuilder(Scanner scanner, FileService fileService) {
+            super(scanner, fileService);
+        }
+
+        @Override
+        public ActionBuilder withArgs(String... args) {
+            return this;
+        }
+
+        @Override
+        public Action build() {
+            return new RemoteDeleteAction(readFileName(), fileService);
+        }
+    }
+  learner_created: true
+- name: src/common/action/builder/ActionBuilderFactory.java
+  visible: true
+  text: |
+    package common.action.builder;
+
+    import common.action.ActionType;
+
+    public interface ActionBuilderFactory {
+        ActionBuilder byType(ActionType actionType);
+    }
+  learner_created: true
+- name: src/simulation/SimulationMain.java
+  visible: true
+  text: |
+    package simulation;
+
+    import simulation.SimulationFileServer;
+
+    public class SimulationMain {
+      public static void test(String[] args) throws Exception {
+        try (SimulationFileServer fileServer = SimulationFileServer.simulation()) {
+          fileServer.start();
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/ReqRespClient.java
+  visible: true
+  text: |
+    package client;
+
+    import common.Request;
+    import common.RespStatus;
+    import common.Response;
+
+    import java.io.IOException;
+
+    public interface ReqRespClient extends Receiver<Response>, Sender<Request>, AutoCloseable {
+      default Response request(Request request) throws IOException {
+        send(request);
+        return receive();
+      }
+    }
+  learner_created: true
+- name: src/common/action/GetResult.java
+  visible: true
+  text: |
+    package common.action;
+
+    import client.FileStatus;
+
+    public class GetResult {
+      private final FileStatus status;
+      private final String fileName;
+      private final String content;
+
+      private GetResult(FileStatus status, String fileName, String content) {
+        this.status = status;
+        this.fileName = fileName;
+        this.content = content;
+      }
+
+      public static GetResult of(FileStatus status, String fileName, String content) {
+        return new GetResult(status, fileName, content);
+      }
+
+      public FileStatus getStatus() {
+        return status;
+      }
+
+      public String getFileName() {
+        return fileName;
+      }
+
+      public String getContent() {
+        return content;
+      }
+    }
+  learner_created: true
+- name: src/server/LocalFileStorage.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.File;
+    import java.io.IOException;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.nio.file.Paths;
+    import java.util.Optional;
+
+    public class LocalFileStorage {
+      private static final String STORAGE_PATH = System.getProperty("user.dir") +
+              File.separator + "src" + File.separator + "server" + File.separator + "data" + File.separator;
+
+      public LocalFileStorage() {
+        init();
+      }
+
+      private void init() {
+        try {
+          final Path storagePath = Paths.get(STORAGE_PATH);
+          if (!Files.exists(storagePath)) {
+            Files.createDirectories(storagePath);
+          }
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      public Optional<Path> get(String fileName) {
+        final Path path = Paths.get(STORAGE_PATH, fileName);
+        if (Files.exists(path)) {
+          return Optional.of(path);
+        }
+        return Optional.empty();
+      }
+
+      public Optional<Path> create(String fileName, String content) throws IOException {
+        final Path path = Paths.get(STORAGE_PATH, fileName);
+        if (Files.exists(path)) {
+          return Optional.empty();
+        }
+        Path createdPath = Files.createFile(path);
+        Files.writeString(createdPath, content);
+        return Optional.of(createdPath);
+      }
+
+      public boolean delete(String fileName) throws IOException {
+        final Path path = Paths.get(STORAGE_PATH, fileName);
+        if (Files.exists(path)) {
+          Files.delete(path);
+          return true;
+        }
+        return false;
+      }
+
+    }
+  learner_created: true
+- name: src/server/Server.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.IOException;
+
+    public interface Server<T, S> {
+      void start() throws Exception;
+
+      void listen() throws Exception;
+
+      void send(T message) throws IOException;
+
+      void stop();
+
+      void addMessageCallback(Handler<S, T> callback);
+    }
+  learner_created: true
+- name: src/client/cli/RemoteDeleteAction.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import client.DeleteResult;
+    import client.FileStatus;
+    import common.FileService;
+    import common.action.Action;
+
+    public class RemoteDeleteAction implements Action {
+      private final String fileName;
+      private final FileService fileService;
+
+      public RemoteDeleteAction(String fileName, FileService fileService) {
+        this.fileName = fileName;
+        this.fileService = fileService;
+      }
+
+      @Override
+      public void perform() {
+        DeleteResult deleteResult = fileService.delete(fileName);
+        System.out.println("The request was sent.");
+        if (deleteResult.getStatus() == FileStatus.SUCCESSFUL) {
+          System.out.println("The response says that the file was successfully deleted!");
+        } else {
+          System.out.println("The response says that the file was not found!");
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/FileStatus.java
+  visible: true
+  text: |
+    package client;
+
+    public enum FileStatus {
+        SUCCESSFUL, FORBIDDEN, NOT_FOUND
+    }
+  learner_created: true
+- name: src/client/RemoteFileService.java
+  visible: true
+  text: |
+    package client;
+
+    import common.AdditionResult;
+    import common.DeleteRequest;
+    import common.FileService;
+    import common.GetRequest;
+    import common.PutRequest;
+    import common.RespStatus;
+    import common.Response;
+    import common.action.GetResult;
+
+    import java.io.IOException;
+
+    public class RemoteFileService implements FileService {
+      private final ReqRespClient reqRespClient;
+
+      public RemoteFileService(ReqRespClient reqRespClient) {
+        this.reqRespClient = reqRespClient;
+      }
+
+      @Override
+      public AdditionResult add(String name, String content) {
+        try {
+          Response resp = reqRespClient.request(new PutRequest(name, content));
+          final FileStatus status =
+              resp.status() == RespStatus.OK ? FileStatus.SUCCESSFUL : FileStatus.FORBIDDEN;
+          return AdditionResult.of(name, status);
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      @Override
+      public GetResult get(String name) {
+        try {
+          Response status = reqRespClient.request(new GetRequest(name));
+          if (status.status() == RespStatus.OK) {
+            return GetResult.of(FileStatus.SUCCESSFUL, name, status.body());
+          } else {
+            return GetResult.of(FileStatus.NOT_FOUND, name, status.body());
+          }
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      @Override
+      public DeleteResult delete(String name) {
+        try {
+          Response resp = reqRespClient.request(new DeleteRequest(name));
+          final FileStatus status =
+              resp.status() == RespStatus.OK ? FileStatus.SUCCESSFUL : FileStatus.NOT_FOUND;
+          return DeleteResult.of(status, name);
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      @Override
+      public void exit() {
+        try {
+          reqRespClient.send(new ExitRequest());
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+    }
+  learner_created: true
+- name: src/common/RespStatus.java
+  visible: true
+  text: |
+    package common;
+
+    public enum RespStatus {
+      OK(200),
+      RESTRICTED(403),
+      NOT_FOUND(404);
+
+      private final int code;
+
+      RespStatus(int code) {
+        this.code = code;
+      }
+
+      public static RespStatus fromMessage(String msg) {
+        int code = Integer.parseInt(msg);
+        for (RespStatus value : values()) {
+          if (value.code == code) {
+            return value;
+          }
+        }
+        throw new IllegalStateException("Not possible to extract Response code from the message");
+      }
+
+      public String toMessage() {
+        return Integer.toString(code);
+      }
+
+      public int getCode() {
+        return code;
+      }
+    }
+  learner_created: true
+- name: src/common/FileService.java
+  visible: true
+  text: |
+    package common;
+
+    import client.DeleteResult;
+    import common.action.GetResult;
+
+    /** Allows different interactions with server */
+    public interface FileService {
+      AdditionResult add(final String name, final String content);
+
+      GetResult get(final String name);
+
+      DeleteResult delete(final String name);
+
+      void exit();
+    }
+  learner_created: true
+- name: src/client/cli/CliActionReader.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import client.RemoteFileService;
+    import client.ReqRespClientFactory;
+    import common.FileService;
+    import common.action.Action;
+    import common.action.ActionReader;
+    import common.action.ActionType;
+
+    import java.util.Map;
+    import java.util.Scanner;
+
+    public class CliActionReader implements ActionReader {
+      private static final Map<String, ActionType> ACTION_TYPE_MAPPER =
+          Map.of(
+              "1", ActionType.GET,
+              "2", ActionType.ADD,
+              "3", ActionType.DELETE,
+              "exit", ActionType.EXIT);
+
+      private ActionType readActionType() {
+        System.out.print("Enter action (1 - get a file, 2 - create a file, 3 - delete a file): ");
+        return ACTION_TYPE_MAPPER.get(scanner().nextLine());
+      }
+
+      @Override
+      public Action next() {
+        final Scanner scanner = scanner();
+        ActionType actionType = readActionType();
+        switch (actionType) {
+          case GET:
+            return new GetCliActionBuilder(scanner, fileService()).build();
+          case ADD:
+            return new AddCliActionBuilder(scanner, fileService()).build();
+          case DELETE:
+            return new DeleteCliActionBuilder(scanner, fileService()).build();
+          case EXIT:
+            return new ExitCliActionBuilder(scanner, fileService()).build();
+          default:
+            throw new IllegalStateException("This action has not yet implemented");
+        }
+      }
+
+      private Scanner scanner() {
+        return new Scanner(System.in);
+      }
+
+      private FileService fileService() {
+        return LazyHolder.FILE_SERVICE;
+      }
+
+      @Override
+      public void close() {
+        scanner().close();
+      }
+
+      private static class LazyHolder {
+        private static final Scanner SCANNER = new Scanner(System.in);
+        private static final FileService FILE_SERVICE =
+            new RemoteFileService(ReqRespClientFactory.defaultClient());
+      }
+    }
+  learner_created: true
+- name: src/common/ResponseImpl.java
+  visible: true
+  text: |
+    package common;
+
+    public class ResponseImpl implements Response {
+      private final RespStatus status;
+      private final String body;
+
+      ResponseImpl(RespStatus status, String body) {
+        this.status = status;
+        this.body = body;
+      }
+
+      @Override
+      public RespStatus status() {
+        return status;
+      }
+
+      @Override
+      public String body() {
+        return body;
+      }
+    }
+  learner_created: true
+- name: src/common/Request.java
+  visible: true
+  text: |
+    package common;
+
+    import client.ExitRequest;
+
+    public interface Request {
+      static Request parse(String req) {
+        final String[] parts = req.split("\\s+", 3);
+        final ReqType type = ReqType.valueOf(parts[0]);
+        switch (type) {
+          case GET:
+            return new GetRequest(parts[1]);
+          case PUT:
+            return new PutRequest(parts[1], parts.length == 3 ? parts[2] : null);
+          case DELETE:
+            return new DeleteRequest(parts[1]);
+          case EXIT:
+            return new ExitRequest();
+          default:
+            throw new UnsupportedOperationException();
+        }
+      }
+
+      ReqType type();
+      String path();
+      String toMessage();
+    }
+  learner_created: true
+- name: src/client/cli/ExitCliActionBuilder.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.Action;
+    import common.action.builder.ActionBuilder;
+
+    import java.util.Scanner;
+
+    public class ExitCliActionBuilder extends CliActionBuilder {
+      public ExitCliActionBuilder(Scanner scanner, FileService fileService) {
+        super(scanner, fileService);
+      }
+
+      @Override
+      public ActionBuilder withArgs(String... args) {
+        return null;
+      }
+
+      @Override
+      public Action build() {
+        return new RemoteExitAction(fileService);
+      }
+    }
+  learner_created: true
+- name: src/common/action/ActionReader.java
+  visible: true
+  text: |
+    package common.action;
+
+    public interface ActionReader extends AutoCloseable {
+      Action next();
+    }
+  learner_created: true
+- name: src/common/action/builder/ActionBuilder.java
+  visible: true
+  text: |
+    package common.action.builder;
+
+    import common.action.Action;
+
+    public interface ActionBuilder {
+      ActionBuilder withArgs(String... args);
+
+      Action build();
+    }
+  learner_created: true
+- name: src/client/MessageSender.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+
+    public interface MessageSender extends Sender<String> {
+      void send(String message) throws IOException;
+    }
+  learner_created: true
+- name: src/server/LocalFileService.java
+  visible: true
+  text: "package server;\n\nimport client.DeleteResult;\nimport client.FileStatus;\n\
+    import common.AdditionResult;\nimport common.FileService;\nimport common.action.GetResult;\n\
+    \nimport java.io.IOException;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\n\
+    import java.util.Optional;\n\npublic class LocalFileService implements FileService\
+    \ {\n  private final LocalFileStorage localStorage = new LocalFileStorage();\n\
+    \n  private static String readContent(Path path) throws IOException {\n    return\
+    \ Files.readString(path);\n  }\n  \n  \n  \n  \n  @Override\n  public AdditionResult\
+    \ add(String name, String content) {\n    try {\n      Optional<Path> path = localStorage.create(name,\
+    \ content);\n\n      return AdditionResult.of(\n          name, path.isPresent()\
+    \ ? FileStatus.SUCCESSFUL : FileStatus.FORBIDDEN);\n    } catch (IOException e)\
+    \ {\n      throw new IllegalStateException(e);\n    }\n  }\n\n  @Override\n  public\
+    \ GetResult get(String name) {\n    try {\n      final Optional<Path> path = localStorage.get(name);\n\
+    \      if (path.isPresent()) {\n        return GetResult.of(FileStatus.SUCCESSFUL,\
+    \ name, readContent(path.get()));\n      } else {\n        return GetResult.of(FileStatus.NOT_FOUND,\
+    \ name, null);\n      }\n    } catch (IOException e) {\n      throw new IllegalStateException(e);\n\
+    \    }\n  }\n\n  @Override\n  public DeleteResult delete(String name) {\n    try\
+    \ {\n      final boolean isSuccessful = localStorage.delete(name);\n      return\
+    \ DeleteResult.of(isSuccessful ? FileStatus.SUCCESSFUL : FileStatus.NOT_FOUND,\
+    \ name);\n    } catch (IOException e) {\n      throw new IllegalStateException(e);\n\
+    \    }\n  }\n\n  @Override\n  public void exit() {\n    System.exit(0);\n  }\n\
+    }\n"
+  learner_created: true
+- name: src/client/ClientSession.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.DataInputStream;
+    import java.io.DataOutputStream;
+    import java.io.IOException;
+    import java.net.Socket;
+
+    public class ClientSession implements MessageClient, Runnable, AutoCloseable {
+      private Socket socket;
+      private DataInputStream is;
+      private DataOutputStream os;
+
+      public ClientSession(Socket socket) {
+        this.socket = socket;
+      }
+
+      @Override
+      public void run() {
+        try {
+          if (socket.isConnected()) {
+            this.is = new DataInputStream(this.socket.getInputStream());
+            this.os = new DataOutputStream(this.socket.getOutputStream());
+          }
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      @Override
+      public void send(String t) throws IOException {
+        this.os.writeUTF(t);
+      }
+
+      @Override
+      public String receive() throws IOException {
+        final String message = this.is.readUTF();
+        return message;
+      }
+
+      @Override
+      public void close() throws Exception {
+        if (this.is != null) {
+          this.is.close();
+        }
+        if (this.os != null) {
+          this.os.close();
+        }
+        if (this.socket != null) {
+          this.socket.close();
+        }
+      }
+    }
+  learner_created: true
+- name: src/common/AdditionResult.java
+  visible: true
+  text: |
+    package common;
+
+    import client.FileStatus;
+
+    public class AdditionResult {
+      private final FileStatus status;
+      private final String fileName;
+
+      private AdditionResult(String fileName, FileStatus status) {
+        this.status = status;
+        this.fileName = fileName;
+      }
+
+      public static AdditionResult of(String fileName, FileStatus status) {
+        return new AdditionResult(fileName, status);
+      }
+
+      public FileStatus getStatus() {
+        return status;
+      }
+    }
+  learner_created: true
+- name: src/client/ReqRespClientFactory.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+
+    public class ReqRespClientFactory {
+      private static final String DEFAULT_HOST = "127.0.0.1";
+      private static final int DEFAULT_PORT = 23456;
+
+      private ReqRespClientFactory() {}
+
+      public static ReqRespClient connect(final String host, final int port) throws IOException {
+        return new SocketReqRespClient(SocketMessageClient.connect(host, port));
+      }
+
+      public static ReqRespClient defaultClient() {
+        try {
+          return connect(DEFAULT_HOST, DEFAULT_PORT);
+        } catch (IOException e) {
+          throw new IllegalStateException("Failed to connect to default server", e);
+        }
+      }
+    }
+  learner_created: true
+- name: src/server/MessageSession.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.DataInputStream;
+    import java.io.DataOutputStream;
+    import java.io.IOException;
+    import java.net.Socket;
+    import java.util.concurrent.atomic.AtomicBoolean;
+
+    public class MessageSession implements Runnable, AutoCloseable, Session<String, String> {
+      private final Handler<String, String> messageCallback;
+      private final AtomicBoolean isOpened = new AtomicBoolean();
+      private final Socket socket;
+      private DataInputStream is;
+      private DataOutputStream os;
+
+      public MessageSession(Socket socket, Handler<String, String> messageCallback) {
+        this.socket = socket;
+        this.messageCallback = messageCallback;
+      }
+
+      @Override
+      public void run() {
+        try {
+
+          if (socket.isConnected()) {
+            this.os = new DataOutputStream(this.socket.getOutputStream());
+            this.is = new DataInputStream(socket.getInputStream());
+            isOpened.set(true);
+          }
+          while (isOpened.get()) {
+            final String message = receiveMessage();
+            if (message != null) {
+              messageCallback.handle(message, this);
+            }
+          }
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+      }
+
+      @Override
+      public void sendMessage(final String message) throws IOException {
+        this.os.writeUTF(message);
+      }
+
+      @Override
+      public String receiveMessage() throws IOException {
+        try{
+          return this.is.readUTF();
+        } catch (IOException e) {
+          return null;
+        }
+      }
+
+      @Override
+      public void close() throws Exception {
+        isOpened.set(false);
+        if (this.socket != null && !this.socket.isClosed()) {
+          this.socket.close();
+        }
+      }
+    }
+  learner_created: true
+- name: src/common/Bodied.java
+  visible: true
+  text: |
+    package common;
+
+    public interface Bodied {
+        String body();
+    }
+  learner_created: true
+- name: src/client/MessageReceiver.java
+  visible: true
+  text: |
+    package client;
+
+    import java.io.IOException;
+
+    public interface MessageReceiver extends Receiver<String> {
+    }
+  learner_created: true
+- name: src/simulation/action/SimulationActionBuilderFactory.java
+  visible: true
+  text: |
+    package simulation.action;
+
+    import common.action.ActionType;
+    import common.FileService;
+    import common.action.builder.ActionBuilder;
+    import common.action.builder.ActionBuilderFactory;
+    import simulation.FileServiceEmulation;
+
+    public class SimulationActionBuilderFactory implements ActionBuilderFactory {
+      private SimulationActionBuilderFactory() {}
+
+      public static ActionBuilderFactory get() {
+        return new SimulationActionBuilderFactory();
+      }
+
+      @Override
+      public ActionBuilder byType(ActionType actionType) {
+        switch (actionType) {
+          case ADD:
+            return new NewActionBuilder(fileService());
+          case GET:
+            return new GetActionBuilder(fileService());
+          case DELETE:
+            return new DeleteActionBuilder(fileService());
+          case EXIT:
+            return new ExitActionBuilder();
+        }
+        return null;
+      }
+
+      private FileService fileService() {
+        return LazyHolder.FILE_SERVICE;
+      }
+
+      private static class LazyHolder {
+        private static final FileService FILE_SERVICE = new FileServiceEmulation();
+      }
+    }
+  learner_created: true
+- name: src/simulation/action/DefaultActionReader.java
+  visible: true
+  text: |
+    package simulation.action;
+
+    import common.action.Action;
+    import common.action.ActionReader;
+    import common.action.ActionType;
+    import common.action.builder.ActionBuilderFactory;
+
+    import java.util.Scanner;
+
+    public class DefaultActionReader implements ActionReader {
+      private final ActionBuilderFactory actionBuilderFactory = SimulationActionBuilderFactory.get();
+
+      @Override
+      public Action next() {
+        final Scanner scanner = scanner();
+        if (scanner.hasNextLine()) {
+          final String line = scanner.nextLine();
+          String[] parts = line.split("\\s", 2);
+          ActionType type = ActionType.from(parts[0]);
+          final String[] args = parts.length == 2 ? parts[1].split("\\s+") : new String[] {};
+          return actionBuilderFactory.byType(type).withArgs(args).build();
+        }
+        return null;
+      }
+
+      private Scanner scanner() {
+        return ScannerLazyHolder.SCANNER;
+      }
+
+      @Override
+      public void close() {
+        scanner().close();
+      }
+
+      private static class ScannerLazyHolder {
+        private static final Scanner SCANNER = new Scanner(System.in);
+      }
+    }
+  learner_created: true
+- name: src/common/DeleteRequest.java
+  visible: true
+  text: |
+    package common;
+
+    public class DeleteRequest implements Request {
+      private final String path;
+
+      public DeleteRequest(String path) {
+        this.path = path;
+      }
+
+      @Override
+      public ReqType type() {
+        return ReqType.DELETE;
+      }
+
+      @Override
+      public String path() {
+        return path;
+      }
+
+      @Override
+      public String toMessage() {
+        return type() + " " + path();
+      }
+    }
+  learner_created: true
+- name: src/common/AdditionStatus.java
+  visible: true
+  text: |
+    package common;
+
+    public enum AdditionStatus {
+        SUCCESS, FORBIDDEN
+    }
+  learner_created: true
+- name: src/client/cli/GetCliActionBuilder.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.Action;
+    import common.action.builder.ActionBuilder;
+
+    import java.util.Scanner;
+
+    public class GetCliActionBuilder extends CliActionBuilder {
+
+      public GetCliActionBuilder(Scanner scanner, FileService fileService) {
+        super(scanner, fileService);
+      }
+
+      @Override
+      public ActionBuilder withArgs(String... args) {
+        return null;
+      }
+
+      @Override
+      public Action build() {
+        return new RemoteGetFileAction(readFileName(), fileService);
+      }
+    }
+  learner_created: true
+- name: src/simulation/SimulationFileServer.java
+  visible: true
+  text: |
+    package simulation;
+
+    import common.action.Action;
+    import common.action.ActionReader;
+    import simulation.action.DefaultActionReader;
+
+    public class SimulationFileServer implements AutoCloseable {
+      private final ActionReader actionReader;
+
+      private SimulationFileServer() {
+        actionReader = new DefaultActionReader();
+      }
+
+      public static SimulationFileServer simulation() {
+        return new SimulationFileServer();
+      }
+
+      public void start() {
+        while (true) {
+          Action action = actionReader.next();
+          if (action == null) {
+            break;
+          }
+          action.perform();
+        }
+      }
+
+      @Override
+      public void close() throws Exception {
+        actionReader.close();
+      }
+    }
+  learner_created: true
+- name: src/common/action/ActionFactory.java
+  visible: true
+  text: |
+    package common.action;
+
+    public interface ActionFactory {
+
+      Action byType(final ActionType type);
+    }
+  learner_created: true
+- name: src/client/cli/RemoteGetFileAction.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import client.FileStatus;
+    import common.FileService;
+    import common.action.Action;
+    import common.action.GetResult;
+
+    public class RemoteGetFileAction implements Action {
+      private final String fileName;
+      private final FileService fileService;
+
+      public RemoteGetFileAction(String fileName, FileService fileService) {
+        this.fileName = fileName;
+        this.fileService = fileService;
+      }
+
+      @Override
+      public void perform() {
+        final GetResult content = fileService.get(fileName);
+        System.out.println("The request was sent.");
+        if (content.getStatus() == FileStatus.NOT_FOUND) {
+          System.out.println("The response says that the file was not found!");
+        } else {
+          System.out.println("The content of the file is: " + content.getContent());
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/cli/CliActionBuilderFactory.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.action.ActionType;
+    import common.action.builder.ActionBuilder;
+    import common.action.builder.ActionBuilderFactory;
+
+    import java.io.PrintStream;
+    import java.util.Scanner;
+
+    public class CliActionBuilderFactory implements ActionBuilderFactory {
+      private final Scanner scanner;
+      private final PrintStream printStream;
+
+      public CliActionBuilderFactory(Scanner scanner, PrintStream printStream) {
+        this.scanner = scanner;
+        this.printStream = printStream;
+      }
+
+      @Override
+      public ActionBuilder byType(ActionType actionType) {
+        return null;
+      }
+    }
+  learner_created: true
+- name: src/client/cli/CliActionBuilder.java
+  visible: true
+  text: |
+    package client.cli;
+
+    import common.FileService;
+    import common.action.GetResult;
+    import common.action.builder.ActionBuilder;
+
+    import java.util.Scanner;
+
+    public abstract class CliActionBuilder implements ActionBuilder {
+        protected final Scanner scanner;
+        protected final FileService fileService;
+
+        public CliActionBuilder(Scanner scanner, FileService fileService) {
+            this.scanner = scanner;
+            this.fileService = fileService;
+        }
+
+        protected String readFileName() {
+            System.out.print("Enter filename: ");
+            return scanner.next();
+        }
+
+        protected Scanner scanner() {
+            return scanner;
+        }
+    }
+  learner_created: true
+- name: src/simulation/action/ExitAction.java
+  visible: true
+  text: |
+    package simulation.action;
+
+    import common.action.Action;
+
+    class ExitAction implements Action {
+      @Override
+      public void perform() {
+        System.exit(0);
+      }
+    }
+  learner_created: true
+- name: src/server/ReqRespServer.java
+  visible: true
+  text: |
+    package server;
+
+    import common.Request;
+    import common.Response;
+
+    import java.io.IOException;
+
+    public class ReqRespServer implements Server<Response, Request>, AutoCloseable {
+      private final MessageServer messageServer;
+
+      public ReqRespServer(MessageServer messageServer) {
+        this.messageServer = messageServer;
+      }
+
+      @Override
+      public void start() throws Exception {
+        messageServer.start();
+      }
+
+      @Override
+      public void listen() throws Exception {
+        messageServer.listen();
+      }
+
+      @Override
+      public void send(Response message) throws IOException {
+        messageServer.send(message.asMessage());
+      }
+
+      @Override
+      public void stop() {
+        messageServer.stop();
+      }
+
+      @Override
+      public void addMessageCallback(Handler<Request, Response> callback) {
+        messageServer.addMessageCallback(
+            (req, session) -> callback.handle(Request.parse(req), ReqRespSession.with(session)));
+      }
+
+      @Override
+      public void close() throws Exception {
+        messageServer.close();
+      }
+
+      private static class ReqRespSession implements Session<Response, Request> {
+        private final Session<String, String> session;
+
+        private ReqRespSession(Session<String, String> messageSession) {
+          this.session = messageSession;
+        }
+
+        private static ReqRespSession with(Session<String, String> messageSession) {
+          return new ReqRespSession(messageSession);
+        }
+
+        @Override
+        public void sendMessage(Response message) throws IOException {
+          session.sendMessage(message.asMessage());
+        }
+
+        @Override
+        public Request receiveMessage() throws IOException {
+          return Request.parse(session.receiveMessage());
+        }
+      }
+    }
+  learner_created: true
+- name: src/server/FileServerHandler.java
+  visible: true
+  text: |
+    package server;
+
+    import client.DeleteResult;
+    import client.FileStatus;
+    import common.AdditionResult;
+    import common.FileService;
+    import common.PutRequest;
+    import common.Request;
+    import common.RespStatus;
+    import common.Response;
+    import common.action.GetResult;
+
+    import java.io.IOException;
+
+    public class FileServerHandler implements Handler<Request, Response> {
+      private final FileService fileService;
+      private final ReqRespServer server;
+
+      public FileServerHandler(FileService fileService, ReqRespServer server) {
+        this.fileService = fileService;
+        this.server = server;
+      }
+
+      @Override
+      public void handle(Request req, Session<Response, Request> session) {
+        try {
+          switch (req.type()) {
+            case GET:
+              GetResult result = fileService.get(req.path());
+              session.sendMessage(Response.of(fromFileStatus(result.getStatus()), result.getContent()));
+              break;
+            case PUT:
+              PutRequest putRequest = (PutRequest) req;
+              AdditionResult additionResult = fileService.add(req.path(), putRequest.body());
+              session.sendMessage(Response.of(fromFileStatus(additionResult.getStatus()), null));
+              break;
+            case DELETE:
+              DeleteResult deleteResult = fileService.delete(req.path());
+              final Response response =
+                  Response.of(fromFileStatus(deleteResult.getStatus()), deleteResult.getFileName());
+              session.sendMessage(response);
+              break;
+            case EXIT:
+              server.stop();
+              break;
+          }
+        } catch (IOException e) {
+          throw new IllegalStateException("Failed to handle request" + req.toMessage());
+        }
+      }
+
+      private RespStatus fromFileStatus(final FileStatus status) {
+        switch (status) {
+          case SUCCESSFUL:
+            return RespStatus.OK;
+          case FORBIDDEN:
+            return RespStatus.RESTRICTED;
+          case NOT_FOUND:
+            return RespStatus.NOT_FOUND;
+          default:
+            throw new UnsupportedOperationException();
+        }
+      }
+    }
+  learner_created: true
+- name: src/common/ReqType.java
+  visible: true
+  text: |
+    package common;
+
+    public enum ReqType {
+      GET,
+      PUT,
+      DELETE,
+      EXIT
+    }
+  learner_created: true
+- name: src/server/Servers.java
+  visible: true
+  text: |
+    package server;
+
+    import common.FileService;
+
+    public class Servers {
+      private Servers() {}
+
+      public static ReqRespServer file() {
+        MessageServer messageServer = PlainMessageServer.socket();
+        ReqRespServer respServer = new ReqRespServer(messageServer);
+        FileService fileService = new LocalFileService();
+        respServer.addMessageCallback(new FileServerHandler(fileService, respServer));
+        return respServer;
+      }
+    }
+  learner_created: true
+- name: src/common/action/GetStatus.java
+  visible: true
+  text: |
+    package common.action;
+
+    public enum GetStatus {
+        SUCCESSFUL, NOT_FOUND
+    }
+  learner_created: true
+- name: src/server/PlainMessageServer.java
+  visible: true
+  text: |
+    package server;
+
+    import java.io.IOException;
+    import java.net.InetAddress;
+    import java.net.ServerSocket;
+    import java.net.SocketException;
+    import java.util.Collection;
+    import java.util.HashSet;
+    import java.util.concurrent.ConcurrentLinkedQueue;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.ForkJoinPool;
+    import java.util.concurrent.TimeUnit;
+    import java.util.concurrent.atomic.AtomicBoolean;
+
+    public class PlainMessageServer implements AutoCloseable, MessageServer {
+      private static final String HOST = "127.0.0.1";
+      private static final ExecutorService POOL =
+          new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
+      private final Collection<Handler<String, String>> messageCallbacks =
+          new ConcurrentLinkedQueue<>();
+      private final Collection<MessageSession> sessions = new HashSet<>();
+      private final AtomicBoolean isListening = new AtomicBoolean();
+
+      private PlainMessageServer() {}
+
+      static PlainMessageServer socket() {
+        return new PlainMessageServer();
+      }
+
+      @Override
+      public void start() throws Exception {
+        listen();
+      }
+
+      @Override
+      public void listen() throws Exception {
+        isListening.set(true);
+        while (isListening.get()) {
+          try {
+            final MessageSession session =
+                new MessageSession(
+                    serverSocket().accept(),
+                    (m, s) -> messageCallbacks.forEach(callback -> callback.handle(m, s)));
+            PlainMessageServer.POOL.execute(session);
+            sessions.add(session);
+          } catch (SocketException e) {
+            break;
+          }
+        }
+      }
+
+      @Override
+      public void sendMessage(String message) throws IOException {
+        for (MessageSession session : sessions) {
+          session.sendMessage(message);
+        }
+      }
+
+      @Override
+      public void send(final String message) throws IOException {
+        for (MessageSession s : sessions) {
+          s.sendMessage(message);
+        }
+      }
+
+      @Override
+      public void stop() {
+        this.isListening.set(false);
+        Thread thread =
+            new Thread(
+                () -> {
+                  try {
+                    close();
+                  } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                  }
+                });
+        thread.start();
+      }
+
+      @Override
+      public void addMessageCallback(final Handler<String, String> callback) {
+        messageCallbacks.add(callback);
+      }
+
+      private ServerSocket serverSocket() {
+        return LazyHolder.SERVER_SOCKET;
+      }
+
+      @Override
+      public void close() throws Exception {
+        isListening.set(false);
+        for (MessageSession session : sessions) {
+          session.close();
+        }
+        if (!serverSocket().isClosed()) {
+          serverSocket().close();
+        }
+        if (!POOL.isShutdown()) {
+          POOL.shutdown();
+        }
+        final boolean isSucceed = POOL.awaitTermination(1, TimeUnit.MINUTES);
+        if (!isSucceed) {
+          throw new IllegalStateException("Failed to shutdown executor service");
+        }
+      }
+
+      private static class LazyHolder {
+        private static final int PORT = 23456;
+        private static final ServerSocket SERVER_SOCKET = getServerSocket();
+
+        private static ServerSocket getServerSocket() {
+          try {
+            return new ServerSocket(PORT, 50, InetAddress.getByName(HOST));
+          } catch (IOException e) {
+            throw new IllegalStateException(e);
+          }
+        }
+      }
+    }
+  learner_created: true
+- name: src/client/MessageClient.java
+  visible: true
+  text: |
+    package client;
+
+    public interface MessageClient extends MessageSender, MessageReceiver, AutoCloseable {
+    }
+  learner_created: true
+- name: src/simulation/FileServiceEmulation.java
+  visible: true
+  text: |
+    package simulation;
+
+    import client.DeleteResult;
+    import client.FileStatus;
+    import common.AdditionResult;
+    import common.FileService;
+    import common.action.GetResult;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    /** Simulated implementation of {@link FileService}. */
+    public class FileServiceEmulation implements FileService {
+      private static final int FILE_AMOUNT = 10;
+      private static final Map<String, Boolean> STORAGE = initFilesStorage();
+
+      private static Map<String, Boolean> initFilesStorage() {
+        Map<String, Boolean> res = new HashMap<>();
+        for (int i = 0; i < FILE_AMOUNT; i++) {
+          res.put("file" + (i + 1), false);
+        }
+        return res;
+      }
+
+      @Override
+      public AdditionResult add(String name, String content) {
+        if (STORAGE.containsKey(name)) {
+          final boolean isFileExist = STORAGE.get(name);
+          if (isFileExist) {
+            return AdditionResult.of(name, FileStatus.FORBIDDEN);
+          } else {
+            STORAGE.put(name, true);
+            return AdditionResult.of(name, FileStatus.SUCCESSFUL);
+          }
+        }
+        return AdditionResult.of(name, FileStatus.FORBIDDEN);
+      }
+
+      @Override
+      public GetResult get(String name) {
+        if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
+          return GetResult.of(FileStatus.SUCCESSFUL, name, null);
+        }
+        return GetResult.of(FileStatus.NOT_FOUND, name, null);
+      }
+
+      @Override
+      public DeleteResult delete(String name) {
+        if (STORAGE.containsKey(name) && Boolean.TRUE.equals(STORAGE.get(name))) {
+          STORAGE.put(name, false);
+          return DeleteResult.of(FileStatus.SUCCESSFUL, name);
+        }
+        return DeleteResult.of(FileStatus.NOT_FOUND, name);
+      }
+
+      @Override
+      public void exit() {
+        System.exit(0);
+      }
+    }
+  learner_created: true
+- name: src/common/PutRequest.java
+  visible: true
+  text: |
+    package common;
+
+    public class PutRequest implements Request, Bodied {
+      private final String fileName;
+      private final String body;
+
+      public PutRequest(String fileName, String body) {
+        this.fileName = fileName;
+        this.body = body;
+      }
+
+      @Override
+      public ReqType type() {
+        return ReqType.PUT;
+      }
+
+      @Override
+      public String path() {
+        return fileName;
+      }
+
+      @Override
+      public String toMessage() {
+        return type() + " " + path() + " " + body();
+      }
+
+      @Override
+      public String body() {
+        return body;
+      }
+    }
+  learner_created: true
 - name: test/Utils.java
   visible: false
   text: |+

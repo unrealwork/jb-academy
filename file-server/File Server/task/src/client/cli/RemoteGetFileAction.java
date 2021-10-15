@@ -1,7 +1,9 @@
 package client.cli;
 
+import client.FileStatus;
 import common.FileService;
 import common.action.Action;
+import common.action.GetResult;
 
 public class RemoteGetFileAction implements Action {
   private final String fileName;
@@ -14,12 +16,12 @@ public class RemoteGetFileAction implements Action {
 
   @Override
   public void perform() {
-    final String content = fileService.get(fileName);
+    final GetResult content = fileService.get(fileName);
     System.out.println("The request was sent.");
-    if (content == null) {
+    if (content.getStatus() == FileStatus.NOT_FOUND) {
       System.out.println("The response says that the file was not found!");
     } else {
-      System.out.println("The content of the file is: " + content);
+      System.out.println("The content of the file is: " + content.getContent());
     }
   }
 }

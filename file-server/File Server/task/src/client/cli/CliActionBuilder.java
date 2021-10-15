@@ -9,13 +9,13 @@ public abstract class CliActionBuilder implements ActionBuilder {
     protected final Scanner scanner;
     protected final FileService fileService;
 
-    public CliActionBuilder(Scanner scanner, FileService fileService) {
+    protected CliActionBuilder(Scanner scanner, FileService fileService) {
         this.scanner = scanner;
         this.fileService = fileService;
     }
 
     protected String readFileName() {
-        System.out.println("Enter filename: ");
+        System.out.print("Enter filename: ");
         return scanner.next();
     }
 
