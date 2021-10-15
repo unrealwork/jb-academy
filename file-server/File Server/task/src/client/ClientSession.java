@@ -4,9 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
 
-public class ClientSession implements Runnable, AutoCloseable {
+public class ClientSession implements MessageClient, Runnable, AutoCloseable {
   private Socket socket;
   private DataInputStream is;
   private DataOutputStream os;
@@ -27,11 +26,13 @@ public class ClientSession implements Runnable, AutoCloseable {
     }
   }
 
-  public void sendMessage(final String message) throws IOException {
-    this.os.writeUTF(message);
+  @Override
+  public void send(String t) throws IOException {
+    this.os.writeUTF(t);
   }
 
-  public String receiveMessage() throws IOException {
+  @Override
+  public String receive() throws IOException {
     final String message = this.is.readUTF();
     return message;
   }
