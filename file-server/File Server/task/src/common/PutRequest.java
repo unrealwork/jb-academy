@@ -1,12 +1,18 @@
 package common;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class PutRequest implements Request, Bodied {
   private final String fileName;
-  private final String body;
+  private final InputStream is;
+  private String body;
 
-  public PutRequest(String fileName, String body) {
+  public PutRequest(String fileName, InputStream is) {
     this.fileName = fileName;
     this.body = body;
+    this.is = is;
   }
 
   @Override
@@ -25,7 +31,19 @@ public class PutRequest implements Request, Bodied {
   }
 
   @Override
+  public InputStream getInputStream() {
+    return is;
+  }
+
+  @Override
   public String body() {
-    return body;
+    if (body == null) {
+      try (DataInputStream dis = new DataInputStream(is)) {
+        this.body = dis.readUTF();
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+    return this.body;
   }
 }

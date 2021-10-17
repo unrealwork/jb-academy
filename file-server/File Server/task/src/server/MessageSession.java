@@ -3,6 +3,7 @@ package server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -45,11 +46,16 @@ public class MessageSession implements Runnable, AutoCloseable, Session<String, 
 
   @Override
   public String receiveMessage() throws IOException {
-    try{
+    try {
       return this.is.readUTF();
     } catch (IOException e) {
       return null;
     }
+  }
+
+  @Override
+  public InputStream is() {
+    return this.is;
   }
 
   @Override

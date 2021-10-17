@@ -4,6 +4,7 @@ import common.Request;
 import common.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ReqRespServer implements Server<Response, Request>, AutoCloseable {
   private final MessageServer messageServer;
@@ -35,7 +36,8 @@ public class ReqRespServer implements Server<Response, Request>, AutoCloseable {
   @Override
   public void addMessageCallback(Handler<Request, Response> callback) {
     messageServer.addMessageCallback(
-        (req, session) -> callback.handle(Request.parse(req), ReqRespSession.with(session)));
+        (req, session) ->
+            callback.handle(Request.read(session.is()), ReqRespSession.with(session)));
   }
 
   @Override
@@ -60,8 +62,13 @@ public class ReqRespServer implements Server<Response, Request>, AutoCloseable {
     }
 
     @Override
-    public Request receiveMessage() throws IOException {
-      return Request.parse(session.receiveMessage());
+    public Request receiveMessage() {
+      return Request.read(session.is());
+    }
+
+    @Override
+    public InputStream is() {
+      return session.is();
     }
   }
 }
