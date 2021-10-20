@@ -3,3 +3,4 @@ content:
 - Throw a checked exception
 - The root of a number
 - Days of the week
+- Throw an unchecked exception
