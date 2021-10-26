@@ -24,5 +24,8 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/7004#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 26 Oct 2021 10:25:38 UTC
 record: -1
