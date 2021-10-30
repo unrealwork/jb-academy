@@ -21,7 +21,7 @@ public final class Main {
         }
     }
 
-    enum SymbolType {UPPER, LOWER, DIGIT}
+    enum SymbolType { UPPER, LOWER, DIGIT }
 
     interface Generator<T> {
         T generate();
