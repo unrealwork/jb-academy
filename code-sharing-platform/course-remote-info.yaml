@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/405256/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 12 Oct 2021 15:34:01 UTC
+update_date: Sun, 07 Nov 2021 07:51:30 UTC
 stages:
 - id: 692
   step: 11027
@@ -33,7 +33,7 @@ topics:
   - title: IDE
     theory_id: 10996
   - title: Computer algorithms
-    theory_id: 4953
+    theory_id: 16547
   - title: The big O notation
     theory_id: 13991
   - title: Data structures
@@ -305,6 +305,8 @@ topics:
   3:
   - title: The concept of patterns
     theory_id: 3611
+  - title: Introduction to Spring Data
+    theory_id: 16299
   - title: H2 database
     theory_id: 8762
   - title: Introduction to JPA

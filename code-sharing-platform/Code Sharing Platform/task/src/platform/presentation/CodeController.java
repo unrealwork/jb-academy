@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import platform.api.CodeService;
-import platform.api.model.CodeDto;
+import platform.api.model.Code;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/code")
@@ -30,20 +29,16 @@ public class CodeController {
 
     @GetMapping(value = "latest")
     public String code(Model model) {
-        final List<CodeDto> codes = codeService.latest();
+        final List<Code> codes = codeService.latest();
         model.addAttribute("codes", codes);
         model.addAttribute("title","Latest");
         return "code";
     }
     
     @GetMapping("{id}")
-    public String idCode(Model model, @PathVariable UUID id) {
-        final CodeDto code = codeService.findByIndex(id);
-        if (code == null) {
-            return null;
-        }
+    public String idCode(Model model, @PathVariable int id) {
+        final Code code = codeService.findByIndex(id);
         model.addAttribute("codes", Collections.singleton(code));
-        model.addAttribute("isDeleted", codeService.isDeleted(id));
         
         return "code";
     }

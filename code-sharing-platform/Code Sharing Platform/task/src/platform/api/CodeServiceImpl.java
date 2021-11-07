@@ -1,71 +1,52 @@
 package platform.api;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import platform.api.model.CodeDto;
+import platform.api.model.Code;
 import platform.api.model.CodeUpdateResult;
-import platform.persistence.Code;
-import platform.persistence.CodeRepository;
-import platform.util.ModelMapper;
+import platform.api.model.NewCode;
 
-import javax.transaction.Transactional;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
-@RequiredArgsConstructor
 public class CodeServiceImpl implements CodeService {
-    private final CodeRepository codeRepository;
+    private static final List<Code> CODES = initialCode();
 
     @Override
-    public List<CodeDto> latest() {
-        Pageable limit = PageRequest.of(0, 10);
-        return codeRepository.findByTimeLessThanEqualAndViewsLessThanEqualOrderByTsDesc(0, 0, limit)
-                .stream().map(ModelMapper::toDto)
-                .collect(Collectors.toList());
-    }
+    public List<Code> latest() {
+        List<Code> res = new ArrayList<>(10);
+        for (int i = 0; i < 10; i++) {
 
-    @Override
-    @Transactional
-    public CodeDto findByIndex(UUID id) {
-        return codeRepository.findById(id).map(c -> {
-            final CodeDto codeDto = ModelMapper.toDto(c);
-            if (c.getViews() > 0) {
-                int views = c.getViews() - 1;
-                c.setViews(views);
-                if (views == 0) {
-                    codeRepository.delete(c);
-                } else {
-                    codeRepository.save(c);
-                }
+            final int index = CODES.size() - i - 1;
+            if (index < 0) {
+                break;
             }
-            if (c.getTime() > 0) {
-                long duration = ChronoUnit.SECONDS.between(Instant.ofEpochMilli(c.getTs()), Instant.now());
-                if (duration > c.getTime()) {
-                    codeRepository.delete(c);
-                    return null;
-                }
-                codeDto.setTime(c.getTime() - (int) duration);
-            }
-            return codeDto;
-        }).orElse(null);
+            res.add(CODES.get(index));
+        }
+        return Collections.unmodifiableList(res);
     }
 
     @Override
-    public CodeUpdateResult update(CodeDto newCode) {
-        final Code code = ModelMapper.toEntity(newCode);
-        code.setTs(System.currentTimeMillis());
-        final Code codeUpdated = codeRepository.save(code);
-        return new CodeUpdateResult(codeUpdated.getId().toString());
+    public Code findByIndex(int id) {
+        return CODES.get(id);
     }
 
     @Override
-    public boolean isDeleted(UUID id) {
-        return codeRepository.findById(id).isEmpty();
+    public CodeUpdateResult update(NewCode newCode) {
+        Code c = new Code();
+        c.setCode(newCode.getCode());
+        c.setDate(LocalDateTime.now().toString());
+        final int id = CODES.size();
+        CODES.add(c);
+        return new CodeUpdateResult(id);
+    }
+
+    private static List<Code> initialCode() {
+        final List<Code> codes = new CopyOnWriteArrayList<>();
+        return codes;
     }
 }

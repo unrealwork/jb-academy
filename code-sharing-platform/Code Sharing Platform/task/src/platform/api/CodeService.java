@@ -1,17 +1,13 @@
 package platform.api;
 
-import platform.api.model.CodeDto;
+import platform.api.model.Code;
 import platform.api.model.CodeUpdateResult;
+import platform.api.model.NewCode;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface CodeService {
-    List<CodeDto> latest();
-
-    CodeDto findByIndex(UUID id);
-
-    CodeUpdateResult update(CodeDto code);
-    
-    boolean isDeleted(UUID id);
+    List<Code> latest();
+    Code findByIndex(int id);
+    CodeUpdateResult update(NewCode code);
 }
