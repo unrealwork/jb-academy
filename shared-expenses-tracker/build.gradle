@@ -12,7 +12,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-
         maven { url "https://jitpack.io" }
     }
 
@@ -31,6 +30,7 @@ subprojects {
 
     test {
         systemProperty "file.encoding", "utf-8"
+        outputs.upToDateWhen { false }
     }
 
     compileJava.options.encoding = 'utf-8'
@@ -39,15 +39,6 @@ subprojects {
     }
 }
 
-project(':util') {
-    dependencies {
-        implementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
-    }
-}
-
-configure(subprojects.findAll { it.name != 'util' }) {
-    dependencies {
-        testImplementation project(':util').sourceSets.main.output
-        testImplementation project(':util').sourceSets.test.output
-    }
+wrapper {
+    gradleVersion = '7.1.1'
 }
