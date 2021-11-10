@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/452671/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 09 Nov 2021 09:32:18 UTC
+update_date: Wed, 10 Nov 2021 07:23:57 UTC
 stages:
 - id: 765
   step: 11718
@@ -177,10 +177,16 @@ topics:
     theory_id: 3508
   - title: Introduction to generic programming
     theory_id: 3492
+  - title: Generics and Object
+    theory_id: 3493
   - title: What are collections
     theory_id: 3770
   - title: ArrayList
     theory_id: 3567
+  - title: The Collections Framework overview
+    theory_id: 3624
+  - title: The List interface
+    theory_id: 3581
   - title: Lambda expressions
     theory_id: 11635
   - title: Method references
@@ -235,6 +241,8 @@ topics:
     theory_id: 3597
   - title: Anonymous classes properties
     theory_id: 3564
+  - title: The Object class
+    theory_id: 3596
   - title: Boxing and unboxing
     theory_id: 3595
   1:
@@ -254,14 +262,6 @@ topics:
     theory_id: 3712
   - title: Match results
     theory_id: 3716
-  - title: Generics and Object
-    theory_id: 3493
-  - title: The Collections Framework overview
-    theory_id: 3624
-  - title: The List interface
-    theory_id: 3581
-  - title: The Object class
-    theory_id: 3596
   2:
   - title: The Set interface
     theory_id: 3575
