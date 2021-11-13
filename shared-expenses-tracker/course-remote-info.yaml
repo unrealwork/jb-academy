@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/452671/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Thu, 11 Nov 2021 05:15:36 UTC
+update_date: Sat, 13 Nov 2021 10:12:12 UTC
 stages:
 - id: 765
   step: 11718
@@ -145,8 +145,6 @@ topics:
     theory_id: 3536
   - title: Package
     theory_id: 3621
-  - title: Processing strings
-    theory_id: 3551
   - title: What is an exception
     theory_id: 3497
   - title: Hierarchy of exceptions
@@ -155,6 +153,8 @@ topics:
     theory_id: 3552
   - title: NPE
     theory_id: 1945
+  - title: Processing strings
+    theory_id: 3551
   - title: Build tools
     theory_id: 4284
   - title: Java Archive
@@ -173,8 +173,6 @@ topics:
     theory_id: 3617
   - title: Comparing dates and time
     theory_id: 3549
-  - title: BigInteger
-    theory_id: 3508
   - title: Introduction to generic programming
     theory_id: 3492
   - title: Generics and Object
@@ -187,6 +185,8 @@ topics:
     theory_id: 3624
   - title: The List interface
     theory_id: 3581
+  - title: BigInteger
+    theory_id: 3508
   - title: Lambda expressions
     theory_id: 11635
   - title: Method references
@@ -223,8 +223,6 @@ topics:
     theory_id: 3589
   - title: Getters and setters
     theory_id: 3599
-  - title: Comparable
-    theory_id: 14456
   - title: Inheritance
     theory_id: 3583
   - title: The keyword super
@@ -245,6 +243,8 @@ topics:
     theory_id: 3596
   - title: Boxing and unboxing
     theory_id: 3595
+  - title: Comparable
+    theory_id: 14456
   1:
   - title: Regexps basics
     theory_id: 7580
