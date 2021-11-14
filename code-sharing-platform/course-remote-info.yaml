@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/405256/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sun, 07 Nov 2021 07:51:30 UTC
+update_date: Sun, 14 Nov 2021 11:59:04 UTC
 stages:
 - id: 692
   step: 11027
@@ -35,7 +35,7 @@ topics:
   - title: Computer algorithms
     theory_id: 16547
   - title: The big O notation
-    theory_id: 13991
+    theory_id: 16699
   - title: Data structures
     theory_id: 5161
   - title: World Wide Web
@@ -220,8 +220,6 @@ topics:
     theory_id: 3589
   - title: Getters and setters
     theory_id: 3599
-  - title: Comparable
-    theory_id: 14456
   - title: Inheritance
     theory_id: 3583
   - title: The keyword super
