@@ -1,81 +1,57 @@
-import java.util.Optional;
+public static void main(String[] args) {
 
-public class Main {
+    // create an instance of Account here
+    var acc = new Account("123456", 1000L, new User("demo-user", "Alexander", "Schmidt"));
+    // pass it into process method
+    process(acc);
+}
 
+static class Account {
 
-    public static void main(String[] args) {
+    private String code;
+    private Long balance;
+    private User owner;
 
-        // create an instance of Account here
-
-        // pass it into process method
+    public Account(String code, Long balance, User owner) {
+        this.code = code;
+        this.balance = balance;
+        this.owner = owner;
     }
 
-    static class Account {
-
-        private String code;
-        private long balance;
-        private User owner;
-
-        public Account(String code, long balance, User owner) {
-            this.code = code;
-            this.balance = balance;
-            this.owner = owner;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public long getBalance() {
-            return balance;
-        }
-
-        public User getOwner() {
-            return owner;
-        }
+    public String getCode() {
+        return code;
     }
 
-    static class User {
-
-        private String login;
-        private String firstName;
-        private String lastName;
-
-        public User(String login, String firstName, String lastName) {
-            this.login = login;
-            this.firstName = firstName;
-            this.lastName = lastName;
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
+    public Long getBalance() {
+        return balance;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+}
 
-    public static void process(Account account) {
-        try {
-            final Optional<User> owner = Optional.ofNullable(account.getOwner());
+static class User {
 
-            System.out.println(account.getCode());
-            System.out.println(account.getBalance());
+    private String login;
+    private String firstName;
+    private String lastName;
 
-            owner.ifPresent(o -> {
-                System.out.println(o.getLogin());
-                System.out.println(o.getFirstName());
-                System.out.println(o.getLastName());
-            });
+    public User(String login, String firstName, String lastName) {
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-        } catch (Exception e) {
-            System.out.println("Something wrong...");
-        }
+    public String getLogin() {
+        return login;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }
