@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/452671/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 16 Nov 2021 12:30:22 UTC
+update_date: Wed, 17 Nov 2021 08:32:41 UTC
 stages:
 - id: 765
   step: 11718
@@ -262,6 +262,8 @@ topics:
     theory_id: 3712
   - title: Match results
     theory_id: 3716
+  - title: BigDecimal
+    theory_id: 13511
   2:
   - title: The Set interface
     theory_id: 3575
@@ -286,6 +288,8 @@ topics:
     theory_id: 8771
   - title: JPA relationships
     theory_id: 8936
+  - title: IoC Container
+    theory_id: 16851
   - title: Spring beans
     theory_id: 14641
   - title: Spring components
@@ -362,13 +366,19 @@ topics:
   5:
   - title: Recursion basics
     theory_id: 5984
+  - title: Decrease and conquer
+    theory_id: 14669
   - title: Graph
     theory_id: 15967
   - title: Basic terminology
     theory_id: 15968
+  - title: Representation of graphs
+    theory_id: 15969
   - title: Tree
     theory_id: 5121
   - title: Tree traversals
     theory_id: 7156
   - title: Connectivity in graphs
     theory_id: 7956
+  - title: Depth-first search
+    theory_id: 7061

@@ -4,6 +4,14 @@ public class Main {
 
     public static long factorial(long n) {
         // write your code here
+        if (n < 2) {
+            return 1;
+        }
+        long res = 1;
+        for (long i = 2; i <= n; i++) {
+            res *= i;
+        }
+        return res;
     }
 
     /* Do not change code below */
