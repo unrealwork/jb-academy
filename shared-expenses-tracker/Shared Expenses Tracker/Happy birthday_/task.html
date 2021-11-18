@@ -10,12 +10,6 @@
 <ol>
     <li>Collect all the names in groups without the <code class="java">-</code> sign (<code class="java">+</code> is optional);</li>
     <li>Add persons without the<strong> </strong><code class="java">-</code> sign (<code class="java">+</code> is optional);</li>
-    <li>Properly handle empty groups. For example<strong> </strong><code class="java">group create TEAM (Bob, -Bob)</code>. The show
-        and purchase command on empty groups should show the message "Group is empty"
-    </li>
-    <li>Properly handle duplicate groups. If a group is to be created with a name that already exists, your program
-        should print "Group already exists".
-    </li>
     <li>Remove from the result all the names marked with a <code class="java">-</code> sign;</li>
     <li>Remove duplicates from the resulting collection.</li>
 </ol>
@@ -33,7 +27,10 @@
         <code class="java">[date] <strong>purchase </strong>Person<strong> </strong>itemName amount [(list of [+|-] persons
             | GROUPS)]</code></li>
     <li>Add and subtract sets of GROUPS and persons.</li>
-    <li>Properly handle empty groups on show and purchase commands.</li>
+    <li>Properly handle empty groups on the show and purchase commands. Your program should print "Group is empty" in such cases</li>
+    <li>Properly handle duplicate groups by printing the message "Group already exists" if an attempt is made to create
+        a group that already exists.
+    </li>
     <li>Process the input numbers as money and correctly handle division.</li>
     <li>Calculate and display the list of repayments with names and amounts to be repaid.</li>
 </ol>
@@ -60,6 +57,31 @@ repay</code></pre>
 Ann
 Bob
 Chuck
+Diana</code></pre>
+
+<p>Group add command:</p>
+
+<pre><code class="language-no-highlight">&gt; group create GIRLS (Ann, Diana)
+&gt; group create TEAM (+Bob, -Frank, Chuck)
+&gt; group add TEAM (+GIRLS, -Diana)
+&gt; group show TEAM
+Ann
+Bob
+Chuck
+</code></pre>
+
+<p>Group remove command:</p>
+
+<pre><code class="language-no-highlight">&gt; group create GIRLS (Ann, Diana)
+&gt; group create BOYS (+Bob, Chuck)
+&gt; group create SQUAD (BOYS, GIRLS)
+&gt; group show SQUAD
+Ann
+Bob
+Chuck
+Diana
+&gt; group remove SQUAD (-BOYS, -Ann)
+&gt; group show SQUAD
 Diana</code></pre>
 
 <p>Group purchases:</p>
