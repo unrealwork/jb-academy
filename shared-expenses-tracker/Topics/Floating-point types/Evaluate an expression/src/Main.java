@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-@SuppressWarnings("squid:S106")
 class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
