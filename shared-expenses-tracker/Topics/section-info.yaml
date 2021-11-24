@@ -10,3 +10,5 @@ content:
 - Scanning the input
 - Declaring a method
 - Getting data from REST
+- Posting and deleting data via REST
+- Static members
