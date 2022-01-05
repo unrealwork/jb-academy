@@ -1,0 +1,11 @@
+content:
+- Theory
+- Initialize fields only once
+- Synchronized keyword
+- Multithreaded counter
+- Countdown counter
+- Methods
+- Thread synchronization in Java
+- Where it is possible to write synchronized
+- What is wrong
+- Counting number of instances
