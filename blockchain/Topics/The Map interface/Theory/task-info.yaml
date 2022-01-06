@@ -1,7 +1,4 @@
-type: choice
-is_multiple_choice: false
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
+type: theory
 files:
 - name: src/Task.java
   visible: true
@@ -14,6 +11,7 @@ files:
       }
     }
   learner_created: false
-feedback_link: https://hyperskill.org/learn/step/2657#comment
+feedback_link: https://hyperskill.org/learn/step/3558#comment
 status: Solved
 record: -1
+post_submission_on_open: true

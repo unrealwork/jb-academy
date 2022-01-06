@@ -761,17 +761,108 @@ files:
         }
     }
   learner_created: false
-- name: src/recipes/presentation/BaseModel.java
+- name: src/recipes/persistance/RecipeRepository.java
   visible: true
   text: |
-    package recipes.presentation;
+    package recipes.persistance;
 
-    import recipes.persistance.BaseDTO;
+    import org.springframework.data.repository.CrudRepository;
 
-    public interface BaseModel<T extends BaseDTO<?>> {
-        T toDto();
+    import java.util.List;
+
+    public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
+        List<Recipe> findByCategoryIgnoreCaseOrderByDateDesc(final String category);
+        List<Recipe> findByNameContainsIgnoreCaseOrderByDateDesc(final String name);
     }
   learner_created: true
+- name: src/recipes/service/MapRecipeService.java
+  visible: true
+  text: |
+    package recipes.service;
+
+    import recipes.persistance.Recipe;
+    import recipes.presentation.RecipeModel;
+
+    import java.util.List;
+    import java.util.Optional;
+
+    public interface MapRecipeService {
+        AdditionResult save(RecipeModel recipe);
+
+        void update(int id, RecipeModel recipe);
+
+        Optional<RecipeModel> findById(int id);
+
+        List<RecipeModel> findByCategory(String category);
+
+        List<RecipeModel> findByName(String name);
+
+        void deleteById(int id);
+    }
+  learner_created: true
+- name: src/recipes/service/AdditionResult.java
+  visible: true
+  text: |
+    package recipes.service;
+
+    public class AdditionResult {
+        private final int id;
+
+        public static AdditionResult of(final int id) {
+            return new AdditionResult(id);
+        }
+
+        private AdditionResult(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+  learner_created: true
+- name: src/recipes/persistance/BaseDTO.java
+  visible: true
+  text: |
+    package recipes.persistance;
+
+    import recipes.presentation.BaseModel;
+
+    public interface BaseDTO<T extends BaseModel<?>> {
+        T toModel();
+    }
+  learner_created: true
+- name: src/recipes/service/UserService.java
+  visible: true
+  learner_created: true
+- name: src/recipes/RecipesApplication.java
+  visible: true
+  text: |
+    package recipes;
+
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+    @SpringBootApplication
+    public class RecipesApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(RecipesApplication.class, args);
+        }
+    }
+  learner_created: false
+- name: src/recipes/presentation/UserController.java
+  visible: true
+  learner_created: true
+- name: src/recipes/presentation/UserModel.java
+  visible: true
+  learner_created: true
+- name: resources/application.properties
+  visible: true
+  text: |-
+    server.port=8881
+    management.endpoints.web.exposure.include=*
+    management.endpoint.shutdown.enabled=true
+  learner_created: false
 - name: src/recipes/presentation/RecipeApiController.java
   visible: true
   text: |
@@ -840,18 +931,103 @@ files:
         }
     }
   learner_created: true
-- name: src/recipes/persistance/RecipeRepository.java
+- name: src/recipes/presentation/RecipeModel.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
+    import recipes.persistance.Recipe;
+
+    import javax.validation.constraints.Min;
+    import javax.validation.constraints.NotBlank;
+    import javax.validation.constraints.NotEmpty;
+    import java.util.Arrays;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class RecipeModel implements BaseModel<Recipe> {
+        @NotBlank
+        private String name;
+        @NotBlank
+        private String description;
+        @NotEmpty
+        private String[] ingredients;
+        @NotEmpty
+        private String[] directions;
+        @NotBlank
+        private String category;
+        @Min(8)
+        private String date;
+
+        @Override
+        public Recipe toDto() {
+            Recipe recipe = new Recipe();
+            recipe.setDescription(description);
+            recipe.setName(name);
+            recipe.setIngredients(Arrays.asList(ingredients));
+            recipe.setDirections(Arrays.asList(directions));
+            recipe.setCategory(category);
+            recipe.setDate(date);
+            return recipe;
+        }
+    }
+  learner_created: true
+- name: src/recipes/persistance/Recipe.java
   visible: true
   text: |
     package recipes.persistance;
 
-    import org.springframework.data.repository.CrudRepository;
+    import lombok.Data;
+    import recipes.persistance.BaseDTO;
+    import recipes.presentation.RecipeModel;
 
+    import javax.persistence.ElementCollection;
+    import javax.persistence.Entity;
+    import javax.persistence.GeneratedValue;
+    import javax.persistence.GenerationType;
+    import javax.persistence.Id;
     import java.util.List;
 
-    public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
-        List<Recipe> findByCategoryIgnoreCaseOrderByDateDesc(final String category);
-        List<Recipe> findByNameContainsIgnoreCaseOrderByDateDesc(final String name);
+    @Data
+    @Entity
+    public class Recipe implements BaseDTO<RecipeModel> {
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private int id;
+
+        private String name;
+        private String description;
+        @ElementCollection
+        private List<String> ingredients;
+        @ElementCollection
+        private List<String> directions;
+        private String category;
+        private String date;
+
+
+        @Override
+        public RecipeModel toModel() {
+            return new RecipeModel(name, description,
+                    ingredients.toArray(String[]::new),
+                    directions.toArray(String[]::new),
+                    category, date
+            );
+        }
+    }
+  learner_created: true
+- name: src/recipes/presentation/BaseModel.java
+  visible: true
+  text: |
+    package recipes.presentation;
+
+    import recipes.persistance.BaseDTO;
+
+    public interface BaseModel<T extends BaseDTO<?>> {
+        T toDto();
     }
   learner_created: true
 - name: src/recipes/service/RecipeService.java
@@ -917,124 +1093,9 @@ files:
         }
     }
   learner_created: true
-- name: src/recipes/service/MapRecipeService.java
-  visible: true
-  text: |
-    package recipes.service;
-
-    import recipes.persistance.Recipe;
-    import recipes.presentation.RecipeModel;
-
-    import java.util.List;
-    import java.util.Optional;
-
-    public interface MapRecipeService {
-        AdditionResult save(RecipeModel recipe);
-
-        void update(int id, RecipeModel recipe);
-
-        Optional<RecipeModel> findById(int id);
-
-        List<RecipeModel> findByCategory(String category);
-
-        List<RecipeModel> findByName(String name);
-
-        void deleteById(int id);
-    }
-  learner_created: true
-- name: src/recipes/service/AdditionResult.java
-  visible: true
-  text: |
-    package recipes.service;
-
-    public class AdditionResult {
-        private final int id;
-
-        public static AdditionResult of(final int id) {
-            return new AdditionResult(id);
-        }
-
-        private AdditionResult(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
-  learner_created: true
-- name: src/recipes/persistance/Recipe.java
-  visible: true
-  text: |
-    package recipes.persistance;
-
-    import lombok.Data;
-    import recipes.persistance.BaseDTO;
-    import recipes.presentation.RecipeModel;
-
-    import javax.persistence.ElementCollection;
-    import javax.persistence.Entity;
-    import javax.persistence.GeneratedValue;
-    import javax.persistence.GenerationType;
-    import javax.persistence.Id;
-    import java.util.List;
-
-    @Data
-    @Entity
-    public class Recipe implements BaseDTO<RecipeModel> {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private int id;
-
-        private String name;
-        private String description;
-        @ElementCollection
-        private List<String> ingredients;
-        @ElementCollection
-        private List<String> directions;
-        private String category;
-        private String date;
-
-
-        @Override
-        public RecipeModel toModel() {
-            return new RecipeModel(name, description,
-                    ingredients.toArray(String[]::new),
-                    directions.toArray(String[]::new),
-                    category, date
-            );
-        }
-    }
-  learner_created: true
-- name: src/recipes/persistance/BaseDTO.java
-  visible: true
-  text: |
-    package recipes.persistance;
-
-    import recipes.presentation.BaseModel;
-
-    public interface BaseDTO<T extends BaseModel<?>> {
-        T toModel();
-    }
-  learner_created: true
-- name: src/recipes/service/UserService.java
+- name: src/recipes/config/WebSecurityConfig.java
   visible: true
   learner_created: true
-- name: src/recipes/RecipesApplication.java
-  visible: true
-  text: |
-    package recipes;
-
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-    @SpringBootApplication
-    public class RecipesApplication {
-        public static void main(String[] args) {
-            SpringApplication.run(RecipesApplication.class, args);
-        }
-    }
-  learner_created: false
 - name: build.gradle
   visible: true
   text: |
@@ -1058,67 +1119,6 @@ files:
         implementation 'org.springframework.boot:spring-boot-starter-web'
     }
   learner_created: false
-- name: src/recipes/presentation/UserController.java
-  visible: true
-  learner_created: true
-- name: src/recipes/presentation/UserModel.java
-  visible: true
-  learner_created: true
-- name: src/recipes/presentation/RecipeModel.java
-  visible: true
-  text: |
-    package recipes.presentation;
-
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
-    import recipes.persistance.Recipe;
-
-    import javax.validation.constraints.Min;
-    import javax.validation.constraints.NotBlank;
-    import javax.validation.constraints.NotEmpty;
-    import java.util.Arrays;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class RecipeModel implements BaseModel<Recipe> {
-        @NotBlank
-        private String name;
-        @NotBlank
-        private String description;
-        @NotEmpty
-        private String[] ingredients;
-        @NotEmpty
-        private String[] directions;
-        @NotBlank
-        private String category;
-        @Min(8)
-        private String date;
-
-        @Override
-        public Recipe toDto() {
-            Recipe recipe = new Recipe();
-            recipe.setDescription(description);
-            recipe.setName(name);
-            recipe.setIngredients(Arrays.asList(ingredients));
-            recipe.setDirections(Arrays.asList(directions));
-            recipe.setCategory(category);
-            recipe.setDate(date);
-            return recipe;
-        }
-    }
-  learner_created: true
-- name: resources/application.properties
-  visible: true
-  text: |-
-    server.port=8881
-    management.endpoints.web.exposure.include=*
-    management.endpoint.shutdown.enabled=true
-  learner_created: false
-- name: src/recipes/config/WebSecurityConfig.java
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/180/stages/921/implement#comment
 status: Solved
 feedback:

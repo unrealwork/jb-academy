@@ -12,3 +12,7 @@ gradle-app.setting
 .gradletasknamecache
 out
 target
+
+http://export.finam.ru/table.csv?d=d&f=table&e=.csv&dtf=1&tmf=3&MSOR=0&mstime=on&mstimever=1&sep=3&sep2=1&at=1&p=1&em=182456&market=45&df=3&mf=11&yf=2021&dt=7&mt=11&yt=2021&cn=AH&code=AH&datf=1
+
+market=24&em=18930&code=AH&apply=0&df=3&mf=11&yf=2021&from=03.12.2021&dt=7&mt=11&yt=2021&to=07.12.2021&p=3&f=AH_211203_211207&e=.csv&cn=AH&dtf=1&tmf=1&MSOR=0&mstime=on&mstimever=1&sep=1&sep2=1&datf=1&at=1

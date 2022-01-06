@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: constructor
-- text: class
-- text: local variable
-- text: method
-- text: block
-- text: field
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

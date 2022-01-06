@@ -1,14 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: To put the line 2 in a synchronized block, the monitor should be the instance
-    (<b>this</b>)
-- text: ' Nothing needs to be done, everything works correctly'
-- text: To declare the field <b>str</b> with the <b>synchronized</b> keyword
-- text: To declare the method with the <b>synchronized</b> keyword
-- text: To declare the class with the <b>synchronized</b> keyword
-- text: To put lines 1-3 in a synchronized block, the monitor should be the instance
-    (<b>this</b>)
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:
