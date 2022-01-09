@@ -10,3 +10,5 @@ content:
 - Memento
 - Floating-point types
 - Throwing exceptions
+- Command
+- Singleton
