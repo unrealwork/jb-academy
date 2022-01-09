@@ -8,3 +8,5 @@ content:
 - Type Bounds
 - Queue and Stack
 - Memento
+- Floating-point types
+- Throwing exceptions

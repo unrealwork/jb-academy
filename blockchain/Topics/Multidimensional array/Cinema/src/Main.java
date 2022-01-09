@@ -1,26 +1,19 @@
 import java.util.Scanner;
 
-final class Main {
-    private Main() {
-
-    }
-
-    @SuppressWarnings("PMD.SystemPrintln")
-    public static void main(final String[] args) {
+class Main {
+    public static void main(String[] args) {
         // put your code here
-        int[][] cinema;
-        try (Scanner scanner = new Scanner(System.in)) {
-            final int rows = scanner.nextInt();
-            final int columns = scanner.nextInt();
-            cinema = readMatrix(scanner, rows, columns);
-            final int reqSeats = scanner.nextInt();
-            System.out.println(solve(cinema, reqSeats));
-        }
+        Scanner scanner = new Scanner(System.in);
+        final int rows = scanner.nextInt();
+        final int columns = scanner.nextInt();
+        int[][] cinema = readMatrix(scanner, rows, columns);
+        final int reqSeats = scanner.nextInt();
+        System.out.println(solve(cinema, reqSeats));
     }
 
-    private static int solve(final int[][] cinema, final int reqSeats) {
+    private static int solve(int[][] cinema, final int reqSeats) {
         for (int i = 0; i < cinema.length; i++) {
-            final int[] row = cinema[i];
+            int[] row = cinema[i];
             if (hasConsecutivePlaces(row, reqSeats)) {
                 return i + 1;
             }
@@ -28,9 +21,9 @@ final class Main {
         return 0;
     }
 
-    private static boolean hasConsecutivePlaces(final int[] row, final int reqSeats) {
+    private static boolean hasConsecutivePlaces(int[] row, int reqSeats) {
         int currentFree = 0;
-        for (final int seat : row) {
+        for (int seat : row) {
             if (seat == 0) {
                 currentFree++;
             } else {
@@ -43,7 +36,7 @@ final class Main {
         return currentFree >= reqSeats;
     }
 
-    private static int[][] readMatrix(final Scanner scanner, final int rows, final int columns) {
+    private static int[][] readMatrix(Scanner scanner, int rows, int columns) {
         int[][] res = new int[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
