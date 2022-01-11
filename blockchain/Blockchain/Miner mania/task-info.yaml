@@ -316,6 +316,54 @@ files:
         }
     }
   learner_created: true
+- name: src/blockchain/BlockchainClientImpl.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/MinedBlockData.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/Miner.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/MinerFactory.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/ConcurrentMinerFactory.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/EventType.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/EventListener.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/BlockchainClient.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/SimpleMiner.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/BasicEventManager.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/EventManager.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/Block.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/BlockBuilder.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/events/RequiredZeroesData.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/ValidationResult.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5415#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 11 Jan 2022 10:40:54 UTC
+record: 3

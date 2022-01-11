@@ -19,16 +19,16 @@
   <p>The following code implements these concepts:</p> 
   <pre><code class="language-java">class Singleton {
 
-    private static final Singleton instance = new Singleton();
+    private static final Singleton INSTANCE = new Singleton();
 
     private Singleton() { }
 
     public static Singleton getInstance() {
-        return instance;
+        return INSTANCE;
     }
 }</code></pre> 
   <p>That class is quite simple, but let's take a closer look at it.</p> 
-  <p>The class <code class="language-java">Singleton</code> is a basic implementation of the considered pattern. The field <code class="language-java">instance</code> stores only a single instance of the class. The constructor is declared as <code class="language-java">private</code> to defeat instantiation. The static method <code class="language-java">getInstance</code> returns the same instance of the class.</p> 
+  <p>The class <code class="language-java">Singleton</code> is a basic implementation of the considered pattern. The field <code class="language-java">INSTANCE</code> stores only a single instance of the class. The constructor is declared as <code class="language-java">private</code> to defeat instantiation. The static method <code class="language-java">getInstance</code> returns the same instance of the class.</p> 
   <p>Let's create three variables, assign an instance to each of them and then compare the variables by references:</p> 
   <pre><code class="language-java">Singleton s1 = Singleton.getInstance();
 Singleton s2 = Singleton.getInstance();

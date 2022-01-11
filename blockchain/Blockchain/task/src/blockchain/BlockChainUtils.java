@@ -1,5 +1,8 @@
 package blockchain;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public final class BlockChainUtils {
     private BlockChainUtils() {
     }
@@ -14,5 +17,13 @@ public final class BlockChainUtils {
             }
         }
         return true;
+    }
+
+    static MessageDigest SHA256Digest() {
+        try {
+            return MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

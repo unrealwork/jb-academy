@@ -299,6 +299,493 @@ files:
         }
     }
   learner_created: false
+- name: src/blockchain/BlockchainClientImpl.java
+  visible: true
+  text: |
+    package blockchain;
+
+    public class BlockchainClientImpl implements BlockchainClient {
+        private final BlockChain blockChain;
+
+        public BlockchainClientImpl(BlockChain blockChain) {
+            this.blockChain = blockChain;
+        }
+
+        @Override
+        public Block last() {
+            return blockChain.last();
+        }
+
+        @Override
+        public ValidationResult validate(Block block) {
+            return blockChain.validate(block);
+        }
+
+        @Override
+        public boolean isAvailable() {
+            return !blockChain.isCompleted();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/MinedBlockData.java
+  visible: true
+  text: |
+    package blockchain.events;
+
+    import blockchain.Block;
+    import blockchain.Miner;
+
+    public class MinedBlockData {
+        private final Miner miner;
+        private final Block block;
+
+        public RequiredZeroesData getRequiredZeroesData() {
+            return requiredZeroesData;
+        }
+
+        private final RequiredZeroesData requiredZeroesData;
+
+        private MinedBlockData(Miner miner, Block block, RequiredZeroesData requiredZeroesData) {
+            this.miner = miner;
+            this.block = block;
+            this.requiredZeroesData = requiredZeroesData;
+        }
+
+        public static MinedBlockData create(Miner miner, Block block, RequiredZeroesData requiredZeroes) {
+            return new MinedBlockData(miner, block, requiredZeroes);
+        }
+
+        public Miner getMiner() {
+            return miner;
+        }
+
+        public Block getBlock() {
+            return block;
+        }
+    }
+  learner_created: true
+- name: src/blockchain/Miner.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import blockchain.events.EventListener;
+    import blockchain.events.MinedBlockData;
+
+    public interface Miner {
+        public static SimpleMiner simple(BlockchainClient client, int id) {
+            return new SimpleMiner(client, id);
+        }
+
+        int id();
+
+        Block mine();
+
+        void addListener(final EventListener<MinedBlockData> listener);
+    }
+  learner_created: true
+- name: src/blockchain/MinerFactory.java
+  visible: true
+  text: |
+    package blockchain;
+
+    public interface MinerFactory {
+        void start();
+        void register(Miner miner);
+        void stop() throws InterruptedException;
+    }
+  learner_created: true
+- name: src/blockchain/ConcurrentMinerFactory.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import blockchain.events.EventManager;
+    import blockchain.events.MinedBlockData;
+    import blockchain.events.BasicEventManager;
+
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.Executors;
+    import java.util.concurrent.TimeUnit;
+
+    public class ConcurrentMinerFactory implements MinerFactory {
+        private final ExecutorService executor = Executors.newCachedThreadPool();
+        private final EventManager<MinedBlockData> eventManager = BasicEventManager.create();
+
+
+        @Override
+        public void start() {
+        }
+
+        @Override
+        public void register(Miner miner) {
+            executor.execute(miner::mine);
+        }
+
+        @Override
+        public void stop() throws InterruptedException {
+            executor.shutdown();
+            boolean isTerminated = executor.awaitTermination(1, TimeUnit.MINUTES);
+            if (!isTerminated) {
+                throw new IllegalStateException("Unable to shutdown executor service");
+            }
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/EventType.java
+  visible: true
+  text: "package blockchain.events;\n\npublic enum EventType {\n    MINED(MinedBlockData.class);\n\
+    \    \n    private final Class<?> dataTypeClass;\n\n    EventType(Class<?> minedBlockDataClass)\
+    \ {\n        this.dataTypeClass = minedBlockDataClass;\n    }\n}\n"
+  learner_created: true
+- name: src/blockchain/BlockChainUtils.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import java.security.MessageDigest;
+    import java.security.NoSuchAlgorithmException;
+
+    public final class BlockChainUtils {
+        private BlockChainUtils() {
+        }
+
+        static boolean isProved(final String hash, int requiredZeroes) {
+            if (requiredZeroes > hash.length()) {
+                return false;
+            }
+            for (int i = 0; i < requiredZeroes; i++) {
+                if (hash.charAt(i) != '0') {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        static MessageDigest SHA256Digest() {
+            try {
+                return MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/EventListener.java
+  visible: true
+  text: |
+    package blockchain.events;
+
+    public interface EventListener<T> {
+        void handle(T data);
+    }
+  learner_created: true
+- name: src/blockchain/BlockchainClient.java
+  visible: true
+  text: |
+    package blockchain;
+
+    public interface BlockchainClient {
+        Block last();
+        ValidationResult validate(Block block);
+
+        boolean isAvailable();
+    }
+  learner_created: true
+- name: src/blockchain/BlockBuilder.java
+  visible: true
+  text: |
+    package blockchain;
+
+    public class BlockBuilder {
+        private final long id;
+        private long ts;
+        private long magicNumber;
+        private Block previousHashBlock;
+        private String hash;
+
+        public BlockBuilder(long id) {
+            this.id = id;
+        }
+
+        public BlockBuilder ts(long ts) {
+            this.ts = ts;
+            return this;
+        }
+
+        public BlockBuilder magicNumber(long magicNumber) {
+            this.magicNumber = magicNumber;
+            return this;
+        }
+
+        public BlockBuilder previousHashBlock(Block previousHashBlock) {
+            this.previousHashBlock = previousHashBlock;
+            return this;
+        }
+
+        public BlockBuilder hash(String hash) {
+            this.hash = hash;
+            return this;
+        }
+
+        public Block createBlock() {
+            return new Block(id, ts > 0 ? ts : System.currentTimeMillis(), magicNumber, previousHashBlock, hash);
+        }
+    }
+  learner_created: true
+- name: src/blockchain/SimpleMiner.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import blockchain.events.BasicEventManager;
+    import blockchain.events.EventListener;
+    import blockchain.events.EventManager;
+    import blockchain.events.MinedBlockData;
+
+    import java.util.concurrent.ThreadLocalRandom;
+
+    import static blockchain.Block.applySha256;
+
+    public class SimpleMiner implements Miner {
+        private static final EventManager<MinedBlockData> EVENT_MANAGER = BasicEventManager.create();
+
+        private final BlockchainClient client;
+        private final int id;
+
+        SimpleMiner(BlockchainClient client, int id) {
+            this.client = client;
+            this.id = id;
+        }
+
+        public void addListener(final EventListener<MinedBlockData> listener) {
+            EVENT_MANAGER.subscribe(listener);
+        }
+
+
+        @Override
+        public int id() {
+            return id;
+        }
+
+        @Override
+        public Block mine() {
+            while (client.isAvailable()) {
+                final Block block = mineBlock();
+                final ValidationResult validationResult = client.validate(block);
+                if (validationResult.isValid()) {
+                    final MinedBlockData data = MinedBlockData.create(this, block, validationResult.getRequiredZeroes());
+                    EVENT_MANAGER.notify(data);
+                }
+            }
+            return null;
+        }
+
+        private Block mineBlock() {
+            try {
+                Block lastBlock = client.last();
+                long magicNumber = ThreadLocalRandom.current().nextLong();
+                final String baseHash = lastBlock.getHash();
+                String nextHash = applySha256(baseHash + magicNumber);
+                return Block.builder(lastBlock.getId() + 1)
+                        .magicNumber(magicNumber)
+                        .previousHashBlock(lastBlock)
+                        .hash(nextHash)
+                        .createBlock();
+            } catch (Exception e) {
+                return mineBlock();
+            }
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/BasicEventManager.java
+  visible: true
+  text: |
+    package blockchain.events;
+
+    import java.util.LinkedHashSet;
+    import java.util.Set;
+
+    public class BasicEventManager<T> implements EventManager<T> {
+        private final Set<EventListener<T>> listeners;
+
+        private BasicEventManager() {
+            listeners = new LinkedHashSet<>();
+        }
+
+        public static <T> EventManager<T> create() {
+            return new BasicEventManager<>();
+        }
+
+        @Override
+        public void notify(T data) {
+            listeners.forEach(listener -> listener.handle(data));
+        }
+
+        @Override
+        public void subscribe(EventListener<T> listener) {
+            listeners.add(listener);
+        }
+
+        @Override
+        public void unsubscribe(EventListener<T> listener) {
+            listeners.remove(listener);
+        }
+    }
+  learner_created: true
+- name: src/blockchain/ValidationResult.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import blockchain.events.RequiredZeroesData;
+
+    public class ValidationResult {
+        private final RequiredZeroesData requiredZeroes;
+        private final boolean isValid;
+
+        private ValidationResult(RequiredZeroesData requiredZeroes, boolean isValid) {
+            this.requiredZeroes = requiredZeroes;
+            this.isValid = isValid;
+        }
+
+        public static ValidationResult create(RequiredZeroesData requiredZeroes, boolean isValid) {
+            return new ValidationResult(requiredZeroes, isValid);
+        }
+
+        public RequiredZeroesData getRequiredZeroes() {
+            return requiredZeroes;
+        }
+
+        public boolean isValid() {
+            return isValid;
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/RequiredZeroesData.java
+  visible: true
+  text: |
+    package blockchain.events;
+
+    public class RequiredZeroesData {
+        private final int before;
+        private final int after;
+
+        private RequiredZeroesData(int before, int after) {
+            this.before = before;
+            this.after = after;
+        }
+
+        public static RequiredZeroesData create(int before, int after) {
+            return new RequiredZeroesData(before, after);
+        }
+
+        public int getBefore() {
+            return before;
+        }
+
+        public int getAfter() {
+            return after;
+        }
+    }
+  learner_created: true
+- name: src/blockchain/events/EventManager.java
+  visible: true
+  text: |
+    package blockchain.events;
+
+
+    public interface EventManager<T> {
+        void notify(T data);
+
+        void subscribe(EventListener<T> listener);
+
+        void unsubscribe(EventListener<T> listener);
+    }
+  learner_created: true
+- name: src/blockchain/Block.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import java.security.MessageDigest;
+    import java.time.Duration;
+
+    import static blockchain.BlockChainUtils.SHA256Digest;
+    import static java.nio.charset.StandardCharsets.UTF_8;
+
+    public class Block {
+        private static final MessageDigest DIGEST = SHA256Digest();
+        private final long id;
+        private final long ts;
+        private final Block previousBlock;
+        private final String hash;
+        private final long magicNumber;
+
+        public Block(long id, long ts, long magicNumber, Block previousHashBlock, String hash) {
+            this.id = id;
+            this.ts = ts;
+            this.magicNumber = magicNumber;
+            this.previousBlock = previousHashBlock;
+            this.hash = hash;
+        }
+
+        static Block first() {
+            return Block.builder(0)
+                    .ts(System.currentTimeMillis())
+                    .hash("0")
+                    .createBlock();
+        }
+
+        public static String applySha256(String input) {
+            /* Applies sha256 to our input */
+            byte[] hash = DIGEST.digest(input.getBytes(UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte elem : hash) {
+                String hex = Integer.toHexString(0xff & elem);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        }
+
+        public static BlockBuilder builder(long id) {
+            return new BlockBuilder(id);
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public long getTs() {
+            return ts;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        Duration miningDuration() {
+            return Duration.ofMillis(ts - previousBlock.ts);
+        }
+
+
+        @Override
+        public String toString() {
+            final long durationSeconds = miningDuration().toSeconds();
+
+            return String.format("Id: %d%nTimestamp: %d%n" +
+                            "Magic number: %d%n" +
+                            "Hash of the previous block: %n%s%n" +
+                            "Hash of the block: %n%s%n" +
+                            "Block was generating for %d seconds",
+                    id, ts, magicNumber, previousBlock.hash, hash, durationSeconds
+            );
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5416#comment
 status: Unchecked
 record: -1
