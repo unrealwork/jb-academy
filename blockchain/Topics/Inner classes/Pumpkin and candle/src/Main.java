@@ -7,6 +7,13 @@ class Pumpkin {
     }
 
     // create method addCandle()
+    void  addCandle() {
+        if (forHalloween) {
+            new Candle().burning();
+        } else {
+            System.out.println("We don't need a candle.");
+        }
+    }
 
     class Candle {
 

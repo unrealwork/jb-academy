@@ -1,0 +1,27 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: Compile-time error &quot;The type T is not an interface; it cannot be specified
+    as a bounded parameter&quot;
+- text: Compile-time error &quot;Type mismatch&quot;
+- text: Runtime error
+- text: Compile-time error &quot;The method typeBoundsTest(T1) in the type Application&lt;Number&gt;
+    is not applicable for the arguments&quot;
+- text: It compiles and prints &quot;10 1.0&quot;
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: src/Task.java
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    public class Task {
+      public static void main(String[] args) {
+        // put your code here
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/2610#comment
+status: Solved
+record: -1

@@ -14,3 +14,17 @@ content:
 - Singleton
 - Decorator
 - Facade
+- Function composition
+- Comparator
+- Primitive and reference types
+- Functional data processing with streams
+- Stream filtering
+- Map and flatMap
+- Reduction methods
+- Collectors
+- Streams of primitives
+- Taking elements
+- Infinite streams
+- Stream pipelines
+- Parallel streams
+- Grouping collectors

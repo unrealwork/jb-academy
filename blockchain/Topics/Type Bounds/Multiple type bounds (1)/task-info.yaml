@@ -1,0 +1,26 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: T extends Type1, Type2, Type3
+- text: T extends Type1 and Type2 and Type3
+- text: T extends Type1 &amp; Type2 &amp; Type3
+- text: T extends Type1 | Type2 | Type3
+- text: T extends Type1 + Type2 + Type3
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: src/Task.java
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    public class Task {
+      public static void main(String[] args) {
+        // put your code here
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/2614#comment
+status: Solved
+record: -1
+custom_name: Multiple type bounds
