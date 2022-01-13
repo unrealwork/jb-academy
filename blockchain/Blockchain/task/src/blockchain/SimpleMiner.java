@@ -48,11 +48,13 @@ public class SimpleMiner implements Miner {
             Block lastBlock = client.last();
             long magicNumber = ThreadLocalRandom.current().nextLong();
             final String baseHash = lastBlock.getHash();
+            final String msg = lastBlock.getId() == 0 ? null : "miner #" + id;
             String nextHash = applySha256(baseHash + magicNumber);
             return Block.builder(lastBlock.getId() + 1)
                     .magicNumber(magicNumber)
                     .previousHashBlock(lastBlock)
                     .hash(nextHash)
+                    .data(msg)
                     .createBlock();
         } catch (Exception e) {
             return mineBlock();

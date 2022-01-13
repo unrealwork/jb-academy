@@ -6,6 +6,7 @@ public class BlockBuilder {
     private long magicNumber;
     private Block previousHashBlock;
     private String hash;
+    private String data;
 
     public BlockBuilder(long id) {
         this.id = id;
@@ -32,6 +33,11 @@ public class BlockBuilder {
     }
 
     public Block createBlock() {
-        return new Block(id, ts > 0 ? ts : System.currentTimeMillis(), magicNumber, previousHashBlock, hash);
+        return new Block(id, ts > 0 ? ts : System.currentTimeMillis(), data, magicNumber, previousHashBlock, hash);
+    }
+
+    public BlockBuilder data(String msg) {
+        this.data = msg;
+        return this;
     }
 }

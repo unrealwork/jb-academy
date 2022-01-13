@@ -13,10 +13,12 @@ public class Block {
     private final Block previousBlock;
     private final String hash;
     private final long magicNumber;
+    private final String data;
 
-    public Block(long id, long ts, long magicNumber, Block previousHashBlock, String hash) {
+    public Block(long id, long ts, String data, long magicNumber, Block previousHashBlock, String hash) {
         this.id = id;
         this.ts = ts;
+        this.data = data;
         this.magicNumber = magicNumber;
         this.previousBlock = previousHashBlock;
         this.hash = hash;
@@ -67,13 +69,14 @@ public class Block {
     @Override
     public String toString() {
         final long durationSeconds = miningDuration().toSeconds();
-
+        final String dataDesc = data != null ? System.lineSeparator() + data : " no messages";
         return String.format("Id: %d%nTimestamp: %d%n" +
                         "Magic number: %d%n" +
                         "Hash of the previous block: %n%s%n" +
                         "Hash of the block: %n%s%n" +
+                        "Block data: %s%n" +
                         "Block was generating for %d seconds",
-                id, ts, magicNumber, previousBlock.hash, hash, durationSeconds
+                id, ts, magicNumber, previousBlock.hash, hash, dataDesc, durationSeconds
         );
     }
 }
