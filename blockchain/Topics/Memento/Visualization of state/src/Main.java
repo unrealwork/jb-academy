@@ -1,0 +1,164 @@
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+
+interface Algorithm<S extends AlgorithmState> {
+
+    boolean hasNextStep();
+
+    void nextStep();
+
+    S getState();
+
+    void setState(S state);
+}
+
+interface AlgorithmState {
+}
+
+class SelectionSort<T extends Comparable<T>> implements Algorithm<SelectionSort.SortState<T>> {
+    private T[] array;
+    private int currentIndex = 0;
+    private int comparedIndex = 0;
+    private int currentMinIndex = 0;
+
+    SelectionSort(T[] array) {
+        this.array = array.clone();
+    }
+
+    @Override
+    public void nextStep() {
+        if (comparedIndex == array.length - 1 && currentIndex != currentMinIndex) {
+            T tmp = array[currentIndex];
+            array[currentIndex] = array[currentMinIndex];
+            array[currentMinIndex] = tmp;
+            currentMinIndex = currentIndex;
+        } else if (comparedIndex == array.length - 1) {
+            currentIndex++;
+            if (currentIndex < array.length - 1) {
+                comparedIndex = currentIndex + 1;
+            }
+            currentMinIndex = array[currentIndex]
+                    .compareTo(array[comparedIndex]) > 0 ? comparedIndex : currentIndex;
+        } else {
+            comparedIndex++;
+        }
+
+        if (array[comparedIndex].compareTo(array[currentMinIndex]) < 0) {
+            currentMinIndex = comparedIndex;
+        }
+    }
+
+    @Override
+    public boolean hasNextStep() {
+        return currentIndex < array.length - 1;
+    }
+
+    @Override
+    public String toString() {
+        return IntStream.range(0, array.length).mapToObj(i -> {
+            String s = String.valueOf(array[i]);
+            if (i == currentIndex) {
+                s = "{" + s + "}"; // final place for min item in range
+            }
+            if (i == comparedIndex) {
+                s = "[" + s + "]"; // candidate for min item
+            }
+            if (i == currentMinIndex) {
+                s = "(" + s + ")"; // current min item in range
+            }
+            return s;
+        }).collect(Collectors.joining(" "));
+    }
+
+    @Override
+    public SortState<T> getState() {
+        return SortState.create(array, currentIndex, comparedIndex, currentMinIndex);
+    }
+
+    @Override
+    public void setState(SortState<T> state) {
+        this.array = state.array;
+        this.comparedIndex = state.comparedIndex;
+        this.currentMinIndex = state.currentMinIndex;
+        this.currentIndex = state.currentIndex;
+    }
+
+    static class SortState<T> implements AlgorithmState {
+        private T[] array;
+        private int currentIndex = 0;
+        private int comparedIndex = 0;
+        private int currentMinIndex = 0;
+
+        private SortState(T[] array, int currentIndex, int comparedIndex, int currentMinIndex) {
+            this.array = array.clone();
+            this.currentIndex = currentIndex;
+            this.comparedIndex = comparedIndex;
+            this.currentMinIndex = currentMinIndex;
+        }
+
+        public static <T> SortState<T> create(T[] array, int currentIndex, int comparedIndex, int currentMinIndex) {
+            return new SortState<T>(array, currentIndex, comparedIndex, currentMinIndex);
+        }
+
+        public T[] getArray() {
+            return array;
+        }
+
+        public void setArray(T[] array) {
+            this.array = array;
+        }
+
+        public int getCurrentIndex() {
+            return currentIndex;
+        }
+
+        public void setCurrentIndex(int currentIndex) {
+            this.currentIndex = currentIndex;
+        }
+
+        public int getComparedIndex() {
+            return comparedIndex;
+        }
+
+        public void setComparedIndex(int comparedIndex) {
+            this.comparedIndex = comparedIndex;
+        }
+
+        public int getCurrentMinIndex() {
+            return currentMinIndex;
+        }
+
+        public void setCurrentMinIndex(int currentMinIndex) {
+            this.currentMinIndex = currentMinIndex;
+        }
+
+    }
+}
+
+class AlgorithmVisualizer<T extends AlgorithmState> {
+    private final Algorithm<T> algorithm;
+    private final Deque<T> states = new ArrayDeque<>();
+
+    AlgorithmVisualizer(Algorithm<T> algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public void nextStep() {
+        if (algorithm.hasNextStep()) {
+            states.push(algorithm.getState());
+            algorithm.nextStep();
+        }
+    }
+
+    public void prevStep() {
+        if (!states.isEmpty()) {
+            algorithm.setState(states.pop());
+        }
+    }
+
+    public void showCurrentStep() {
+        System.out.println(algorithm);
+    }
+}
