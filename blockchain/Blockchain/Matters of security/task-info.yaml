@@ -797,6 +797,15 @@ files:
         }
     }
   learner_created: true
+- name: src/blockchain/GenerateKeys.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/SecuredMessage.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5417#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 16 Jan 2022 21:43:41 UTC
 record: -1

@@ -5,6 +5,14 @@ import blockchain.events.EventListener;
 import blockchain.events.EventManager;
 import blockchain.events.MinedBlockData;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static blockchain.Block.applySha256;
@@ -48,7 +56,7 @@ public class SimpleMiner implements Miner {
             Block lastBlock = client.last();
             long magicNumber = ThreadLocalRandom.current().nextLong();
             final String baseHash = lastBlock.getHash();
-            final String msg = lastBlock.getId() == 0 ? null : "miner #" + id;
+            final SecuredMessage msg = secureMessage(lastBlock.getId() == 0 ? null : "miner #" + id);
             String nextHash = applySha256(baseHash + magicNumber);
             return Block.builder(lastBlock.getId() + 1)
                     .magicNumber(magicNumber)
@@ -59,5 +67,17 @@ public class SimpleMiner implements Miner {
         } catch (Exception e) {
             return mineBlock();
         }
+    }
+
+    private SecuredMessage secureMessage(String s) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        if (s == null) {
+            return null;
+        }
+        KeyPair pair = GenerateKeys.generate();
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, pair.getPrivate());
+        final byte[] sourceData = s.getBytes(StandardCharsets.UTF_8);
+        return SecuredMessage.fromDataWithKey(cipher.doFinal(sourceData), pair.getPublic());
+
     }
 }

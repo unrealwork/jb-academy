@@ -13,9 +13,9 @@ public class Block {
     private final Block previousBlock;
     private final String hash;
     private final long magicNumber;
-    private final String data;
+    private final SecuredMessage data;
 
-    public Block(long id, long ts, String data, long magicNumber, Block previousHashBlock, String hash) {
+    public Block(long id, long ts, SecuredMessage data, long magicNumber, Block previousHashBlock, String hash) {
         this.id = id;
         this.ts = ts;
         this.data = data;
@@ -69,7 +69,7 @@ public class Block {
     @Override
     public String toString() {
         final long durationSeconds = miningDuration().toSeconds();
-        final String dataDesc = data != null ? System.lineSeparator() + data : " no messages";
+        final String dataDesc = data != null ? System.lineSeparator() + data.decrypt() : " no messages";
         return String.format("Id: %d%nTimestamp: %d%n" +
                         "Magic number: %d%n" +
                         "Hash of the previous block: %n%s%n" +
