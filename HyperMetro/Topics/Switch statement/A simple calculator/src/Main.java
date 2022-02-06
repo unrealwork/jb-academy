@@ -6,7 +6,7 @@ class Main {
         Scanner scanner = new Scanner(System.in);
         // start coding here
         long a = scanner.nextLong();
-        char op = scanner.next().trim().charAt(0);
+        char op = scanner.next("[^0-9]").trim().charAt(0);
         long b = scanner.nextLong();
         try {
             System.out.println(op(op).applyAsLong(a, b));

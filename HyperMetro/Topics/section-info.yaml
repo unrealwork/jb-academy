@@ -10,3 +10,5 @@ content:
 - Parallel streams
 - Array exceptions
 - String
+- Patterns and Matcher
+- Currying

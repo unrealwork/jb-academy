@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/388955/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Tue, 01 Feb 2022 00:51:25 UTC
+update_date: Sun, 06 Feb 2022 06:53:02 UTC
 stages:
 - id: 648
   step: 10341
@@ -131,6 +131,8 @@ topics:
     theory_id: 9746
   - title: Errors in programs
     theory_id: 3536
+  - title: Command-line arguments
+    theory_id: 3566
   - title: Package
     theory_id: 3621
   - title: What is an exception
@@ -147,16 +149,14 @@ topics:
     theory_id: 1940
   - title: Processing strings
     theory_id: 3551
-  - title: Running programs on your computer
-    theory_id: 3746
-  - title: Command-line arguments
-    theory_id: 3566
   - title: Files
     theory_id: 3635
   - title: Reading files
     theory_id: 3636
   - title: IntelliJ Run Configurations
     theory_id: 10630
+  - title: Running programs on your computer
+    theory_id: 3746
   - title: Introduction to generic programming
     theory_id: 3492
   - title: Generics and Object
@@ -224,10 +224,6 @@ topics:
     theory_id: 3712
   - title: Match results
     theory_id: 3716
-  - title: Reflection basics
-    theory_id: 3609
-  - title: Retrieving Class instances
-    theory_id: 3554
   - title: Writing files
     theory_id: 3652
   - title: Output streams
@@ -236,6 +232,10 @@ topics:
     theory_id: 9723
   - title: Serialization basics
     theory_id: 8147
+  - title: Reflection basics
+    theory_id: 3609
+  - title: Retrieving Class instances
+    theory_id: 3554
   - title: Dealing with modifiers
     theory_id: 8104
   - title: Manipulating fields and methods

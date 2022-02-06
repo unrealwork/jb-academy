@@ -25,7 +25,7 @@
   <pre><code class="language-java">Set&lt;Account&gt; accounts = accountStream.collect(Collectors.toSet());</code></pre> 
   <p>If you need more control over producing collections and want to accumulate stream elements to the particular collection that is not a <code class="language-java">List</code> or a <code class="language-java">Set</code>, than <code class="language-java">Collectors.toCollection</code> method may come in handy:</p> 
   <pre><code class="language-java">LinkedList&lt;Account&gt; accounts = accountStream.collect(Collectors.toCollection(LinkedList::new));</code></pre> 
-  <p>The <code class="language-java">Collections.toCollection</code> method accepts a function that generates a new collection of a specified type. In the example above, we've accumulated a stream of account numbers to the <code class="language-java">LinkedList&lt;Account&gt;</code> by providing a reference to its default constructor.</p> 
+  <p>The <code class="language-java">Collectors.toCollection</code> method accepts a function that generates a new collection of a specified type. In the example above, we've accumulated a stream of account numbers to the <code class="language-java">LinkedList&lt;Account&gt;</code> by providing a reference to its default constructor.</p> 
   <h5>Producing values</h5> 
   <p>Similarly to the <code class="language-java">reduce</code> operation, <code class="language-java">collect</code> is able to accumulate stream elements into a single value. Here you can see some <code class="language-java">Collectors</code> methods that produce a single value:</p> 
   <ul> 
