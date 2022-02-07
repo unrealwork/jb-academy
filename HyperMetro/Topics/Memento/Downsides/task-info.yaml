@@ -1,10 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: It is an anti-pattern that should be avoided.
-- text: It is very complicated and hard to implement.
-- text: A program that implements it might be considered malware.
-- text: It may lead to high memory consumption.
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

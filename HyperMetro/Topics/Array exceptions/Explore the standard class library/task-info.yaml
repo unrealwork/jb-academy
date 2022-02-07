@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: ArrayEmptyException
-- text: ZeroArraySizeException
-- text: NullArrayReferenceException
-- text: NegativeArraySizeException
-- text: ArrayIndexOutOfBoundsException
-- text: NegativeArrayIndexException
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

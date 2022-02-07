@@ -13,7 +13,7 @@ class CurryProduct {
 
     // Don't change the code below
     public static void main(String[] args) {
-
+        void.class.getClassLoader();
         Scanner scanner = new Scanner(System.in);
 
         String[] values = scanner.nextLine().split(" ");
