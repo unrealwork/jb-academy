@@ -1,5 +1,10 @@
 type: choice
 is_multiple_choice: false
+options:
+- text: Creational
+- text: Structural
+- text: Behavioral
+- text: Destructural
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

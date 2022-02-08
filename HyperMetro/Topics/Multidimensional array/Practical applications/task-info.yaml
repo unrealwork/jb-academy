@@ -1,5 +1,10 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: Position of an object in 3D space
+- text: Creating matrices
+- text: 2D map on which objects are positioned with coordinates
+- text: Creating tables
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

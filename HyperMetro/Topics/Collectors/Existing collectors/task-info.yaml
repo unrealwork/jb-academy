@@ -1,5 +1,13 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: Collectors.partitioningBy()
+- text: Collectors.groupingBy()
+- text: Collectors.avgBy()
+- text: Collectors.summingDouble()
+- text: Collectors.reducing()
+- text: Collectors.maxBy()
+- text: Collectors.splittingBy()
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:
