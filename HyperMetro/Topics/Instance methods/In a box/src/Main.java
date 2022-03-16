@@ -5,4 +5,7 @@ class Box {
     double length;
 
     // write a method here
+    public double getVolume() {
+        return height * width * length;
+    }
 }

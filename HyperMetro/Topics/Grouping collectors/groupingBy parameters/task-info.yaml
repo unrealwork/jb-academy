@@ -1,10 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: predicate
-- text: supplier
-- text: classification function
-- text: downstream collector
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

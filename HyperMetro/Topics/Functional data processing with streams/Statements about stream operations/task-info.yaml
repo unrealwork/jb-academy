@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: Only terminal operations begin evaluations.
-- text: A stream allows using any number of intermediate operations.
-- text: Stream has intermediate, terminal and semi-intermediate operations.
-- text: Any intermediate operation returns a primitive type or an object (even a collection)
-    or nothing (void).
-- text: Some operations return streams.
+is_multiple_choice: false
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

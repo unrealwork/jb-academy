@@ -1,7 +1,15 @@
-Bishops road
-Edgver road
-Baker street
-Portland road
-Gower street
-Kings cross
-Farringdon street
+{
+    "Metro-Railway": {
+        "3": "Baker Street",
+        "1": "Bishops-road",
+        "2": "Edgver road",
+        "6": "Kings cross",
+        "4": "Portland road",
+        "5": "Gower street",
+        "7": "Farringdon street"
+    },
+    "Hammersmith-and-City": {
+        "2": "Westbourne-park",
+        "1": "Hammersmith"
+    }
+}

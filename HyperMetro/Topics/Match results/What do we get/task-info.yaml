@@ -1,12 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: throws IllegalStateException
-- text: returns 0
-- text: returns false
-- text: returns 10
-- text: returns 30
-- text: returns 3
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

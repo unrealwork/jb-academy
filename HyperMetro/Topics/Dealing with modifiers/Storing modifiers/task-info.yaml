@@ -1,11 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: specific <code>boolean</code> variable for every modifier type
-- text: specific <code>int</code> variable for every modifier type
-- text: single <code>Modifier</code> class instance
-- text: single <code>int</code> variable
-- text: specific <code>Modifier</code> class instance for every modifier type
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:
