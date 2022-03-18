@@ -1,5 +1,10 @@
 type: choice
 is_multiple_choice: false
+options:
+- text: NullPointerException
+- text: ArrayStoreException
+- text: NumberFormatException
+- text: ArrayIndexOutOfBoundsException
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

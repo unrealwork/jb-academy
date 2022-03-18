@@ -1,5 +1,11 @@
 type: choice
 is_multiple_choice: false
+options:
+- text: groupingBy
+- text: dividingBy
+- text: partitioningBy
+- text: separatingBy
+- text: splittingBy
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:

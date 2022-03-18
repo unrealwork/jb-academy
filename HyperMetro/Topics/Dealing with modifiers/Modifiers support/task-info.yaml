@@ -1,5 +1,10 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: <code>Field</code>
+- text: <code>Method</code>
+- text: <code>Constructor</code>
+- text: <code>Modifier</code>
 message_correct: Congratulations!
 message_incorrect: Incorrect solution
 files:
