@@ -1,12 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: They can be applied to the results of any terminal operation
-- text: They are applied to the results of another collectors
-- text: Downstream collectors are needed for partitioning and grouping stream elements
-- text: They are applied to the results of collect operation
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
 files:
 - name: src/Task.java
   visible: true

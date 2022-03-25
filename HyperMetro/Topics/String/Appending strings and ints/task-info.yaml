@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: 1
-- text: 2
-- text: 3
-- text: 4
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
+is_multiple_choice: false
 files:
 - name: src/Task.java
   visible: true

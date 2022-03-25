@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: StringIndexOutOfBoundsException
-- text: ' NullPointerException'
-- text: ArrayIndexOutOfBoundsException
-- text: UnsupportedOperationException
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
+is_multiple_choice: false
 files:
 - name: src/Task.java
   visible: true

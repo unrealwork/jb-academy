@@ -1,13 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: 4
-- text: 3
-- text: 6
-- text: Infinite number of times
-- text: 5
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
 files:
 - name: src/Task.java
   visible: true

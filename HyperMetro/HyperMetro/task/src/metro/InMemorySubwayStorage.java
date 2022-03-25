@@ -22,7 +22,7 @@ public class InMemorySubwayStorage implements SubwayStorage {
     @Override
     public void append(String lineName, String stationName) {
         storage.computeIfAbsent(lineName, n -> new ConcurrentLinkedDeque<>())
-                .add(stationName);
+                .add(stationName); 
     }
 
     @Override

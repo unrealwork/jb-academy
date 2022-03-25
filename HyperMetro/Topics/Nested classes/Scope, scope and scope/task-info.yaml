@@ -1,11 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: x = 10
-- text: x = 5
-- text: ' The code won''t compile.'
-message_correct: Congratulations!
-message_incorrect: Incorrect solution
 files:
 - name: src/Task.java
   visible: true
