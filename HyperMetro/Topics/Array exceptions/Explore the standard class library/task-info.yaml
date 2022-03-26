@@ -1,5 +1,12 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: ArrayEmptyException
+- text: ZeroArraySizeException
+- text: NullArrayReferenceException
+- text: NegativeArraySizeException
+- text: ArrayIndexOutOfBoundsException
+- text: NegativeArrayIndexException
 files:
 - name: src/Task.java
   visible: true

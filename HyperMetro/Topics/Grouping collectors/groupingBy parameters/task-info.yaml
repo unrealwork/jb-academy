@@ -1,5 +1,10 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: classification function
+- text: predicate
+- text: supplier
+- text: downstream collector
 files:
 - name: src/Task.java
   visible: true

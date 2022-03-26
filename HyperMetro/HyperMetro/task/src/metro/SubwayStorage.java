@@ -26,7 +26,7 @@ public interface SubwayStorage {
 
     static SubwayStorage fromJsonFile(Path pathToFile) throws IOException {
         Gson gson = new Gson();
-        TypeToken<Map<String, Map<String, String>>> mapTypeToken = new TypeToken<>() {
+        TypeToken<Map<String, Map<String, String>>> mapTypeToken = new TypeToken<Map<String, Map<String, String>>>() {
         };
         try (final Reader reader = Files.newBufferedReader(pathToFile)) {
             Map<String, Map<String, String>> storage = gson.fromJson(reader, mapTypeToken.getType());
@@ -35,7 +35,7 @@ public interface SubwayStorage {
         }
     }
 
-    private static Deque<String> mapToDeque(final Map<String, String> map) {
+    static Deque<String> mapToDeque(final Map<String, String> map) {
         return map.entrySet()
                 .stream()
                 .sorted(comparingByKey())

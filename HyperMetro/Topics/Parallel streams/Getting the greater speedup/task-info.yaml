@@ -1,5 +1,11 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: Very long operations (e.g. network connections)
+- text: More cores available
+- text: Stateless operations
+- text: Easy splittable data source
+- text: Order-based operations
 files:
 - name: src/Task.java
   visible: true

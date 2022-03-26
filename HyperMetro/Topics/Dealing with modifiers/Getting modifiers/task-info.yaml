@@ -1,5 +1,10 @@
 type: choice
 is_multiple_choice: false
+options:
+- text: only public methods, fields and constructors of user classes
+- text: only public methods, fields and constructors of any class
+- text: any methods, fields and constructors of any class
+- text: any methods, fields and constructors of user classes only
 files:
 - name: src/Task.java
   visible: true

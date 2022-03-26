@@ -1,5 +1,10 @@
 type: choice
-is_multiple_choice: false
+is_multiple_choice: true
+options:
+- text: Save/load (computer game)
+- text: Change history (text editor)
+- text: Undo/redo (graphic editor)
+- text: Inflate/deflate (file compression util)
 files:
 - name: src/Task.java
   visible: true
