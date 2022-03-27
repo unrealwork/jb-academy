@@ -1,7 +1,5 @@
 package metro;
 
-import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +16,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Path pathToFile = Paths.get(args[0]);
         SubwayStorage subwayStorage = SubwayStorage.fromJsonFile(pathToFile);
-        Gson gson = new Gson();
         if (Files.exists(pathToFile)) {
             final List<String> stations = readStations(pathToFile);
             List<List<String>> groups = buildGroups(stations);

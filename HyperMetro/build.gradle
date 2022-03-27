@@ -59,6 +59,7 @@ project(':util') {
 
 configure(subprojects.findAll {it.name != 'util'}) {
     dependencies {
+        implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
         testImplementation project(':util').sourceSets.main.output
         testImplementation project(':util').sourceSets.test.output
     }
