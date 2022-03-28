@@ -2,15 +2,14 @@ package metro;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConsoleCommand {
-    private static final Pattern NAME_PATTERN = Pattern.compile("/(\\w+)");
-    private static final Pattern ARG_PATTERN = Pattern.compile("\\s*(\"(.+)\"|(\\S+))\\s*");
+    private static final Pattern NAME_PATTERN = Pattern.compile("/(\\S+)");
+    private static final Pattern ARG_PATTERN = Pattern.compile("\\s*(\"([^\"]+)\"|(\\S+))\\s*");
 
     public List<String> getArgs() {
         return args;

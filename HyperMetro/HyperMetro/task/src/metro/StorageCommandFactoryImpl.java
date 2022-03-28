@@ -14,8 +14,10 @@ public class StorageCommandFactoryImpl implements StorageCommandFactory {
         final String type = command.getType();
         final List<String> args = command.getArgs();
         switch (type) {
-            case "add":
-                return new AppendCommand(args.get(0), args.get(1));
+            case "append":
+                return StorageCommands.append(args.get(0), args.get(1));
+            case "add-head":
+                return StorageCommands.addHead(args.get(0), args.get(1));
             case "output":
                 return StorageCommands.output(args.get(0));
             case "remove":

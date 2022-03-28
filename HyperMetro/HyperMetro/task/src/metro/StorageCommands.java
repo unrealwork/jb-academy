@@ -5,21 +5,22 @@ import java.util.stream.Collectors;
 
 public class StorageCommands {
 
-    public static final String DEPOT_STATION_NAME = "depot";
-
     private StorageCommands() {
     }
 
-    static StorageCommand add(final String lineName, final String stationName) {
+    static StorageCommand append(final String lineName, final String stationName) {
         return new AppendCommand(lineName, stationName);
     }
 
+    static StorageCommand addHead(final String lineName, final String stationName) {
+        return storage -> storage.addHead(lineName, stationName);
+    }
     public static StorageCommand remove(final String lineName, final String stationName) {
         return storage -> storage.remove(lineName, stationName);
     }
 
     public static StorageCommand output(final String lineName) {
-        return storage -> System.out.println(format(lineName, storage));
+        return storage -> Printer.stations(storage.stationsByLine(lineName)).print();
     }
 
     private static String format(String lineName, SubwayStorage storage) {

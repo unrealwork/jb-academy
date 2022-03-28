@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public interface SubwayStorage {
     static Deque<String> mapToDeque(final Map<String, String> map) {
         return map.entrySet()
                 .stream()
-                .sorted(comparingByKey())
+                .sorted(Comparator.comparingInt(e -> Integer.parseInt(e.getKey())))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toCollection(ArrayDeque::new));
     }
