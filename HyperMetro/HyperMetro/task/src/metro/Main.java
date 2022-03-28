@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
         Path pathToFile = Paths.get(args[0]);
-        SubwayStorage subwayStorage = SubwayStorage.fromJsonFile(pathToFile);
-        if (Files.exists(pathToFile)) {
-            final List<String> stations = readStations(pathToFile);
-            List<List<String>> groups = buildGroups(stations);
-            for (List<String> group : groups) {
-                System.out.println(String.join(" - ", group));
+        try (Scanner scanner = new Scanner(System.in)) {
+            SubwayStorage subwayStorage = SubwayStorage.fromJsonFile(pathToFile);
+            while (true) {
+                final StorageCommand storageCommand = StorageCommandFactory.fromCommand(scanner.nextLine());
+                storageCommand.run(subwayStorage);
             }
-        } else {
-            System.out.println("Error! Such a file doesn't exist!:");
+        } catch (Exception e) {
+            System.out.println("Incorrect file");
         }
     }
 

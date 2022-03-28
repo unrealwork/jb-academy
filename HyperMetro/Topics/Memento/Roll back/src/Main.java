@@ -1,3 +1,5 @@
+import java.util.ArrayDeque;
+
 class Editor {
     private String text = "";
     private int selectionStart = 0;
@@ -43,16 +45,19 @@ class Editor {
 // complete implementation of this class
 class Undo {
     private final Editor editor;
+    private final ArrayDeque<Editor.EditorState> history = new ArrayDeque<>();
+    private final Editor.EditorState initState;
 
     public Undo(Editor editor) {
         this.editor = editor;
+        this.initState = editor.getState();
     }
 
     public void takeSnapshot() {
-
+        history.push(editor.getState());
     }
 
     public void rollback() {
-
+        editor.setState(history.isEmpty() ? initState : history.pop());
     }
 }

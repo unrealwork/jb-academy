@@ -1,10 +1,10 @@
 package metro;
 
-public class AddCommand implements StorageCommand {
+public class AppendCommand implements StorageCommand {
     private final String lineName;
     private final String stationName;
 
-    public AddCommand(String lineName, String stationName) {
+    public AppendCommand(String lineName, String stationName) {
         this.lineName = lineName;
         this.stationName = stationName;
     }

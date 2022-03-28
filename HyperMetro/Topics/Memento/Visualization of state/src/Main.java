@@ -2,6 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
 interface Algorithm<S extends AlgorithmState> {
 
     boolean hasNextStep();
@@ -13,7 +14,8 @@ interface Algorithm<S extends AlgorithmState> {
     void setState(S state);
 }
 
-interface AlgorithmState { }
+interface AlgorithmState {
+}
 
 class SelectionSort<T extends Comparable<T>> implements Algorithm<SelectionSort.SortState<T>> {
     private T[] array;
@@ -56,33 +58,82 @@ class SelectionSort<T extends Comparable<T>> implements Algorithm<SelectionSort.
     @Override
     public String toString() {
         return IntStream.range(0, array.length).mapToObj(i -> {
-                    String s = String.valueOf(array[i]);
-                    if (i == currentIndex) {
-                        s = "{" + s + "}"; // final place for min item in range
-                    }
-                    if (i == comparedIndex) {
-                        s = "[" + s + "]"; // candidate for min item
-                    }
-                    if (i == currentMinIndex) {
-                        s = "(" + s + ")"; // current min item in range
-                    }
-                    return s;
-                }).collect(Collectors.joining(" "));
-    }
-
-    @Override
-    public void setState(SortState<T> state) {
-        // TODO implement this method      
+            String s = String.valueOf(array[i]);
+            if (i == currentIndex) {
+                s = "{" + s + "}"; // final place for min item in range
+            }
+            if (i == comparedIndex) {
+                s = "[" + s + "]"; // candidate for min item
+            }
+            if (i == currentMinIndex) {
+                s = "(" + s + ")"; // current min item in range
+            }
+            return s;
+        }).collect(Collectors.joining(" "));
     }
 
     @Override
     public SortState<T> getState() {
-        // TODO implement this method
-        return null;
+        return SortState.create(array, currentIndex, comparedIndex, currentMinIndex);
+    }
+
+    @Override
+    public void setState(SortState<T> state) {
+        this.array = state.array;
+        this.comparedIndex = state.comparedIndex;
+        this.currentMinIndex = state.currentMinIndex;
+        this.currentIndex = state.currentIndex;
     }
 
     static class SortState<T> implements AlgorithmState {
-        // TODO implement this class
+        private T[] array;
+        private int currentIndex = 0;
+        private int comparedIndex = 0;
+        private int currentMinIndex = 0;
+
+        private SortState(T[] array, int currentIndex, int comparedIndex, int currentMinIndex) {
+            this.array = array.clone();
+            this.currentIndex = currentIndex;
+            this.comparedIndex = comparedIndex;
+            this.currentMinIndex = currentMinIndex;
+        }
+
+        public static <T> SortState<T> create(T[] array, int currentIndex, int comparedIndex, int currentMinIndex) {
+            return new SortState<T>(array, currentIndex, comparedIndex, currentMinIndex);
+        }
+
+        public T[] getArray() {
+            return array;
+        }
+
+        public void setArray(T[] array) {
+            this.array = array;
+        }
+
+        public int getCurrentIndex() {
+            return currentIndex;
+        }
+
+        public void setCurrentIndex(int currentIndex) {
+            this.currentIndex = currentIndex;
+        }
+
+        public int getComparedIndex() {
+            return comparedIndex;
+        }
+
+        public void setComparedIndex(int comparedIndex) {
+            this.comparedIndex = comparedIndex;
+        }
+
+        public int getCurrentMinIndex() {
+            return currentMinIndex;
+        }
+
+        public void setCurrentMinIndex(int currentMinIndex) {
+            this.currentMinIndex = currentMinIndex;
+        }
+
     }
 }
 

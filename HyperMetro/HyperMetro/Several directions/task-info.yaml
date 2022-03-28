@@ -294,13 +294,22 @@ files:
 - name: src/metro/InMemorySubwayStorage.java
   visible: true
   learner_created: true
-- name: src/metro/AddCommand.java
-  visible: true
-  learner_created: true
 - name: src/metro/StorageCommand.java
   visible: true
   learner_created: true
 - name: src/metro/StorageCommands.java
+  visible: true
+  learner_created: true
+- name: src/metro/StorageCommandFactory.java
+  visible: true
+  learner_created: true
+- name: src/metro/StorageCommandFactoryImpl.java
+  visible: true
+  learner_created: true
+- name: src/metro/ConsoleCommand.java
+  visible: true
+  learner_created: true
+- name: src/metro/AppendCommand.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10342#comment
