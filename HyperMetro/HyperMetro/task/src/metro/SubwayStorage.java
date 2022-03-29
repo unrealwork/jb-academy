@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Map.Entry.comparingByKey;
-
 public interface SubwayStorage {
-    List<String> stationsByLine(final String lineName);
+    List<Station> stationsByLine(final String lineName);
 
     void append(String lineName, String stationName);
 
@@ -27,16 +25,16 @@ public interface SubwayStorage {
 
     static SubwayStorage fromJsonFile(Path pathToFile) throws IOException {
         Gson gson = new Gson();
-        TypeToken<Map<String, Map<String, String>>> mapTypeToken = new TypeToken<Map<String, Map<String, String>>>() {
+        TypeToken<Map<String, Map<String, Station>>> mapTypeToken = new TypeToken<Map<String, Map<String, Station>>>() {
         };
         try (final Reader reader = Files.newBufferedReader(pathToFile)) {
-            Map<String, Map<String, String>> storage = gson.fromJson(reader, mapTypeToken.getType());
+            Map<String, Map<String, Station>> storage = gson.fromJson(reader, mapTypeToken.getType());
             return new InMemorySubwayStorage(storage.entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, e -> mapToDeque(e.getValue()))));
         }
     }
 
-    static Deque<String> mapToDeque(final Map<String, String> map) {
+    static Deque<Station> mapToDeque(final Map<String, Station> map) {
         return map.entrySet()
                 .stream()
                 .sorted(Comparator.comparingInt(e -> Integer.parseInt(e.getKey())))

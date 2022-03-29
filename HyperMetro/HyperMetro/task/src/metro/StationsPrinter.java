@@ -1,9 +1,5 @@
 package metro;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,32 +11,56 @@ import java.util.stream.Collectors;
 
 class StationsPrinter implements Printer {
     public static final String DEPOT = "depot";
-    private final List<String> stations;
+    private final List<Station> stations;
 
-    public StationsPrinter(List<String> stations) {
-        final Deque<String> deque = new ArrayDeque<>(stations);
-        deque.addFirst(DEPOT);
+    public StationsPrinter(List<Station> stations) {
+        final Deque<Station> deque = new ArrayDeque<>(stations);
+        deque.addFirst(new Station(DEPOT));
         this.stations = Collections.unmodifiableList(new ArrayList<>(deque));
     }
 
     @Override
     public void print() {
-        List<List<String>> groups = buildGroups(stations);
-        for (List<String> group : groups) {
-            System.out.println(String.join(" - ", group));
+        final List<List<Station>> groups = buildGroups(stations);
+        for (List<Station> group : groups) {
+            final String groupDesc = group.stream()
+                    .map(this::printStation)
+                    .collect(Collectors.joining(" - "));
+            System.out.println(groupDesc);
         }
     }
 
 
-    private static List<List<String>> buildGroups(List<String> stations) {
-        List<List<String>> groups = new ArrayList<>();
-        Iterator<String> it = stations.iterator();
+    private String printStation(Station station) {
+        if (station == null) {
+            return null;
+        }
+        final StringBuilder sb = new StringBuilder(station.getName());
+        final List<Transfer> transfer = station.getTransfer();
+        if (transfer != null && !transfer.isEmpty()) {
+            sb.append(" (");
+            for (Iterator<Transfer> iterator = transfer.iterator(); iterator.hasNext(); ) {
+                Transfer t = iterator.next();
+
+                sb.append(t.getLine());
+                if (iterator.hasNext()) {
+                    sb.append(", ");
+                }
+            }
+            sb.append(")");
+        }
+        return sb.toString();
+    }
+
+    private static List<List<Station>> buildGroups(List<Station> stations) {
+        List<List<Station>> groups = new ArrayList<>();
+        Iterator<Station> it = stations.iterator();
         int i = 0;
         while (it.hasNext()) {
-            String s = it.next();
+            Station s = it.next();
             int size = groups.size();
             if (size <= i && i < stations.size() - 1) {
-                LinkedList<String> list = new LinkedList<>();
+                LinkedList<Station> list = new LinkedList<>();
                 list.add(s);
                 groups.add(list);
             }

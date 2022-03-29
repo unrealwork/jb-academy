@@ -23,13 +23,6 @@ public class StorageCommands {
         return storage -> Printer.stations(storage.stationsByLine(lineName)).print();
     }
 
-    private static String format(String lineName, SubwayStorage storage) {
-        List<String> elements = storage.stationsByLine(lineName);
-        return elements.stream().collect(Collectors.joining(
-                " - ", "depot - ", " - depot"
-        ));
-    }
-
     public static StorageCommand exit() {
         return storage -> System.exit(0);
     }
