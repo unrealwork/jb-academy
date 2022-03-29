@@ -1,4 +1,6 @@
-package metro;
+package metro.printer;
+
+import metro.model.Station;
 
 import java.util.List;
 

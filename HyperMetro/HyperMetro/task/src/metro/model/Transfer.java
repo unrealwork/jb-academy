@@ -1,4 +1,4 @@
-package metro;
+package metro.model;
 
 public class Transfer {
     private String line;

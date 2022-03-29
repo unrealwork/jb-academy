@@ -1,4 +1,7 @@
-package metro;
+package metro.storage;
+
+import metro.model.Station;
+import metro.model.Transfer;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -38,6 +41,14 @@ public class InMemorySubwayStorage implements SubwayStorage {
         if (stations != null) {
             stations.remove(findByName(stations, stationName));
         }
+    }
+
+    @Override
+    public void connect(Transfer station1, Transfer station2) {
+        findStation(station1.getLine(), station1.getStation())
+                .addTransfer(station2);
+        findStation(station2.getLine(), station2.getStation())
+                .addTransfer(station1);
     }
 
     private Station findStation(final String lineName, final String stationName) {

@@ -1,4 +1,6 @@
-package metro;
+package metro.commands;
+
+import metro.storage.SubwayStorage;
 
 @FunctionalInterface
 public interface StorageCommand {

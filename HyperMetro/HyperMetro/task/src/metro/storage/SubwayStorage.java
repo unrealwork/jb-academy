@@ -1,7 +1,9 @@
-package metro;
+package metro.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import metro.model.Station;
+import metro.model.Transfer;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -22,7 +24,7 @@ public interface SubwayStorage {
     void addHead(String lineName, String stationName);
 
     void remove(String lineName, String stationName);
-
+    
     static SubwayStorage fromJsonFile(Path pathToFile) throws IOException {
         Gson gson = new Gson();
         TypeToken<Map<String, Map<String, Station>>> mapTypeToken = new TypeToken<Map<String, Map<String, Station>>>() {
@@ -41,4 +43,6 @@ public interface SubwayStorage {
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toCollection(ArrayDeque::new));
     }
+
+    void connect(Transfer station1, Transfer station2);
 }

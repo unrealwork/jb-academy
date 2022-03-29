@@ -1,7 +1,6 @@
-package metro;
+package metro.commands;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import metro.printer.Printer;
 
 public class StorageCommands {
 

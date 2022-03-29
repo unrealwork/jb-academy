@@ -1,4 +1,4 @@
-package metro;
+package metro.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,12 @@ public class Station {
         this.name = name;
     }
 
-    
+
     public void addTransfer(final String lineName, String station) {
-        transfer.add(new Transfer(lineName, station));
+        addTransfer(new Transfer(lineName, station));
     }
-    
-    
+
+
     public List<Transfer> getTransfer() {
         return transfer;
     }
@@ -34,4 +34,8 @@ public class Station {
     }
 
     private List<Transfer> transfer;
+
+    public void addTransfer(Transfer station2) {
+        transfer.add(station2);
+    }
 }

@@ -1,4 +1,4 @@
-package metro;
+package metro.commands;
 
 
 import java.util.ArrayList;

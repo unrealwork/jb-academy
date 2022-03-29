@@ -1,4 +1,6 @@
-package metro;
+package metro.commands;
+
+import metro.storage.SubwayStorage;
 
 public class AppendCommand implements StorageCommand {
     private final String lineName;
