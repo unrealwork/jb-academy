@@ -1,10 +1,10 @@
-<h5 style="text-align: center;">Description</h5>
+<h5 style="text-align: center;" id="description">Description</h5>
 
 <p>It's time to expand our metro! To provide the citizens with more efficient transportation, we will extend our existing metro line and start a new one. Since now we will have several lines, there should be a possibility to choose which one to use. Also, let's not forget that trains go both directions (except for the end stations). In this case, it makes sense to use a linked list with access to the previous element: a <strong>doubly-linked list</strong>. Its main feature, as you might have guessed, is that each element stores pointers to both the previous and the next element.</p>
 
 <p>Since the file stores not just one metro line but two, it is easier to organize the data by splitting it up between the two lines. In this case, we use a JSON file. It is a popular data-interchange format consisting of a map, where a key is a string type and a value can be any type. A key is separated from a value by a colon, and different key-value pairs are separated by a comma. You can find a comprehensive  <a target="_blank" href="https://qhmit.com/json/tutorial/" rel="noopener noreferrer nofollow" target="_blank">JSON tutorial at qhmit.com</a>. By default, Java has no functionality to work with the JSON format, but Google made a special library <code class="language-json">GSON</code>, which you can use in this project: see <a target="_blank" href="http://zetcode.com/java/gson/" rel="nofollow noopener noreferrer" target="_blank">zetcode.com for more information on GSON</a>.</p>
 
-<h5 style="text-align: center;">Objective</h5>
+<h5 style="text-align: center;" id="objective">Objective</h5>
 
 <ul>
 	<li>Switch to using a JSON file instead of a simple text file.</li>
@@ -70,7 +70,7 @@
     }
 }</code></pre>
 
-<h5 style="text-align: center;">Examples</h5>
+<h5 style="text-align: center;" id="examples">Examples</h5>
 
 <p>The greater-than symbol followed by a space (<code class="language-json">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
 

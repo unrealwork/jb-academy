@@ -1,5 +1,6 @@
 package metro.storage;
 
+import metro.ds.Graph;
 import metro.model.Station;
 import metro.model.Transfer;
 
@@ -51,6 +52,31 @@ public class InMemorySubwayStorage implements SubwayStorage {
                 .addTransfer(station1);
     }
 
+    @Override
+    public List<Station> route(Transfer transfer1, Transfer transfer2) {
+        final Graph<Transfer> g = asGraph();
+        return null;
+    }
+
+    private Graph<Transfer> asGraph() {
+        final Graph<Transfer> g = Graph.directed();
+        for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
+            final String line = e.getKey();
+            for (Station station : e.getValue()) {
+                Transfer u = new Transfer(line, station.getName());
+                g.addNode(u);
+                List<Transfer> transfer = station.getTransfer();
+                if (transfer != null) {
+                    transfer.forEach(t -> {
+                        g.addEdge(u, t);
+                        g.addEdge(t, u);
+                    });
+                }
+            }
+        }
+        return g;
+    }
+    
     private Station findStation(final String lineName, final String stationName) {
         Deque<Station> stations = storage.get(lineName);
         return findByName(stations, stationName);

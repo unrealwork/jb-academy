@@ -45,4 +45,6 @@ public interface SubwayStorage {
     }
 
     void connect(Transfer station1, Transfer station2);
+    
+    List<Station> route(Transfer transfer1, Transfer transfer2);
 }
