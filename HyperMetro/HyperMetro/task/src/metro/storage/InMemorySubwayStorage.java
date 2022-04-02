@@ -2,10 +2,14 @@ package metro.storage;
 
 import metro.ds.Graph;
 import metro.model.Station;
+import metro.model.StationVertex;
 import metro.model.Transfer;
+import metro.route.Route;
+import metro.route.RouteFinder;
 
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,31 +56,46 @@ public class InMemorySubwayStorage implements SubwayStorage {
                 .addTransfer(station1);
     }
 
-    @Override
-    public List<Station> route(Transfer transfer1, Transfer transfer2) {
-        final Graph<Transfer> g = asGraph();
-        return null;
+    private StationVertex vertexFromTransfer(Transfer transfer) {
+        Station station = findStation(transfer.getLine(), transfer.getStation());
+        return StationVertex.fromStation(transfer.getLine(), station);
     }
 
-    private Graph<Transfer> asGraph() {
-        final Graph<Transfer> g = Graph.directed();
+    @Override
+    public Route route(Transfer transfer1, Transfer transfer2) {
+        final RouteFinder finder = RouteFinder.shortest(this);
+        return finder.find();
+    }
+
+    @Override
+    public Graph<StationVertex> asGraph() {
+        final Graph<StationVertex> g = Graph.directed();
+        Map<Transfer, StationVertex> stationVertexDict = new HashMap<>();
         for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
             final String line = e.getKey();
-            for (Station station : e.getValue()) {
-                Transfer u = new Transfer(line, station.getName());
+            Deque<Station> lineStations = e.getValue();
+            StationVertex prev = null;
+            for (Station station : lineStations) {
+                StationVertex u = StationVertex.fromStation(line, station);
+                if (prev != null) {
+                    g.addEdge(prev, u);
+                    g.addEdge(u, prev);
+                }
+                prev = u;
                 g.addNode(u);
                 List<Transfer> transfer = station.getTransfer();
                 if (transfer != null) {
                     transfer.forEach(t -> {
-                        g.addEdge(u, t);
-                        g.addEdge(t, u);
+                        StationVertex v = stationVertexDict.computeIfAbsent(t, this::computeStationVertex);
+                        g.addEdge(u, v);
+                        g.addEdge(v, u);
                     });
                 }
             }
         }
         return g;
     }
-    
+
     private Station findStation(final String lineName, final String stationName) {
         Deque<Station> stations = storage.get(lineName);
         return findByName(stations, stationName);
@@ -87,5 +106,9 @@ public class InMemorySubwayStorage implements SubwayStorage {
                 .filter(st -> Objects.equals(st.getName(), stationName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private StationVertex computeStationVertex(Transfer tr) {
+        return StationVertex.fromStation(tr.getLine(), findStation(tr.getLine(), tr.getStation()));
     }
 }

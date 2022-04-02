@@ -7,10 +7,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 class StationsPrinter implements Printer {
     public static final Station DEPOT = new Station("depot");
@@ -38,9 +35,8 @@ class StationsPrinter implements Printer {
         final StringBuilder sb = new StringBuilder(station.getName());
         final List<Transfer> transfer = station.getTransfer();
         if (transfer != null && !transfer.isEmpty()) {
-            for (Iterator<Transfer> iterator = transfer.iterator(); iterator.hasNext(); ) {
+            for (Transfer t : transfer) {
 
-                Transfer t = iterator.next();
                 sb.append(" - ")
                         .append(t.getStation())
                         .append(" (")

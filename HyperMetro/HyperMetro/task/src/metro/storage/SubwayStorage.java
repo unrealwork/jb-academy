@@ -2,8 +2,11 @@ package metro.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import metro.ds.Graph;
 import metro.model.Station;
+import metro.model.StationVertex;
 import metro.model.Transfer;
+import metro.route.Route;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -45,6 +48,8 @@ public interface SubwayStorage {
     }
 
     void connect(Transfer station1, Transfer station2);
-    
-    List<Station> route(Transfer transfer1, Transfer transfer2);
+
+    Route route(Transfer transfer1, Transfer transfer2);
+
+    Graph<StationVertex> asGraph();
 }

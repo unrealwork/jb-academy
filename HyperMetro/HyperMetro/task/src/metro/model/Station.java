@@ -40,6 +40,10 @@ public class Station {
         transfer.add(station2);
     }
 
+    public boolean hasTransfer() {
+        return transfer != null && !transfer.isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
