@@ -1,11 +1,11 @@
 type: choice
 is_multiple_choice: true
 options:
-- text: Constructor name must be the same as its class name.
-- text: It's impossible to create an instance of a class that has no explicit constructor.
-- text: A constructor must have some parameters.
-- text: Constructor must not have an explicit return type.
-- text: Constructors can be considered as special types of methods.
+  - text: It's impossible to create an instance of a class that has no explicit constructor.
+  - text: Constructor name must be the same as its class name.
+  - text: Constructors can be considered as special types of methods.
+  - text: Constructor must not have an explicit return type.
+  - text: A constructor must have some parameters.
 files:
 - name: src/Task.java
   visible: true

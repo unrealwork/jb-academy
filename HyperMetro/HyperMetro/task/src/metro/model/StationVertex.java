@@ -2,6 +2,7 @@ package metro.model;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class StationVertex {
@@ -15,6 +16,23 @@ public class StationVertex {
         Set<Transfer> transfers = new LinkedHashSet<>(station.getTransfer());
         transfers.add(new Transfer(line, station.getName()));
         return new StationVertex(Collections.unmodifiableSet(transfers));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        StationVertex that = (StationVertex) o;
+        return Objects.equals(transfers, that.transfers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transfers);
     }
 
     public Set<Transfer> getTransfers() {

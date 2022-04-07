@@ -64,7 +64,7 @@ public class InMemorySubwayStorage implements SubwayStorage {
     @Override
     public Route route(Transfer transfer1, Transfer transfer2) {
         final RouteFinder finder = RouteFinder.shortest(this);
-        return finder.find();
+        return finder.find(transfer1, transfer2);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class InMemorySubwayStorage implements SubwayStorage {
             Deque<Station> lineStations = e.getValue();
             StationVertex prev = null;
             for (Station station : lineStations) {
-                StationVertex u = StationVertex.fromStation(line, station);
+                StationVertex u = stationVertexDict.computeIfAbsent(new Transfer(line, station.getName()), this::computeStationVertex);
                 if (prev != null) {
                     g.addEdge(prev, u);
                     g.addEdge(u, prev);
@@ -96,7 +96,8 @@ public class InMemorySubwayStorage implements SubwayStorage {
         return g;
     }
 
-    private Station findStation(final String lineName, final String stationName) {
+    @Override
+    public Station findStation(final String lineName, final String stationName) {
         Deque<Station> stations = storage.get(lineName);
         return findByName(stations, stationName);
     }

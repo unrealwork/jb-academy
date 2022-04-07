@@ -52,4 +52,6 @@ public interface SubwayStorage {
     Route route(Transfer transfer1, Transfer transfer2);
 
     Graph<StationVertex> asGraph();
+
+    Station findStation(String lineName, String stationName);
 }

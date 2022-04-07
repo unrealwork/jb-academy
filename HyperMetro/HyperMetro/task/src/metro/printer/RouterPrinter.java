@@ -1,6 +1,8 @@
 package metro.printer;
 
+import metro.model.Transfer;
 import metro.route.Route;
+import metro.route.RoutePoint;
 
 class RouterPrinter implements Printer {
     private final Route route;
@@ -11,6 +13,13 @@ class RouterPrinter implements Printer {
 
     @Override
     public void print() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        for (RoutePoint point : route.points()) {
+            System.out.println(point.getStation().getStation());
+            if (point.hasTransition()) {
+                Transfer transition = point.getTransition();
+                System.out.println("Transition to line " + transition.getLine());
+                System.out.println(transition.getStation());
+            }
+        }
     }
 }

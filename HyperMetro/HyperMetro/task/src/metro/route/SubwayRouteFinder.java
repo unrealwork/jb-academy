@@ -12,4 +12,5 @@ abstract class SubwayRouteFinder implements RouteFinder {
     SubwayRouteFinder(SubwayStorage storage) {
         this.storage = storage;
     }
+
 }
