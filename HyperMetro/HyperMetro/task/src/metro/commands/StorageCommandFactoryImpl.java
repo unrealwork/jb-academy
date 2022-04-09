@@ -29,9 +29,12 @@ public class StorageCommandFactoryImpl implements StorageCommandFactory {
                 final Transfer st2 = new Transfer(args.get(2), args.get(3));
                 return new ConnectCommand(st1, st2);
             case "route":
+                return new RouteCommand(new Transfer(args.get(0), args.get(1)),
+                        new Transfer(args.get(2), args.get(3)));
+            case "fastest-route":
                 final Transfer t1 = new Transfer(args.get(0), args.get(1));
                 final Transfer t2 = new Transfer(args.get(2), args.get(3));
-                return new RouteCommand(t1, t2);
+                return new FastestRouteCommand(t1, t2);
             case "exit":
                 return StorageCommands.exit();
             default:

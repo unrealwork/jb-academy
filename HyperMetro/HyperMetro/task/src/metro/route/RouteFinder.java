@@ -9,6 +9,10 @@ public interface RouteFinder {
         return new ShortestRouteFinder(inMemorySubwayStorage);
     }
 
+    static RouteFinder fastest(SubwayStorage storage) {
+        return new FastestSubwayRouteFinder(storage);
+    }
+
     Route find(Transfer start, Transfer end);
 
 }

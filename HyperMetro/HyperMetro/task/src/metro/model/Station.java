@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Station {
     private String name;
+    private int time;
 
     public Station(String name) {
         this.name = name;
@@ -45,6 +46,15 @@ public class Station {
     }
 
     @Override
+    public String toString() {
+        return "Station{" +
+                "name='" + name + '\'' +
+                ", time=" + time +
+                ", transfer=" + transfer +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -59,5 +69,13 @@ public class Station {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

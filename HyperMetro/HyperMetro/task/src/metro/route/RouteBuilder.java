@@ -8,6 +8,7 @@ import java.util.Deque;
 
 public class RouteBuilder {
     private final Deque<RoutePoint> transfers;
+    private Integer dist;
 
     public RouteBuilder(Transfer start) {
         this.transfers = new ArrayDeque<>();
@@ -23,6 +24,12 @@ public class RouteBuilder {
         return this;
     }
 
+    public RouteBuilder dist(int dist) {
+        this.dist = dist;
+        return this;
+    }
+
+
     public RouteBuilder transition(Transfer transitionStation) {
         RoutePoint last = transfers.pollLast();
         if (last == null || last.hasTransition()) {
@@ -33,7 +40,7 @@ public class RouteBuilder {
     }
 
     public Route build() {
-        return new SimpleRoute(new ArrayList<>(transfers));
+        return new SimpleRoute(new ArrayList<>(transfers), dist);
     }
 
     public Transfer last() {

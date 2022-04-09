@@ -3,6 +3,7 @@ package metro.storage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import metro.ds.Graph;
+import metro.ds.WeightedGraph;
 import metro.model.Station;
 import metro.model.StationVertex;
 import metro.model.Transfer;
@@ -50,6 +51,8 @@ public interface SubwayStorage {
     void connect(Transfer station1, Transfer station2);
 
     Route route(Transfer transfer1, Transfer transfer2);
+
+    WeightedGraph<Transfer> asWeightedGraph();
 
     Graph<StationVertex> asGraph();
 

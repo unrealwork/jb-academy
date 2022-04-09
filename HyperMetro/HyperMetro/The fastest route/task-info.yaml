@@ -1,6 +1,6 @@
 type: edu
 files:
-- name: src/metro/Main.java
+  - name: src/metro/Main.java
   visible: true
   text: |
     package metro;
@@ -484,16 +484,1313 @@ files:
       }
     }
   learner_created: false
-- name: test/prague_w_time.json
-  visible: false
-  text: |-
-    {
-      "Linka A": {
-        "0": {
-          "name": "Nemocnice Motol",
-          "transfer": [],
-          "time": 5
-        },
+  - name: test/prague.json
+    visible: false
+    text: |-
+      {
+        "Linka A": {
+          "1": {
+            "name": "Nemocnice Motol" ,
+            "transfer": []
+          } ,
+          "2": {
+            "name": "Petriny" ,
+            "transfer": []
+          } ,
+          "3": {
+            "name": "Nadrazi Veleslavin" ,
+            "transfer": []
+          } ,
+          "4": {
+            "name": "Borislavka" ,
+            "transfer": []
+          } ,
+          "5": {
+            "name": "Dejvicka" ,
+            "transfer": []
+          } ,
+          "6": {
+            "name": "Hradcanska" ,
+            "transfer": []
+          } ,
+          "7": {
+            "name": "Malostranska" ,
+            "transfer": []
+          } ,
+          "8": {
+            "name": "Staromestska" ,
+            "transfer": []
+          } ,
+          "9": {
+            "name": "Mustek" ,
+            "transfer": [
+              {
+                "line": "Linka B" ,
+                "station": "Mustek"
+              }
+            ]
+          } ,
+          "10": {
+            "name": "Muzeum" ,
+            "transfer": [
+              {
+                "line": "Linka C" ,
+                "station": "Muzeum"
+              }
+            ]
+          } ,
+          "11": {
+            "name": "Namesti Miru" ,
+            "transfer": []
+          } ,
+          "12": {
+            "name": "Jiriho z Podebrad" ,
+            "transfer": []
+          } ,
+          "13": {
+            "name": "Flora" ,
+            "transfer": []
+          } ,
+          "14": {
+            "name": "Zelivskeho" ,
+            "transfer": []
+          } ,
+          "15": {
+            "name": "Strasnicka" ,
+            "transfer": []
+          } ,
+          "16": {
+            "name": "Skalka" ,
+            "transfer": []
+          } ,
+          "17": {
+            "name": "Depo Hostivar" ,
+            "transfer": []
+          }
+        } ,
+        "Linka B": {
+          "1": {
+            "name": "Cerny Most" ,
+            "transfer": []
+          } ,
+          "2": {
+            "name": "Rajska zahrada" ,
+            "transfer": []
+          } ,
+          "3": {
+            "name": "Hloubetin" ,
+            "transfer": []
+          } ,
+          "4": {
+            "name": "Kolbenova" ,
+            "transfer": []
+          } ,
+          "5": {
+            "name": "Vysocanska" ,
+            "transfer": []
+          } ,
+          "6": {
+            "name": "Ceskomoravska" ,
+            "transfer": []
+          } ,
+          "7": {
+            "name": "Palmovka" ,
+            "transfer": []
+          } ,
+          "8": {
+            "name": "Invalidovna" ,
+            "transfer": []
+          } ,
+          "9": {
+            "name": "Krizikova" ,
+            "transfer": []
+          } ,
+          "10": {
+            "name": "Florenc" ,
+            "transfer": [
+              {
+                "line": "Linka C" ,
+                "station": "Florenc"
+              }
+            ]
+          } ,
+          "11": {
+            "name": "Namesti Republiky" ,
+            "transfer": []
+          } ,
+          "12": {
+            "name": "Mustek" ,
+            "transfer": [
+              {
+                "line": "Linka B" ,
+                "station": "Mustek"
+              }
+            ]
+          } ,
+          "13": {
+            "name": "Narodni trida" ,
+            "transfer": []
+          } ,
+          "14": {
+            "name": "Karlovo namesti" ,
+            "transfer": []
+          } ,
+          "15": {
+            "name": "Andel" ,
+            "transfer": []
+          } ,
+          "16": {
+            "name": "Smichovske nadrazi" ,
+            "transfer": []
+          } ,
+          "17": {
+            "name": "Radlicka" ,
+            "transfer": []
+          } ,
+          "18": {
+            "name": "Jinonice" ,
+            "transfer": []
+          } ,
+          "19": {
+            "name": "Nove Butovice" ,
+            "transfer": []
+          } ,
+          "20": {
+            "name": "Hurka" ,
+            "transfer": []
+          } ,
+          "21": {
+            "name": "Luziny" ,
+            "transfer": []
+          } ,
+          "22": {
+            "name": "Luka" ,
+            "transfer": []
+          } ,
+          "23": {
+            "name": "Stodulky" ,
+            "transfer": []
+          } ,
+          "24": {
+            "name": "Zlicin" ,
+            "transfer": []
+          }
+        } ,
+        "Linka C": {
+          "1": {
+            "name": "Letnany" ,
+            "transfer": []
+          } ,
+          "2": {
+            "name": "Prosek" ,
+            "transfer": []
+          } ,
+          "3": {
+            "name": "Strizkov" ,
+            "transfer": []
+          } ,
+          "4": {
+            "name": "Ladvi" ,
+            "transfer": []
+          } ,
+          "5": {
+            "name": "Kobylisy" ,
+            "transfer": []
+          } ,
+          "6": {
+            "name": "Nadrazi Holesovice" ,
+            "transfer": []
+          } ,
+          "7": {
+            "name": "Vltavska" ,
+            "transfer": []
+          } ,
+          "8": {
+            "name": "Florenc" ,
+            "transfer": [
+              {
+                "line": "Linka B" ,
+                "station": "Florenc"
+              }
+            ]
+          } ,
+          "9": {
+            "name": "Hlavni nadrazi" ,
+            "transfer": []
+          } ,
+          "10": {
+            "name": "Muzeum" ,
+            "transfer": [
+              {
+                "line": "Linka A" ,
+                "station": "Muzeum"
+              }
+            ]
+          } ,
+          "11": {
+            "name": "I.P.Pavlova" ,
+            "transfer": []
+          } ,
+          "12": {
+            "name": "Vysehrad" ,
+            "transfer": []
+          } ,
+          "13": {
+            "name": "Prazskeho povstani" ,
+            "transfer": []
+          } ,
+          "14": {
+            "name": "Pankrac" ,
+            "transfer": []
+          } ,
+          "15": {
+            "name": "Budejovicka" ,
+            "transfer": []
+          } ,
+          "16": {
+            "name": "Kacerov" ,
+            "transfer": []
+          } ,
+          "17": {
+            "name": "Roztyly" ,
+            "transfer": []
+          } ,
+          "18": {
+            "name": "Chodov" ,
+            "transfer": []
+          } ,
+          "19": {
+            "name": "Opatov" ,
+            "transfer": []
+          } ,
+          "20": {
+            "name": "Haje" ,
+            "transfer": []
+          }
+        }
+      }
+    learner_created: false
+  - name: src/metro/route/ShortestRouteFinder.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import metro.ds.GraphUtils;
+      import metro.model.Station;
+      import metro.model.StationVertex;
+      import metro.model.Transfer;
+      import metro.storage.SubwayStorage;
+      
+      import java.util.Iterator;
+      import java.util.List;
+      import java.util.Objects;
+      
+      class ShortestRouteFinder extends SubwayRouteFinder {
+          ShortestRouteFinder(SubwayStorage storage) {
+              super(storage);
+          }
+      
+          private StationVertex stationFromTransfer(final Transfer t) {
+              Station station = getStorage()
+                      .findStation(t.getLine(), t.getStation());
+              return StationVertex.fromStation(t.getLine(), station);
+          }
+      
+          @Override
+          public Route find(final Transfer start, Transfer end) {
+              final StationVertex startV = stationFromTransfer(start);
+              final StationVertex endV = stationFromTransfer(end);
+              List<StationVertex> path = GraphUtils.shortestPath(getStorage().asGraph(), startV, endV);
+              RouteBuilder rb = new RouteBuilder(start);
+              Iterator<StationVertex> iterator = path.iterator();
+              Transfer pTransfer = start;
+              StationVertex p = iterator.next();
+              while (iterator.hasNext()) {
+                  StationVertex cur = iterator.next();
+                  Transfer byPrevLine = byLine(pTransfer.getLine(), cur);
+                  if (byPrevLine != null) {
+                      rb.point(byPrevLine);
+                      pTransfer = byPrevLine;
+                  } else {
+                      addTransition(rb, p, cur);
+                      pTransfer = rb.last();
+                  }
+                  p = cur;
+              }
+              return rb.build();
+          }
+      
+          private void addTransition(RouteBuilder rb, final StationVertex cur, StationVertex next) {
+              boolean found = false;
+              for (Transfer transfer : cur.getTransfers()) {
+                  for (Transfer nextTransfer : next.getTransfers()) {
+                      final boolean sameLine = Objects.equals(transfer.getLine(), nextTransfer.getLine());
+                      if (sameLine) {
+                          if (found) {
+                              throw new IllegalStateException("Multiple Transitions");
+                          }
+                          rb.transition(transfer);
+                          rb.point(nextTransfer);
+                          found = true;
+                      }
+                  }
+              }
+              if (!found) {
+                  throw new IllegalStateException("Should contains one transition");
+              }
+          }
+      
+          private Transfer byLine(final String line, StationVertex vertex) {
+              return vertex.getTransfers().stream()
+                      .filter(t -> Objects.equals(t.getLine(), line))
+                      .findAny().orElse(null);
+          }
+      }
+    learner_created: true
+  - name: src/metro/model/Station.java
+    visible: true
+    text: |
+      package metro.model;
+      
+      import java.util.ArrayList;
+      import java.util.List;
+      import java.util.Objects;
+      
+      public class Station {
+          private String name;
+      
+          public Station(String name) {
+              this.name = name;
+              this.transfer = new ArrayList<>();
+          }
+      
+          public String getName() {
+              return name;
+          }
+      
+          public void setName(String name) {
+              this.name = name;
+          }
+      
+      
+          public void addTransfer(final String lineName, String station) {
+              addTransfer(new Transfer(lineName, station));
+          }
+      
+      
+          public List<Transfer> getTransfer() {
+              return transfer;
+          }
+      
+          public void setTransfer(List<Transfer> transfer) {
+              this.transfer = transfer;
+          }
+      
+          private List<Transfer> transfer;
+      
+          public void addTransfer(Transfer station2) {
+              transfer.add(station2);
+          }
+      
+          public boolean hasTransfer() {
+              return transfer != null && !transfer.isEmpty();
+          }
+      
+          @Override
+          public boolean equals(Object o) {
+              if (this == o) {
+                  return true;
+              }
+              if (o == null || getClass() != o.getClass()) {
+                  return false;
+              }
+              Station station = (Station) o;
+              return Objects.equals(name, station.name);
+          }
+      
+          @Override
+          public int hashCode() {
+              return Objects.hash(name);
+          }
+      }
+    learner_created: true
+  - name: src/metro/storage/InMemorySubwayStorage.java
+    visible: true
+    text: |
+      package metro.storage;
+      
+      import metro.ds.Graph;
+      import metro.model.Station;
+      import metro.model.StationVertex;
+      import metro.model.Transfer;
+      import metro.route.Route;
+      import metro.route.RouteFinder;
+      
+      import java.util.ArrayList;
+      import java.util.Deque;
+      import java.util.HashMap;
+      import java.util.LinkedList;
+      import java.util.List;
+      import java.util.Map;
+      import java.util.Objects;
+      import java.util.concurrent.ConcurrentLinkedDeque;
+      
+      public class InMemorySubwayStorage implements SubwayStorage {
+          private final Map<String, Deque<Station>> storage;
+      
+          public InMemorySubwayStorage(Map<String, Deque<Station>> storage) {
+              this.storage = storage;
+          }
+      
+          @Override
+          public List<Station> stationsByLine(String lineName) {
+              return new ArrayList<>(storage.get(lineName));
+          }
+      
+          @Override
+          public void append(String lineName, String stationName) {
+              storage.computeIfAbsent(lineName, n -> new ConcurrentLinkedDeque<>())
+                      .add(new Station(stationName));
+          }
+      
+          @Override
+          public void addHead(String lineName, String stationName) {
+              storage.computeIfAbsent(lineName, n -> new LinkedList<>())
+                      .addFirst(new Station(stationName));
+          }
+      
+          @Override
+          public void remove(String lineName, String stationName) {
+              Deque<Station> stations = storage.get(lineName);
+              if (stations != null) {
+                  stations.remove(findByName(stations, stationName));
+              }
+          }
+      
+          @Override
+          public void connect(Transfer station1, Transfer station2) {
+              findStation(station1.getLine(), station1.getStation())
+                      .addTransfer(station2);
+              findStation(station2.getLine(), station2.getStation())
+                      .addTransfer(station1);
+          }
+      
+          private StationVertex vertexFromTransfer(Transfer transfer) {
+              Station station = findStation(transfer.getLine(), transfer.getStation());
+              return StationVertex.fromStation(transfer.getLine(), station);
+          }
+      
+          @Override
+          public Route route(Transfer transfer1, Transfer transfer2) {
+              final RouteFinder finder = RouteFinder.shortest(this);
+              return finder.find(transfer1, transfer2);
+          }
+      
+          @Override
+          public Graph<StationVertex> asGraph() {
+              final Graph<StationVertex> g = Graph.directed();
+              Map<Transfer, StationVertex> stationVertexDict = new HashMap<>();
+              for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
+                  final String line = e.getKey();
+                  Deque<Station> lineStations = e.getValue();
+                  StationVertex prev = null;
+                  for (Station station : lineStations) {
+                      StationVertex u = stationVertexDict.computeIfAbsent(new Transfer(line, station.getName()), this::computeStationVertex);
+                      if (prev != null) {
+                          g.addEdge(prev, u);
+                          g.addEdge(u, prev);
+                      }
+                      prev = u;
+                      g.addNode(u);
+                      List<Transfer> transfer = station.getTransfer();
+                      if (transfer != null) {
+                          transfer.forEach(t -> {
+                              StationVertex v = stationVertexDict.computeIfAbsent(t, this::computeStationVertex);
+                              g.addEdge(u, v);
+                              g.addEdge(v, u);
+                          });
+                      }
+                  }
+              }
+              return g;
+          }
+      
+          @Override
+          public Station findStation(final String lineName, final String stationName) {
+              Deque<Station> stations = storage.get(lineName);
+              return findByName(stations, stationName);
+          }
+      
+          private Station findByName(Deque<Station> stations, String stationName) {
+              return stations.stream()
+                      .filter(st -> Objects.equals(st.getName(), stationName))
+                      .findFirst()
+                      .orElse(null);
+          }
+      
+          private StationVertex computeStationVertex(Transfer tr) {
+              return StationVertex.fromStation(tr.getLine(), findStation(tr.getLine(), tr.getStation()));
+          }
+      }
+    learner_created: true
+  - name: src/metro/ds/AdjacencyListsGraph.java
+    visible: true
+    text: |
+      package metro.ds;
+      
+      import java.util.Collection;
+      import java.util.Collections;
+      import java.util.HashMap;
+      import java.util.LinkedHashSet;
+      import java.util.Map;
+      import java.util.Set;
+      
+      class AdjacencyListsGraph<U> implements Graph<U> {
+          private final Map<U, Set<U>> adjacencyList = new HashMap<>();
+      
+          @Override
+          public boolean isAdjacent(U u, U v) {
+              return adjacencyList.containsKey(u) && adjacencyList.get(u)
+                      .contains(v);
+          }
+      
+          @Override
+          public Collection<U> neighbors(U u) {
+              return Collections.unmodifiableSet(
+                      adjacencyList.getOrDefault(u, Collections.emptySet()));
+          }
+      
+          @Override
+          public void addNode(U u) {
+              adjacencyList.putIfAbsent(u, new LinkedHashSet<>());
+          }
+      
+          @Override
+          public void removeNode(U u) {
+              adjacencyList.remove(u);
+          }
+      
+          @Override
+          public void addEdge(U u, U v) {
+              addNode(u);
+              addNode(v);
+              adjacencyList.computeIfPresent(u, (u1, us) -> {
+                  us.add(v);
+                  return us;
+              });
+          }
+      
+          @Override
+          public void removeEdge(U u, U v) {
+              adjacencyList.computeIfPresent(u, (u1, us) -> {
+                  us.remove(v);
+                  return us;
+              });
+          }
+      }
+    learner_created: true
+  - name: src/metro/storage/SubwayStorage.java
+    visible: true
+    text: "package metro.storage;\n\nimport com.google.gson.Gson;\nimport com.google.gson.reflect.TypeToken;\n\
+    import metro.ds.Graph;\nimport metro.model.Station;\nimport metro.model.StationVertex;\n\
+    import metro.model.Transfer;\nimport metro.route.Route;\n\nimport java.io.IOException;\n\
+    import java.io.Reader;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\n\
+    import java.util.ArrayDeque;\nimport java.util.Comparator;\nimport java.util.Deque;\n\
+    import java.util.List;\nimport java.util.Map;\nimport java.util.stream.Collectors;\n\
+    \npublic interface SubwayStorage {\n    List<Station> stationsByLine(final String\
+    \ lineName);\n\n    void append(String lineName, String stationName);\n\n    void\
+    \ addHead(String lineName, String stationName);\n\n    void remove(String lineName,\
+    \ String stationName);\n    \n    static SubwayStorage fromJsonFile(Path pathToFile)\
+    \ throws IOException {\n        Gson gson = new Gson();\n        TypeToken<Map<String,\
+    \ Map<String, Station>>> mapTypeToken = new TypeToken<Map<String, Map<String,\
+    \ Station>>>() {\n        };\n        try (final Reader reader = Files.newBufferedReader(pathToFile))\
+    \ {\n            Map<String, Map<String, Station>> storage = gson.fromJson(reader,\
+    \ mapTypeToken.getType());\n            return new InMemorySubwayStorage(storage.entrySet().stream()\n\
+    \                    .collect(Collectors.toMap(Map.Entry::getKey, e -> mapToDeque(e.getValue()))));\n\
+    \        }\n    }\n\n    static Deque<Station> mapToDeque(final Map<String, Station>\
+    \ map) {\n        return map.entrySet()\n                .stream()\n         \
+    \       .sorted(Comparator.comparingInt(e -> Integer.parseInt(e.getKey())))\n\
+    \                .map(Map.Entry::getValue)\n                .collect(Collectors.toCollection(ArrayDeque::new));\n\
+    \    }\n\n    void connect(Transfer station1, Transfer station2);\n\n    Route\
+    \ route(Transfer transfer1, Transfer transfer2);\n\n    Graph<StationVertex> asGraph();\n\
+    \n    Station findStation(String lineName, String stationName);\n}\n"
+    learner_created: true
+  - name: src/metro/model/Transfer.java
+    visible: true
+    text: |
+      package metro.model;
+      
+      import java.util.Objects;
+      
+      public class Transfer {
+          private String line;
+      
+          @Override
+          public boolean equals(Object o) {
+              if (this == o) {
+                  return true;
+              }
+              if (o == null || getClass() != o.getClass()) {
+                  return false;
+              }
+              Transfer transfer = (Transfer) o;
+              return Objects.equals(line, transfer.line) && Objects.equals(station, transfer.station);
+          }
+      
+          @Override
+          public int hashCode() {
+              return Objects.hash(line, station);
+          }
+      
+          public Transfer(String line, String station) {
+              this.line = line;
+              this.station = station;
+          }
+      
+          private String station;
+      
+          public String getLine() {
+              return line;
+          }
+      
+          public void setLine(String line) {
+              this.line = line;
+          }
+      
+          public String getStation() {
+              return station;
+          }
+      
+          public void setStation(String station) {
+              this.station = station;
+          }
+      }
+    learner_created: true
+  - name: src/metro/ds/GraphUtils.java
+    visible: true
+    text: |
+      package metro.ds;
+      
+      
+      import java.util.ArrayDeque;
+      import java.util.ArrayList;
+      import java.util.Collection;
+      import java.util.Collections;
+      import java.util.HashMap;
+      import java.util.List;
+      import java.util.Map;
+      import java.util.Queue;
+      
+      public class GraphUtils {
+          private GraphUtils() {
+      
+          }
+      
+          public static <T> List<T> shortestPath(Graph<T> graph, T u, T v) {
+              Queue<T> queue = new ArrayDeque<>();
+              Map<T, List<T>> paths = new HashMap<>();
+              queue.add(u);
+              paths.put(u, Collections.singletonList(u));
+              while (!queue.isEmpty() && !paths.containsKey(v)) {
+                  T el = queue.remove();
+                  Collection<T> neighbors = graph.neighbors(el);
+                  List<T> pathToNode = paths.get(el);
+                  for (T neighbor : neighbors) {
+                      if (!paths.containsKey(neighbor)) {
+                          queue.add(neighbor);
+                          List<T> pathToNeighbor = new ArrayList<>(pathToNode);
+                          pathToNeighbor.add(neighbor);
+                          paths.put(neighbor, Collections.unmodifiableList(pathToNeighbor));
+                      }
+                  }
+              }
+              return paths.get(v);
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/RouteBuilder.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import metro.model.Transfer;
+      
+      import java.util.ArrayDeque;
+      import java.util.ArrayList;
+      import java.util.Deque;
+      
+      public class RouteBuilder {
+          private final Deque<RoutePoint> transfers;
+      
+          public RouteBuilder(Transfer start) {
+              this.transfers = new ArrayDeque<>();
+              transfers.add(RoutePoint.point(start));
+          }
+      
+          public RouteBuilder(RouteBuilder routeBuilder) {
+              this.transfers = new ArrayDeque<>(routeBuilder.transfers);
+          }
+      
+          public RouteBuilder point(Transfer transfer) {
+              transfers.add(RoutePoint.point(transfer));
+              return this;
+          }
+      
+          public RouteBuilder transition(Transfer transitionStation) {
+              RoutePoint last = transfers.pollLast();
+              if (last == null || last.hasTransition()) {
+                  throw new IllegalStateException();
+              }
+              transfers.add(RoutePoint.transition(last.getStation(), transitionStation));
+              return this;
+          }
+      
+          public Route build() {
+              return new SimpleRoute(new ArrayList<>(transfers));
+          }
+      
+          public Transfer last() {
+              RoutePoint lastRoutePoint = this.transfers.peek();
+              if (lastRoutePoint == null) {
+                  throw new IllegalStateException("Empty route");
+              }
+              return lastRoutePoint.hasTransition() ? lastRoutePoint.getTransition() : lastRoutePoint.getStation();
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/RouteFinder.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import metro.model.Transfer;
+      import metro.storage.SubwayStorage;
+      
+      @FunctionalInterface
+      public interface RouteFinder {
+          static RouteFinder shortest(SubwayStorage inMemorySubwayStorage) {
+              return new ShortestRouteFinder(inMemorySubwayStorage);
+          }
+      
+          Route find(Transfer start, Transfer end);
+      
+      }
+    learner_created: true
+  - name: src/metro/commands/ConsoleCommand.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      
+      import java.util.ArrayList;
+      import java.util.Collections;
+      import java.util.List;
+      import java.util.regex.Matcher;
+      import java.util.regex.Pattern;
+      
+      public class ConsoleCommand {
+          private static final Pattern NAME_PATTERN = Pattern.compile("/(\\S+)");
+          private static final Pattern ARG_PATTERN = Pattern.compile("\\s*(\"([^\"]+)\"|(\\S+))\\s*");
+      
+          public List<String> getArgs() {
+              return args;
+          }
+      
+          private final String type;
+          private final List<String> args;
+      
+          private ConsoleCommand(String type, List<String> args) {
+              this.type = type;
+              this.args = args;
+          }
+      
+          public static ConsoleCommand parse(String cmd) {
+              final Matcher nameMatcher = NAME_PATTERN.matcher(cmd);
+              final String cmdName;
+              final String argsPart;
+              if (nameMatcher.find() && nameMatcher.start() == 0) {
+                  cmdName = nameMatcher.group(1);
+                  argsPart = cmd.substring(nameMatcher.end());
+              } else {
+                  throw new IllegalStateException("Incorrect format of command. Command: " + cmd);
+              }
+              Matcher argMatcher = ARG_PATTERN.matcher(argsPart);
+              List<String> args = new ArrayList<>();
+              while (argMatcher.find()) {
+                  String group = argMatcher.group(2);
+                  final String value = group == null? argMatcher.group(3) : group;
+                  args.add(value);
+              }
+              return new ConsoleCommand(cmdName, Collections.unmodifiableList(args));
+          }
+      
+          public String getType() {
+              return type;
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/ConnectCommand.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.model.Transfer;
+      import metro.storage.SubwayStorage;
+      
+      public class ConnectCommand implements StorageCommand {
+          private final Transfer transfer1;
+          private final Transfer transfer2;
+      
+          public ConnectCommand(Transfer transfer1, Transfer transfer2) {
+              this.transfer1 = transfer1;
+              this.transfer2 = transfer2;
+          }
+      
+          @Override
+          public void run(SubwayStorage storage) {
+              storage.connect(transfer1, transfer2);
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/StorageCommands.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.printer.Printer;
+      
+      public class StorageCommands {
+      
+          private StorageCommands() {
+          }
+      
+          static StorageCommand append(final String lineName, final String stationName) {
+              return new AppendCommand(lineName, stationName);
+          }
+      
+          static StorageCommand addHead(final String lineName, final String stationName) {
+              return storage -> storage.addHead(lineName, stationName);
+          }
+          public static StorageCommand remove(final String lineName, final String stationName) {
+              return storage -> storage.remove(lineName, stationName);
+          }
+      
+          public static StorageCommand output(final String lineName) {
+              return storage -> Printer.stations(storage.stationsByLine(lineName)).print();
+          }
+      
+          public static StorageCommand exit() {
+              return storage -> System.exit(0);
+          }
+      }
+    learner_created: true
+  - name: src/metro/printer/Printer.java
+    visible: true
+    text: |
+      package metro.printer;
+      
+      import metro.model.Station;
+      import metro.route.Route;
+      
+      import java.util.List;
+      
+      public interface Printer {
+          static Printer route(Route route) {
+              return new RouterPrinter(route);
+          }
+      
+          void print();
+      
+          static Printer stations(final List<Station> stations) {
+              return new StationsPrinter(stations);
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/Route.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import java.util.List;
+      
+      public interface Route {
+          List<RoutePoint> points();
+      
+          RoutePoint last();
+      }
+    learner_created: true
+  - name: src/metro/ds/Graph.java
+    visible: true
+    text: |
+      package metro.ds;
+      
+      import java.util.Collection;
+      
+      public interface Graph<U> {
+          boolean isAdjacent(U u, U v);
+      
+          Collection<U> neighbors(U u);
+      
+          void addNode(U u);
+      
+          void removeNode(U u);
+      
+          void addEdge(U u, U v);
+      
+          void removeEdge(U u, U v);
+      
+          static <T> Graph<T> directed() {
+              return new AdjacencyListsGraph<>();
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/RouteCommand.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.model.Transfer;
+      import metro.printer.Printer;
+      import metro.route.Route;
+      import metro.storage.SubwayStorage;
+      
+      public class RouteCommand implements StorageCommand {
+          private final Transfer t1;
+          private final Transfer t2;
+      
+          public RouteCommand(Transfer t1, Transfer t2) {
+              this.t1 = t1;
+              this.t2 = t2;
+          }
+      
+          @Override
+          public void run(SubwayStorage storage) {
+              final Route route = storage.route(t1, t2);
+              Printer.route(route).print();
+          }
+      }
+    learner_created: true
+  - name: src/metro/printer/RouterPrinter.java
+    visible: true
+    text: |
+      package metro.printer;
+      
+      import metro.model.Transfer;
+      import metro.route.Route;
+      import metro.route.RoutePoint;
+      
+      class RouterPrinter implements Printer {
+          private final Route route;
+      
+          RouterPrinter(Route route) {
+              this.route = route;
+          }
+      
+          @Override
+          public void print() {
+              for (RoutePoint point : route.points()) {
+                  System.out.println(point.getStation().getStation());
+                  if (point.hasTransition()) {
+                      Transfer transition = point.getTransition();
+                      System.out.println("Transition to line " + transition.getLine());
+                      System.out.println(transition.getStation());
+                  }
+              }
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/AppendCommand.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.storage.SubwayStorage;
+      
+      public class AppendCommand implements StorageCommand {
+          private final String lineName;
+          private final String stationName;
+      
+          public AppendCommand(String lineName, String stationName) {
+              this.lineName = lineName;
+              this.stationName = stationName;
+          }
+      
+          @Override
+          public void run(SubwayStorage storage) {
+              storage.append(lineName, stationName);
+          }
+      }
+    learner_created: true
+  - name: src/metro/model/StationVertex.java
+    visible: true
+    text: |
+      package metro.model;
+      
+      import java.util.Collections;
+      import java.util.LinkedHashSet;
+      import java.util.Objects;
+      import java.util.Set;
+      
+      public class StationVertex {
+          private final Set<Transfer> transfers;
+      
+          private StationVertex(Set<Transfer> transfers) {
+              this.transfers = transfers;
+          }
+      
+          public static StationVertex fromStation(String line, Station station) {
+              Set<Transfer> transfers = new LinkedHashSet<>(station.getTransfer());
+              transfers.add(new Transfer(line, station.getName()));
+              return new StationVertex(Collections.unmodifiableSet(transfers));
+          }
+      
+          @Override
+          public boolean equals(Object o) {
+              if (this == o) {
+                  return true;
+              }
+              if (o == null || getClass() != o.getClass()) {
+                  return false;
+              }
+              StationVertex that = (StationVertex) o;
+              return Objects.equals(transfers, that.transfers);
+          }
+      
+          @Override
+          public int hashCode() {
+              return Objects.hash(transfers);
+          }
+      
+          public Set<Transfer> getTransfers() {
+              return transfers;
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/SimpleRoute.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import java.util.ArrayDeque;
+      import java.util.ArrayList;
+      import java.util.Deque;
+      import java.util.List;
+      
+      class SimpleRoute implements Route {
+          private final Deque<RoutePoint> routePoints;
+      
+          SimpleRoute(List<RoutePoint> routePoints) {
+              this.routePoints = new ArrayDeque<>(routePoints);
+          }
+      
+          @Override
+          public List<RoutePoint> points() {
+              return new ArrayList<>(routePoints);
+          }
+      
+          @Override
+          public RoutePoint last() {
+              return routePoints.poll();
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/SubwayRouteFinder.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import metro.storage.SubwayStorage;
+      
+      abstract class SubwayRouteFinder implements RouteFinder {
+          public SubwayStorage getStorage() {
+              return storage;
+          }
+      
+          private final SubwayStorage storage;
+      
+          SubwayRouteFinder(SubwayStorage storage) {
+              this.storage = storage;
+          }
+      
+      }
+    learner_created: true
+  - name: src/metro/commands/StorageCommandFactory.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      public interface StorageCommandFactory {
+          StorageCommand get();
+      
+          static StorageCommand fromCommand(final String cmd) {
+              return new StorageCommandFactoryImpl(ConsoleCommand.parse(cmd))
+                      .get();
+          }
+      }
+    learner_created: true
+  - name: src/metro/route/RoutePoint.java
+    visible: true
+    text: |
+      package metro.route;
+      
+      import metro.model.Transfer;
+      
+      public class RoutePoint {
+          private final Transfer station;
+          private final Transfer transition;
+      
+          public Transfer getTransition() {
+              return transition;
+          }
+      
+          private RoutePoint(Transfer stations, Transfer transition) {
+              this.station = stations;
+              this.transition = transition;
+          }
+      
+          private RoutePoint(Transfer transfer) {
+              this(transfer, null);
+          }
+      
+          static RoutePoint transition(Transfer stations, Transfer transition) {
+              return new RoutePoint(stations, transition);
+          }
+      
+          static RoutePoint point(Transfer transfer) {
+              return new RoutePoint(transfer);
+          }
+      
+          public boolean hasTransition() {
+              return transition != null;
+          }
+      
+          public Transfer getStation() {
+              return station;
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/StorageCommandFactoryImpl.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.model.Transfer;
+      
+      import java.util.List;
+      
+      public class StorageCommandFactoryImpl implements StorageCommandFactory {
+          private final ConsoleCommand command;
+      
+          public StorageCommandFactoryImpl(ConsoleCommand command) {
+              this.command = command;
+          }
+      
+          @Override
+          public StorageCommand get() {
+              final String type = command.getType();
+              final List<String> args = command.getArgs();
+              switch (type) {
+                  case "append":
+                      return StorageCommands.append(args.get(0), args.get(1));
+                  case "add-head":
+                      return StorageCommands.addHead(args.get(0), args.get(1));
+                  case "output":
+                      return StorageCommands.output(args.get(0));
+                  case "remove":
+                      return StorageCommands.remove(args.get(0), args.get(1));
+                  case "connect":
+                      final Transfer st1 = new Transfer(args.get(0), args.get(1));
+                      final Transfer st2 = new Transfer(args.get(2), args.get(3));
+                      return new ConnectCommand(st1, st2);
+                  case "route":
+                      final Transfer t1 = new Transfer(args.get(0), args.get(1));
+                      final Transfer t2 = new Transfer(args.get(2), args.get(3));
+                      return new RouteCommand(t1, t2);
+                  case "exit":
+                      return StorageCommands.exit();
+                  default:
+                      throw new IllegalStateException("Unsupported command : " + type);
+              }
+          }
+      }
+    learner_created: true
+  - name: src/metro/commands/StorageCommand.java
+    visible: true
+    text: |
+      package metro.commands;
+      
+      import metro.storage.SubwayStorage;
+      
+      @FunctionalInterface
+      public interface StorageCommand {
+      
+          void run(SubwayStorage storage);
+      }
+    learner_created: true
+  - name: src/metro/printer/StationsPrinter.java
+    visible: true
+    text: |
+      package metro.printer;
+      
+      import metro.model.Station;
+      import metro.model.Transfer;
+      
+      import java.util.ArrayDeque;
+      import java.util.ArrayList;
+      import java.util.Collections;
+      import java.util.Deque;
+      import java.util.List;
+      
+      class StationsPrinter implements Printer {
+          public static final Station DEPOT = new Station("depot");
+          private final List<Station> stations;
+      
+          public StationsPrinter(List<Station> stations) {
+              final Deque<Station> deque = new ArrayDeque<>(stations);
+              deque.addFirst(DEPOT);
+              this.stations = Collections.unmodifiableList(new ArrayList<>(deque));
+          }
+      
+          @Override
+          public void print() {
+              for (Station station : stations) {
+                  System.out.println(printStation(station));
+              }
+              System.out.println(printStation(DEPOT));
+          }
+      
+      
+          private String printStation(Station station) {
+              if (station == null) {
+                  return null;
+              }
+              final StringBuilder sb = new StringBuilder(station.getName());
+              final List<Transfer> transfer = station.getTransfer();
+              if (transfer != null && !transfer.isEmpty()) {
+                  for (Transfer t : transfer) {
+      
+                      sb.append(" - ")
+                              .append(t.getStation())
+                              .append(" (")
+                              .append(t.getLine())
+                              .append(")");
+                  }
+              }
+              return sb.toString();
+          }
+      
+      }
+    learner_created: true
+  - name: test/prague_w_time.json
+    visible: false
+    text: |-
+      {
+        "Linka A": {
+          "0": {
+            "name": "Nemocnice Motol",
+            "transfer": [],
+            "time": 5
+          },
         "1": {
           "name": "Petriny",
           "transfer": [],
@@ -821,302 +2118,34 @@ files:
         "18": {
           "name": "Opatov",
           "transfer": [],
-          "time": 5
-        },
-        "19": {
-          "name": "Haje",
-          "transfer": [],
-          "time": null
+            "time": 5
+          },
+          "19": {
+            "name": "Haje",
+            "transfer": [],
+            "time": null
+          }
         }
       }
-    }
-  learner_created: false
-- name: test/prague.json
-  visible: false
-  text: |-
-    {
-      "Linka A": {
-        "1": {
-          "name": "Nemocnice Motol" ,
-          "transfer": []
-        } ,
-        "2": {
-          "name": "Petriny" ,
-          "transfer": []
-        } ,
-        "3": {
-          "name": "Nadrazi Veleslavin" ,
-          "transfer": []
-        } ,
-        "4": {
-          "name": "Borislavka" ,
-          "transfer": []
-        } ,
-        "5": {
-          "name": "Dejvicka" ,
-          "transfer": []
-        } ,
-        "6": {
-          "name": "Hradcanska" ,
-          "transfer": []
-        } ,
-        "7": {
-          "name": "Malostranska" ,
-          "transfer": []
-        } ,
-        "8": {
-          "name": "Staromestska" ,
-          "transfer": []
-        } ,
-        "9": {
-          "name": "Mustek" ,
-          "transfer": [
-            {
-              "line": "Linka B" ,
-              "station": "Mustek"
-            }
-          ]
-        } ,
-        "10": {
-          "name": "Muzeum" ,
-          "transfer": [
-            {
-              "line": "Linka C" ,
-              "station": "Muzeum"
-            }
-          ]
-        } ,
-        "11": {
-          "name": "Namesti Miru" ,
-          "transfer": []
-        } ,
-        "12": {
-          "name": "Jiriho z Podebrad" ,
-          "transfer": []
-        } ,
-        "13": {
-          "name": "Flora" ,
-          "transfer": []
-        } ,
-        "14": {
-          "name": "Zelivskeho" ,
-          "transfer": []
-        } ,
-        "15": {
-          "name": "Strasnicka" ,
-          "transfer": []
-        } ,
-        "16": {
-          "name": "Skalka" ,
-          "transfer": []
-        } ,
-        "17": {
-          "name": "Depo Hostivar" ,
-          "transfer": []
-        }
-      } ,
-      "Linka B": {
-        "1": {
-          "name": "Cerny Most" ,
-          "transfer": []
-        } ,
-        "2": {
-          "name": "Rajska zahrada" ,
-          "transfer": []
-        } ,
-        "3": {
-          "name": "Hloubetin" ,
-          "transfer": []
-        } ,
-        "4": {
-          "name": "Kolbenova" ,
-          "transfer": []
-        } ,
-        "5": {
-          "name": "Vysocanska" ,
-          "transfer": []
-        } ,
-        "6": {
-          "name": "Ceskomoravska" ,
-          "transfer": []
-        } ,
-        "7": {
-          "name": "Palmovka" ,
-          "transfer": []
-        } ,
-        "8": {
-          "name": "Invalidovna" ,
-          "transfer": []
-        } ,
-        "9": {
-          "name": "Krizikova" ,
-          "transfer": []
-        } ,
-        "10": {
-          "name": "Florenc" ,
-          "transfer": [
-            {
-              "line": "Linka C" ,
-              "station": "Florenc"
-            }
-          ]
-        } ,
-        "11": {
-          "name": "Namesti Republiky" ,
-          "transfer": []
-        } ,
-        "12": {
-          "name": "Mustek" ,
-          "transfer": [
-            {
-              "line": "Linka B" ,
-              "station": "Mustek"
-            }
-          ]
-        } ,
-        "13": {
-          "name": "Narodni trida" ,
-          "transfer": []
-        } ,
-        "14": {
-          "name": "Karlovo namesti" ,
-          "transfer": []
-        } ,
-        "15": {
-          "name": "Andel" ,
-          "transfer": []
-        } ,
-        "16": {
-          "name": "Smichovske nadrazi" ,
-          "transfer": []
-        } ,
-        "17": {
-          "name": "Radlicka" ,
-          "transfer": []
-        } ,
-        "18": {
-          "name": "Jinonice" ,
-          "transfer": []
-        } ,
-        "19": {
-          "name": "Nove Butovice" ,
-          "transfer": []
-        } ,
-        "20": {
-          "name": "Hurka" ,
-          "transfer": []
-        } ,
-        "21": {
-          "name": "Luziny" ,
-          "transfer": []
-        } ,
-        "22": {
-          "name": "Luka" ,
-          "transfer": []
-        } ,
-        "23": {
-          "name": "Stodulky" ,
-          "transfer": []
-        } ,
-        "24": {
-          "name": "Zlicin" ,
-          "transfer": []
-        }
-      } ,
-      "Linka C": {
-        "1": {
-          "name": "Letnany" ,
-          "transfer": []
-        } ,
-        "2": {
-          "name": "Prosek" ,
-          "transfer": []
-        } ,
-        "3": {
-          "name": "Strizkov" ,
-          "transfer": []
-        } ,
-        "4": {
-          "name": "Ladvi" ,
-          "transfer": []
-        } ,
-        "5": {
-          "name": "Kobylisy" ,
-          "transfer": []
-        } ,
-        "6": {
-          "name": "Nadrazi Holesovice" ,
-          "transfer": []
-        } ,
-        "7": {
-          "name": "Vltavska" ,
-          "transfer": []
-        } ,
-        "8": {
-          "name": "Florenc" ,
-          "transfer": [
-            {
-              "line": "Linka B" ,
-              "station": "Florenc"
-            }
-          ]
-        } ,
-        "9": {
-          "name": "Hlavni nadrazi" ,
-          "transfer": []
-        } ,
-        "10": {
-          "name": "Muzeum" ,
-          "transfer": [
-            {
-              "line": "Linka A" ,
-              "station": "Muzeum"
-            }
-          ]
-        } ,
-        "11": {
-          "name": "I.P.Pavlova" ,
-          "transfer": []
-        } ,
-        "12": {
-          "name": "Vysehrad" ,
-          "transfer": []
-        } ,
-        "13": {
-          "name": "Prazskeho povstani" ,
-          "transfer": []
-        } ,
-        "14": {
-          "name": "Pankrac" ,
-          "transfer": []
-        } ,
-        "15": {
-          "name": "Budejovicka" ,
-          "transfer": []
-        } ,
-        "16": {
-          "name": "Kacerov" ,
-          "transfer": []
-        } ,
-        "17": {
-          "name": "Roztyly" ,
-          "transfer": []
-        } ,
-        "18": {
-          "name": "Chodov" ,
-          "transfer": []
-        } ,
-        "19": {
-          "name": "Opatov" ,
-          "transfer": []
-        } ,
-        "20": {
-          "name": "Haje" ,
-          "transfer": []
-        }
-      }
-    }
-  learner_created: false
+    learner_created: false
+  - name: src/metro/ds/WeightedGraph.java
+    visible: true
+    learner_created: true
+  - name: src/metro/route/FastestSubwayRouteFinder.java
+    visible: true
+    learner_created: true
+  - name: src/metro/ds/WeightedPath.java
+    visible: true
+    learner_created: true
+  - name: src/metro/commands/FastestRouteCommand.java
+    visible: true
+    learner_created: true
+  - name: test/prague_c.json
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10345#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sat, 09 Apr 2022 22:01:15 UTC
 record: -1

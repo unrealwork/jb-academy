@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/388955/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sun, 03 Apr 2022 20:59:43 UTC
+update_date: Sat, 09 Apr 2022 20:39:52 UTC
 stages:
 - id: 648
   step: 10341
@@ -19,13 +19,13 @@ stages:
   is_completed: true
 - id: 652
   step: 10345
-  is_completed: false
+  is_completed: true
 - id: 653
   step: 10346
   is_completed: false
 topics:
   0:
-  - title: Write, compile, and run
+    - title: Write, compile, and run
     theory_id: 3739
   - title: JVM, JRE, and JDK
     theory_id: 3499
@@ -121,26 +121,28 @@ topics:
     theory_id: 3614
   - title: Package
     theory_id: 3621
-  - title: Hierarchy of exceptions
-    theory_id: 3570
-  - title: Exception handling
-    theory_id: 3552
-  - title: Throwing exceptions
-    theory_id: 3553
-  - title: Command line overview
-    theory_id: 8977
-  - title: Parameters and options
-    theory_id: 9746
-  - title: Files
-    theory_id: 3635
-  - title: Reading files
-    theory_id: 3636
-  - title: Command-line arguments
-    theory_id: 3566
-  - title: Pseudocode
-    theory_id: 15090
-  - title: Fixed-size array
-    theory_id: 7255
+    - title: Hierarchy of exceptions
+      theory_id: 3570
+    - title: Exception handling
+      theory_id: 3552
+    - title: Throwing exceptions
+      theory_id: 3553
+    - title: Command line overview
+      theory_id: 8977
+    - title: Parameters and options
+      theory_id: 9746
+    - title: Running programs on your computer
+      theory_id: 3746
+    - title: Files
+      theory_id: 3635
+    - title: Reading files
+      theory_id: 3636
+    - title: Command-line arguments
+      theory_id: 3566
+    - title: Pseudocode
+      theory_id: 15090
+    - title: Fixed-size array
+      theory_id: 7255
   - title: Dynamic array
     theory_id: 5357
   - title: Processing strings
@@ -159,8 +161,6 @@ topics:
     theory_id: 3492
   - title: Generics and Object
     theory_id: 3493
-  - title: Running programs on your computer
-    theory_id: 3746
   - title: What are collections
     theory_id: 3770
   - title: The Collections Framework overview
@@ -200,20 +200,24 @@ topics:
   - title: Comparable
     theory_id: 14456
   1:
-  - title: Binary numbers
-    theory_id: 5544
-  - title: Binary arithmetic
-    theory_id: 5630
-  - title: Formatted output
-    theory_id: 7046
-  - title: Writing files
-    theory_id: 3652
-  - title: What are streams
-    theory_id: 5533
-  - title: Input streams
-    theory_id: 9723
-  - title: Output streams
-    theory_id: 8837
+    - title: Binary numbers
+      theory_id: 5544
+    - title: Binary arithmetic
+      theory_id: 5630
+    - title: Reflection basics
+      theory_id: 3609
+    - title: Retrieving Class instances
+      theory_id: 3554
+    - title: Formatted output
+      theory_id: 7046
+    - title: Writing files
+      theory_id: 3652
+    - title: What are streams
+      theory_id: 5533
+    - title: Input streams
+      theory_id: 9723
+    - title: Output streams
+      theory_id: 8837
   - title: Serialization basics
     theory_id: 8147
   - title: Regexps basics
@@ -232,10 +236,6 @@ topics:
     theory_id: 3712
   - title: Match results
     theory_id: 3716
-  - title: Reflection basics
-    theory_id: 3609
-  - title: Retrieving Class instances
-    theory_id: 3554
   - title: Dealing with modifiers
     theory_id: 8104
   - title: Manipulating fields and methods

@@ -1,6 +1,7 @@
 package metro.ds;
 
 import java.util.Collection;
+import java.util.Set;
 
 public interface Graph<U> {
     boolean isAdjacent(U u, U v);
@@ -15,7 +16,9 @@ public interface Graph<U> {
 
     void removeEdge(U u, U v);
 
-    static <T> Graph<T> directed() {
+    Set<U> nodes();
+
+    static <T> WeightedGraph<T> directed() {
         return new AdjacencyListsGraph<>();
     }
 }

@@ -1,6 +1,7 @@
 package metro.storage;
 
 import metro.ds.Graph;
+import metro.ds.WeightedGraph;
 import metro.model.Station;
 import metro.model.StationVertex;
 import metro.model.Transfer;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class InMemorySubwayStorage implements SubwayStorage {
+    public static final int DEFAULT_TRANSITION_TIME = 5;
     private final Map<String, Deque<Station>> storage;
 
     public InMemorySubwayStorage(Map<String, Deque<Station>> storage) {
@@ -56,15 +58,38 @@ public class InMemorySubwayStorage implements SubwayStorage {
                 .addTransfer(station1);
     }
 
-    private StationVertex vertexFromTransfer(Transfer transfer) {
-        Station station = findStation(transfer.getLine(), transfer.getStation());
-        return StationVertex.fromStation(transfer.getLine(), station);
-    }
-
     @Override
     public Route route(Transfer transfer1, Transfer transfer2) {
         final RouteFinder finder = RouteFinder.shortest(this);
         return finder.find(transfer1, transfer2);
+    }
+
+    @Override
+    public WeightedGraph<Transfer> asWeightedGraph() {
+        final WeightedGraph<Transfer> g = Graph.directed();
+        for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
+            final String line = e.getKey();
+            Deque<Station> lineStations = e.getValue();
+            Station prev = null;
+            for (Station station : lineStations) {
+                Transfer u = new Transfer(line, station.getName());
+                if (prev != null) {
+                    Transfer v = new Transfer(line, prev.getName());
+                    g.addEdge(v, u, prev.getTime());
+                    g.addEdge(u, v, prev.getTime());
+                }
+                prev = station;
+                g.addNode(u);
+                List<Transfer> transfer = station.getTransfer();
+                if (transfer != null) {
+                    for (Transfer transition : transfer) {
+                        g.addEdge(u, transition, DEFAULT_TRANSITION_TIME);
+                        g.addEdge(transition, u, DEFAULT_TRANSITION_TIME);
+                    }
+                }
+            }
+        }
+        return g;
     }
 
     @Override
@@ -80,17 +105,17 @@ public class InMemorySubwayStorage implements SubwayStorage {
                 if (prev != null) {
                     g.addEdge(prev, u);
                     g.addEdge(u, prev);
+                    g.addNode(u);
+                    List<Transfer> transfer = station.getTransfer();
+                    if (transfer != null) {
+                        for (Transfer t : transfer) {
+                            StationVertex v = stationVertexDict.computeIfAbsent(t, this::computeStationVertex);
+                            g.addEdge(prev, v);
+                            g.addEdge(v, prev);
+                        }
+                    }
                 }
                 prev = u;
-                g.addNode(u);
-                List<Transfer> transfer = station.getTransfer();
-                if (transfer != null) {
-                    transfer.forEach(t -> {
-                        StationVertex v = stationVertexDict.computeIfAbsent(t, this::computeStationVertex);
-                        g.addEdge(u, v);
-                        g.addEdge(v, u);
-                    });
-                }
             }
         }
         return g;
@@ -110,6 +135,7 @@ public class InMemorySubwayStorage implements SubwayStorage {
     }
 
     private StationVertex computeStationVertex(Transfer tr) {
-        return StationVertex.fromStation(tr.getLine(), findStation(tr.getLine(), tr.getStation()));
+        StationVertex v = StationVertex.fromStation(tr.getLine(), findStation(tr.getLine(), tr.getStation()));
+        return v;
     }
 }

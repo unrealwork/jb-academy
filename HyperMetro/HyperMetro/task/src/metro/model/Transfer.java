@@ -22,6 +22,14 @@ public class Transfer {
         return Objects.hash(line, station);
     }
 
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "line='" + line + '\'' +
+                ", station='" + station + '\'' +
+                '}';
+    }
+
     public Transfer(String line, String station) {
         this.line = line;
         this.station = station;

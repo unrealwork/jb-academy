@@ -21,5 +21,9 @@ class RouterPrinter implements Printer {
                 System.out.println(transition.getStation());
             }
         }
+
+        if (route.dist() != null) {
+            System.out.println("Total: " + route.dist() + " minutes in the way");
+        }
     }
 }

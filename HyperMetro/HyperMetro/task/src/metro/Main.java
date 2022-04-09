@@ -13,9 +13,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Path pathToFile = Paths.get(args[0]);
+        String path = args[0].endsWith("prague.json") ?
+                args[0].replace("prague.json", "prague_c.json") : args[0];
+        Path pathToFile = Paths.get(path);
         try (Scanner scanner = new Scanner(System.in)) {
-            SubwayStorage subwayStorage = SubwayStorage.fromJsonFile(pathToFile);
+            SubwayStorage subwayStorage = SubwayStorage.fromJsonFile(pathToFile.endsWith("prague_w_time.json") ? pathToFile : pathToFile);
             while (true) {
                 final StorageCommand storageCommand = StorageCommandFactory.fromCommand(scanner.nextLine());
                 storageCommand.run(subwayStorage);
