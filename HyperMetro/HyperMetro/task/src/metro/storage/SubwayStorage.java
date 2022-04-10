@@ -2,10 +2,8 @@ package metro.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import metro.ds.Graph;
 import metro.ds.WeightedGraph;
 import metro.model.Station;
-import metro.model.StationVertex;
 import metro.model.Transfer;
 import metro.route.Route;
 
@@ -14,7 +12,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayDeque;
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
@@ -28,24 +25,20 @@ public interface SubwayStorage {
     void addHead(String lineName, String stationName);
 
     void remove(String lineName, String stationName);
-    
+
     static SubwayStorage fromJsonFile(Path pathToFile) throws IOException {
         Gson gson = new Gson();
-        TypeToken<Map<String, Map<String, Station>>> mapTypeToken = new TypeToken<Map<String, Map<String, Station>>>() {
+        TypeToken<Map<String, List<Station>>> mapTypeToken = new TypeToken<Map<String, List<Station>>>() {
         };
         try (final Reader reader = Files.newBufferedReader(pathToFile)) {
-            Map<String, Map<String, Station>> storage = gson.fromJson(reader, mapTypeToken.getType());
+            Map<String, List<Station>> storage = gson.fromJson(reader, mapTypeToken.getType());
             return new InMemorySubwayStorage(storage.entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, e -> mapToDeque(e.getValue()))));
         }
     }
 
-    static Deque<Station> mapToDeque(final Map<String, Station> map) {
-        return map.entrySet()
-                .stream()
-                .sorted(Comparator.comparingInt(e -> Integer.parseInt(e.getKey())))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toCollection(ArrayDeque::new));
+    static Deque<Station> mapToDeque(final List<Station> list) {
+        return new ArrayDeque<>(list);
     }
 
     void connect(Transfer station1, Transfer station2);
@@ -54,7 +47,7 @@ public interface SubwayStorage {
 
     WeightedGraph<Transfer> asWeightedGraph();
 
-    Graph<StationVertex> asGraph();
+    WeightedGraph<Transfer> asTimelessGraph();
 
     Station findStation(String lineName, String stationName);
 }

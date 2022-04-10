@@ -1,16 +1,16 @@
 type: edu
 files:
   - name: src/metro/Main.java
-  visible: true
-  text: |
-    package metro;
-
-    public class Main {
-        public static void main(String[] args) {
-            System.out.println("Hello, world!");
-        }
-    }
-  learner_created: false
+    visible: true
+    text: |
+      package metro;
+      
+      public class Main {
+          public static void main(String[] args) {
+              System.out.println("Hello, world!");
+          }
+      }
+    learner_created: false
 - name: test/Tests.java
   visible: false
   text: |-
@@ -1791,16 +1791,16 @@ files:
             "transfer": [],
             "time": 5
           },
-        "1": {
-          "name": "Petriny",
-          "transfer": [],
-          "time": 5
-        },
-        "2": {
-          "name": "Nadrazi Veleslavin",
-          "transfer": [],
-          "time": 3
-        },
+          "1": {
+            "name": "Petriny",
+            "transfer": [],
+            "time": 5
+          },
+          "2": {
+            "name": "Nadrazi Veleslavin",
+            "transfer": [],
+            "time": 3
+          },
         "3": {
           "name": "Borislavka",
           "transfer": [],
@@ -2108,16 +2108,16 @@ files:
         "16": {
           "name": "Roztyly",
           "transfer": [],
-          "time": 7
-        },
-        "17": {
-          "name": "Chodov",
-          "transfer": [],
-          "time": 6
-        },
-        "18": {
-          "name": "Opatov",
-          "transfer": [],
+            "time": 7
+          },
+          "17": {
+            "name": "Chodov",
+            "transfer": [],
+            "time": 6
+          },
+          "18": {
+            "name": "Opatov",
+            "transfer": [],
             "time": 5
           },
           "19": {
@@ -2148,4 +2148,4 @@ status: Solved
 feedback:
   message: Congratulations!
   time: Sat, 09 Apr 2022 22:01:15 UTC
-record: -1
+record: 4

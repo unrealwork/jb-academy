@@ -7,10 +7,29 @@ import java.util.Objects;
 public class Station {
     private String name;
     private int time;
+    private List<Transfer> transfer;
+    private List<String> next;
+    private List<String> prev;
 
     public Station(String name) {
         this.name = name;
         this.transfer = new ArrayList<>();
+    }
+
+    public List<String> getNext() {
+        return next;
+    }
+
+    public void setNext(List<String> next) {
+        this.next = next;
+    }
+
+    public List<String> getPrev() {
+        return prev;
+    }
+
+    public void setPrev(List<String> prev) {
+        this.prev = prev;
     }
 
     public String getName() {
@@ -21,12 +40,6 @@ public class Station {
         this.name = name;
     }
 
-
-    public void addTransfer(final String lineName, String station) {
-        addTransfer(new Transfer(lineName, station));
-    }
-
-
     public List<Transfer> getTransfer() {
         return transfer;
     }
@@ -35,14 +48,8 @@ public class Station {
         this.transfer = transfer;
     }
 
-    private List<Transfer> transfer;
-
     public void addTransfer(Transfer station2) {
         transfer.add(station2);
-    }
-
-    public boolean hasTransfer() {
-        return transfer != null && !transfer.isEmpty();
     }
 
     @Override

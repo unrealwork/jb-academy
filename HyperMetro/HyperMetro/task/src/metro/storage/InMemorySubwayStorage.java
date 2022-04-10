@@ -10,7 +10,6 @@ import metro.route.RouteFinder;
 
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -66,56 +65,36 @@ public class InMemorySubwayStorage implements SubwayStorage {
 
     @Override
     public WeightedGraph<Transfer> asWeightedGraph() {
+        return asWeightedGraph(DEFAULT_TRANSITION_TIME, true);
+    }
+
+    @Override
+    public WeightedGraph<Transfer> asTimelessGraph() {
+        return asWeightedGraph(0, false);
+    }
+
+    public WeightedGraph<Transfer> asWeightedGraph(int transitionTime, boolean useTransactionTime) {
         final WeightedGraph<Transfer> g = Graph.directed();
         for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
             final String line = e.getKey();
             Deque<Station> lineStations = e.getValue();
-            Station prev = null;
             for (Station station : lineStations) {
+                int time = station.getTime();
                 Transfer u = new Transfer(line, station.getName());
-                if (prev != null) {
-                    Transfer v = new Transfer(line, prev.getName());
-                    g.addEdge(v, u, prev.getTime());
-                    g.addEdge(u, v, prev.getTime());
+                if (time > 0) {
+                    for (String nextStation : station.getNext()) {
+                        Transfer v = new Transfer(line, nextStation);
+                        g.addEdge(v, u, useTransactionTime ? time : 1);
+                        g.addEdge(u, v, useTransactionTime ? time : 1);
+                    }
                 }
-                prev = station;
-                g.addNode(u);
                 List<Transfer> transfer = station.getTransfer();
                 if (transfer != null) {
                     for (Transfer transition : transfer) {
-                        g.addEdge(u, transition, DEFAULT_TRANSITION_TIME);
-                        g.addEdge(transition, u, DEFAULT_TRANSITION_TIME);
+                        g.addEdge(u, transition, transitionTime);
+                        g.addEdge(transition, u, transitionTime);
                     }
                 }
-            }
-        }
-        return g;
-    }
-
-    @Override
-    public Graph<StationVertex> asGraph() {
-        final Graph<StationVertex> g = Graph.directed();
-        Map<Transfer, StationVertex> stationVertexDict = new HashMap<>();
-        for (Map.Entry<String, Deque<Station>> e : storage.entrySet()) {
-            final String line = e.getKey();
-            Deque<Station> lineStations = e.getValue();
-            StationVertex prev = null;
-            for (Station station : lineStations) {
-                StationVertex u = stationVertexDict.computeIfAbsent(new Transfer(line, station.getName()), this::computeStationVertex);
-                if (prev != null) {
-                    g.addEdge(prev, u);
-                    g.addEdge(u, prev);
-                    g.addNode(u);
-                    List<Transfer> transfer = station.getTransfer();
-                    if (transfer != null) {
-                        for (Transfer t : transfer) {
-                            StationVertex v = stationVertexDict.computeIfAbsent(t, this::computeStationVertex);
-                            g.addEdge(prev, v);
-                            g.addEdge(v, prev);
-                        }
-                    }
-                }
-                prev = u;
             }
         }
         return g;
