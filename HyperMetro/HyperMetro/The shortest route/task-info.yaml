@@ -1,16 +1,16 @@
 type: edu
 files:
-  - name: src/metro/Main.java
-    visible: true
-    text: |
-      package metro;
-      
-      public class Main {
-          public static void main(String[] args) {
-              System.out.println("Hello, world!");
-          }
-      }
-    learner_created: false
+- name: src/metro/Main.java
+  visible: true
+  text: |
+    package metro;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello, world!");
+        }
+    }
+  learner_created: false
 - name: test/Tests.java
   visible: false
   text: |-
@@ -1202,45 +1202,45 @@ files:
         }
     }
   learner_created: true
-  - name: src/metro/ds/Graph.java
-    visible: true
-    learner_created: true
-  - name: src/metro/ds/AdjacencyListsGraph.java
-    visible: true
-    learner_created: true
-  - name: src/metro/ds/GraphUtils.java
-    visible: true
-    learner_created: true
-  - name: src/metro/commands/RouteCommand.java
-    visible: true
-    learner_created: true
-  - name: src/metro/printer/RouterPrinter.java
-    visible: true
-    learner_created: true
-  - name: src/metro/model/StationVertex.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/Route.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/RoutePoint.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/SimpleRoute.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/RouteFinder.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/SubwayRouteFinder.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/ShortestRouteFinder.java
-    visible: true
-    learner_created: true
-  - name: src/metro/route/RouteBuilder.java
-    visible: true
-    learner_created: true
+- name: src/metro/ds/Graph.java
+  visible: true
+  learner_created: true
+- name: src/metro/ds/AdjacencyListsGraph.java
+  visible: true
+  learner_created: true
+- name: src/metro/ds/GraphUtils.java
+  visible: true
+  learner_created: true
+- name: src/metro/commands/RouteCommand.java
+  visible: true
+  learner_created: true
+- name: src/metro/printer/RouterPrinter.java
+  visible: true
+  learner_created: true
+- name: src/metro/model/StationVertex.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/Route.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/RoutePoint.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/SimpleRoute.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/RouteFinder.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/SubwayRouteFinder.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/ShortestRouteFinder.java
+  visible: true
+  learner_created: true
+- name: src/metro/route/RouteBuilder.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10344#comment
 status: Solved
 feedback:
