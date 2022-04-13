@@ -9,11 +9,15 @@ public interface Matrix<T extends Number> {
 
     String content();
 
-    default Number[] get(int index) {
+    default T[] row(int index) {
         return data()[index];
     }
-
-    Matrix<T> scalarMultiply(T k);
     
+    T[] column(int index);
+    
+    Matrix<T> scalarMultiply(T k);
+
     Matrix<T> plus(Matrix<T> m);
+
+    Matrix<T> times(Matrix<T> b);
 }

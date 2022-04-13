@@ -400,6 +400,339 @@ files:
 
     }
   learner_created: false
-feedback_link: https://hyperskill.org/projects/60/stages/326/implement#comment
+- name: src/processor/Matrix.java
+  visible: true
+  text: "package processor;\n\npublic interface Matrix<T extends Number> {\n    int\
+    \ getRows();\n\n    int getColumns();\n\n    T[][] data();\n\n    String content();\n\
+    \n    default T[] row(int index) {\n        return data()[index];\n    }\n   \
+    \ \n    T[] column(int index);\n    \n    Matrix<T> scalarMultiply(T k);\n\n \
+    \   Matrix<T> plus(Matrix<T> m);\n\n    Matrix<T> times(Matrix<T> b);\n}\n"
+  learner_created: true
+- name: src/processor/DoubleTypeOperations.java
+  visible: true
+  text: |
+    package processor;
+
+    public class DoubleTypeOperations implements TypeOperations<Double> {
+        @Override
+        public Double add(Double a, Double b) {
+            return a + b;
+        }
+
+        @Override
+        public Double multiply(Double a, Double b) {
+            return a * b;
+        }
+
+        @Override
+        public Double zero() {
+            return 0d;
+        }
+
+        @Override
+        public Class<Double> typeClass() {
+            return Double.class;
+        }
+    }
+  learner_created: true
+- name: src/processor/DoubleMatrix.java
+  visible: true
+  text: |
+    package processor;
+
+    public class DoubleMatrix<T extends Number> implements Matrix<Double> {
+        private final AbstractMatrix<Double> delegate;
+
+        public DoubleMatrix(int rows, int columns, Double[][] data) {
+            delegate = new AbstractMatrix<>(rows, columns, data, TypeOperations.doubles());
+        }
+
+        @Override
+        public int getRows() {
+            return delegate.getRows();
+        }
+
+        @Override
+        public int getColumns() {
+            return delegate.getColumns();
+        }
+
+        @Override
+        public Double[][] data() {
+            return delegate.data();
+        }
+
+        @Override
+        public String content() {
+            return delegate.content();
+        }
+
+        @Override
+        public Double[] column(int index) {
+            return delegate.column(index);
+        }
+
+        @Override
+        public Matrix<Double> scalarMultiply(Double k) {
+            return delegate.scalarMultiply(k);
+        }
+
+        @Override
+        public Matrix<Double> plus(Matrix<Double> m) {
+            return delegate.plus(m);
+        }
+
+        @Override
+        public Matrix<Double> times(Matrix<Double> b) {
+            return delegate.times(b);
+        }
+    }
+  learner_created: true
+- name: src/processor/IntTypeOperations.java
+  visible: true
+  text: |
+    package processor;
+
+    public class IntTypeOperations implements TypeOperations<Integer> {
+        @Override
+        public Integer add(Integer a, Integer b) {
+            return a + b;
+        }
+
+        @Override
+        public Integer multiply(Integer a, Integer b) {
+            return a * b;
+        }
+
+        @Override
+        public Integer zero() {
+            return 0;
+        }
+
+        @Override
+        public Class<Integer> typeClass() {
+            return Integer.class;
+        }
+    }
+  learner_created: true
+- name: src/processor/AbstractMatrix.java
+  visible: true
+  text: |
+    package processor;
+
+    import java.lang.reflect.Array;
+    import java.util.Arrays;
+    import java.util.Objects;
+    import java.util.Scanner;
+    import java.util.stream.Collectors;
+
+    class AbstractMatrix<T extends Number> implements Matrix<T> {
+        private final int rows;
+        private final int columns;
+        private final T[][] data;
+        private final TypeOperations<T> operations;
+
+        AbstractMatrix(int rows, int columns, TypeOperations<T> operations) {
+            this.rows = rows;
+            this.columns = columns;
+            this.data = (T[][]) Array.newInstance(operations.typeClass(), rows, columns);
+            this.operations = operations;
+        }
+
+        AbstractMatrix(int rows, int columns, T[][] data, TypeOperations<T> operations) {
+            this.rows = rows;
+            this.columns = columns;
+            this.data = data;
+            this.operations = operations;
+        }
+
+        @Override
+        public int getRows() {
+            return rows;
+        }
+
+        @Override
+        public int getColumns() {
+            return columns;
+        }
+
+        @Override
+        public T[][] data() {
+            return data;
+        }
+
+        @Override
+        public String content() {
+            return Arrays.stream(data)
+                    .map(row -> joinToString(" ", row))
+                    .collect(Collectors.joining(System.lineSeparator()));
+        }
+
+        @Override
+        public T[] column(int index) {
+            T[] res = (T[]) Array.newInstance(operations.typeClass(), rows);
+            for (int i = 0; i < rows; i++) {
+                res[i] = data[i][index];
+            }
+            return res;
+        }
+
+        @Override
+        public Matrix<T> scalarMultiply(T k) {
+            AbstractMatrix<T> res = new AbstractMatrix<T>(rows, columns, operations);
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    res.data[i][j] = operations.multiply(data[i][j], k);
+                }
+            }
+            return res;
+        }
+
+        private static <T> String joinToString(String delimiter, T... arr) {
+            return Arrays.stream(arr)
+                    .map(Objects::toString)
+                    .collect(Collectors.joining(delimiter));
+        }
+
+        @Override
+        public Matrix<T> plus(Matrix<T> matrix) {
+            if (rows != matrix.getRows() || columns != matrix.getColumns()) {
+                throw new NotMatchingDimensionsException();
+            }
+            AbstractMatrix<T> res = new AbstractMatrix<>(rows, columns, operations);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    res.data[i][j] = operations.add(data[i][j], matrix.data()[i][j]);
+                }
+            }
+            return res;
+        }
+
+        @Override
+        public Matrix<T> times(Matrix<T> matrix) {
+            if (columns != matrix.getRows()) {
+                throw new NotMatchingDimensionsException();
+            }
+            AbstractMatrix<T> res = new AbstractMatrix<>(rows, matrix.getColumns(), operations);
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < matrix.getColumns(); j++) {
+                    res.data[i][j] = dotProduct(row(i), matrix.column(j));
+                }
+            }
+            return res;
+        }
+
+        private T dotProduct(T[] row, T[] column) {
+            T res = operations.zero();
+            for (int i = 0; i < row.length; i++) {
+                final T c = operations.multiply(row[i], column[i]);
+                res = operations.add(res, c);
+            }
+            return res;
+        }
+    }
+  learner_created: true
+- name: src/processor/Operation.java
+  visible: true
+  text: |
+    package processor;
+
+    import java.util.Arrays;
+    import java.util.Collections;
+    import java.util.List;
+
+    public enum Operation implements MenuEntry {
+        ADD(1, "Add matrices"),
+        SCALAR(2, "Multiply matrix by a constant"),
+        TIMES(3, "Multiply matrices"),
+        EXIT(0, "Exit");
+
+        private final int choice;
+        private final String title;
+
+        Operation(int choice, String title) {
+            this.choice = choice;
+            this.title = title;
+        }
+
+        @Override
+        public int getChoice() {
+            return choice;
+        }
+
+        @Override
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public List<MenuEntry> getChildren() {
+            return Collections.emptyList();
+        }
+
+        public static Operation byChoice(int choice) {
+            return Arrays.stream(values())
+                    .filter(op -> op.getChoice() == choice)
+                    .findAny()
+                    .orElseThrow(() -> new IllegalStateException("Unsupported choice"));
+        }
+    }
+  learner_created: true
+- name: src/processor/IOUtil.java
+  visible: true
+  text: |
+    package processor;
+
+
+    import java.util.Scanner;
+
+    public class IOUtil {
+        private IOUtil() {
+        }
+
+        public static Matrix<Double> readDoubleMatrix(Scanner scanner, int rows, int columns) {
+            final Double[][] data = new Double[rows][columns];
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    data[i][j] = scanner.nextDouble();
+                }
+            }
+            return new DoubleMatrix<>(rows, columns, data);
+        }
+    }
+  learner_created: true
+- name: src/processor/NotMatchingDimensionsException.java
+  visible: true
+  text: |
+    package processor;
+
+    public class NotMatchingDimensionsException extends RuntimeException {
+    }
+  learner_created: true
+- name: src/processor/MenuEntry.java
+  visible: true
+  text: |
+    package processor;
+
+    import java.util.List;
+
+    public interface MenuEntry {
+        int getChoice();
+
+        String getTitle();
+
+        List<MenuEntry> getChildren();
+    }
+  learner_created: true
+- name: src/processor/TypeOperations.java
+  visible: true
+  text: "package processor;\n\npublic interface TypeOperations<T> {\n    T add(T a,\
+    \ T b);\n\n    T multiply(T a, T b);\n    \n    T zero();\n\n    Class<T> typeClass();\n\
+    \    \n    static TypeOperations<Integer> integers() {\n        return new IntTypeOperations();\n\
+    \    }\n\n    static TypeOperations<Double> doubles() {\n        return new DoubleTypeOperations();\n\
+    \    }\n}\n"
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5468#comment
 status: Unchecked
-record: -1
+record: 4

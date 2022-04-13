@@ -130,6 +130,28 @@ files:
     \n    Matrix<T> scalarMultiply(T k);\n    \n    Matrix<T> plus(Matrix<T> m);\n\
     }\n"
   learner_created: true
+- name: src/processor/IOUtil.java
+  visible: true
+  text: |
+    package processor;
+
+
+    import java.util.Scanner;
+
+    public class IOUtil {
+        private IOUtil() {
+
+        }
+    }
+  learner_created: true
+- name: src/processor/NotMatchingDimensionsException.java
+  visible: true
+  text: |
+    package processor;
+
+    public class NotMatchingDimensionsException extends RuntimeException {
+    }
+  learner_created: true
 - name: src/processor/IntMatrix.java
   visible: true
   text: |
@@ -218,31 +240,9 @@ files:
         }
     }
   learner_created: true
-- name: src/processor/IOUtil.java
-  visible: true
-  text: |
-    package processor;
-
-
-    import java.util.Scanner;
-
-    public class IOUtil {
-        private IOUtil() {
-
-        }
-    }
-  learner_created: true
-- name: src/processor/NotMatchingDimensionsException.java
-  visible: true
-  text: |
-    package processor;
-
-    public class NotMatchingDimensionsException extends RuntimeException {
-    }
-  learner_created: true
-feedback_link: https://hyperskill.org/projects/60/stages/324/implement#comment
+feedback_link: https://hyperskill.org/learn/step/5466#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Mon, 11 Apr 2022 01:46:54 UTC
-record: -1
+record: 2

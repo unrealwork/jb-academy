@@ -156,7 +156,7 @@ files:
 - name: src/processor/NotMatchingDimensionsException.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/60/stages/323/implement#comment
+feedback_link: https://hyperskill.org/learn/step/5465#comment
 status: Solved
 feedback:
   message: Congratulations!
