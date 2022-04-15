@@ -46,4 +46,9 @@ public class DoubleMatrix<T extends Number> implements Matrix<Double> {
     public Matrix<Double> times(Matrix<Double> b) {
         return delegate.times(b);
     }
+
+    @Override
+    public Matrix<Double> transpose(TranspositionType type) {
+        return delegate.transpose(type);
+    }
 }

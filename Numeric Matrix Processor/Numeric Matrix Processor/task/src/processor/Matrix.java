@@ -20,4 +20,6 @@ public interface Matrix<T extends Number> {
     Matrix<T> plus(Matrix<T> m);
 
     Matrix<T> times(Matrix<T> b);
+    
+    Matrix<T> transpose(TranspositionType type);
 }

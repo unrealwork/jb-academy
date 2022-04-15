@@ -733,6 +733,15 @@ files:
     \    }\n\n    static TypeOperations<Double> doubles() {\n        return new DoubleTypeOperations();\n\
     \    }\n}\n"
   learner_created: true
+- name: src/processor/TransposeOperation.java
+  visible: true
+  learner_created: true
+- name: src/processor/TranspositionType.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5468#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 15 Apr 2022 08:37:05 UTC
 record: 4

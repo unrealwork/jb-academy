@@ -30,6 +30,8 @@ public class Main {
                 case TIMES:
                     timesCommand(it);
                     break;
+                case TRANSPOSE:
+                    transposeCommand(it);
                 case EXIT:
                     System.exit(0);
                     break;
@@ -39,6 +41,25 @@ public class Main {
         } catch (Exception e) {
             System.out.println("The operation cannot be performed.");
         }
+    }
+
+    private static void printMenuOptions(MenuEntry... ops) {
+        for (MenuEntry op : ops) {
+            System.out.println(op.getChoice() + ". " + op.getTitle());
+        }
+    }
+
+    private static void transposeCommand(Scanner it) {
+        printMenuOptions(TransposeOperation.values());
+        System.out.print("Your choice: ");
+        TransposeOperation transposeOperation = TransposeOperation.byChoice(it.nextInt());
+        System.out.print("Enter size of matrix: ");
+        final int rows = it.nextInt();
+        final int columns = it.nextInt();
+        System.out.println("Enter matrix:");
+        final Matrix<Double> a = IOUtil.readDoubleMatrix(it, rows, columns);
+        System.out.println("The result is:");
+        System.out.println(a.transpose(transposeOperation.getType()).content());
     }
 
     private static void timesCommand(Scanner it) {

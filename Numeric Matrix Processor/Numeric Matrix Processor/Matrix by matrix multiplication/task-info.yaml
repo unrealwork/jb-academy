@@ -322,12 +322,6 @@ files:
     public class NotMatchingDimensionsException extends RuntimeException {
     }
   learner_created: true
-- name: src/processor/DoubleTypeOperations.java
-  visible: true
-  learner_created: true
-- name: src/processor/IntTypeOperations.java
-  visible: true
-  learner_created: true
 - name: src/processor/AbstractMatrix.java
   visible: true
   text: |
@@ -427,21 +421,27 @@ files:
         }
     }
   learner_created: true
+- name: src/processor/IntTypeOperations.java
+  visible: true
+  learner_created: true
+- name: src/processor/DoubleMatrix.java
+  visible: true
+  learner_created: true
+- name: src/processor/TypeOperations.java
+  visible: true
+  learner_created: true
+- name: src/processor/DoubleTypeOperations.java
+  visible: true
+  learner_created: true
 - name: src/processor/Operation.java
   visible: true
   learner_created: true
 - name: src/processor/MenuEntry.java
   visible: true
   learner_created: true
-- name: src/processor/TypeOperations.java
-  visible: true
-  learner_created: true
-- name: src/processor/DoubleMatrix.java
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5467#comment
 status: Solved
 feedback:
   message: Congratulations!
-  time: Wed, 13 Apr 2022 06:26:19 UTC
+  time: Wed, 13 Apr 2022 08:46:04 UTC
 record: 3

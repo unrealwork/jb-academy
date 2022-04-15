@@ -3,7 +3,6 @@ package processor;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 class AbstractMatrix<T extends Number> implements Matrix<T> {
@@ -101,6 +100,84 @@ class AbstractMatrix<T extends Number> implements Matrix<T> {
             }
         }
         return res;
+    }
+
+    private AbstractMatrix<T> copyRotate() {
+        return new AbstractMatrix<>(columns, rows, operations);
+    }
+
+    private AbstractMatrix<T> transposeMainDiag() {
+        AbstractMatrix<T> res = copyRotate();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j <= i; j++) {
+                int offset = i - j;
+                res.data[i][j] = data[i - offset][i];
+                res.data[i - offset][i] = data[i][j];
+            }
+        }
+        return res;
+    }
+
+    private AbstractMatrix<T> transposeSideDiag() {
+        AbstractMatrix<T> res = copyRotate();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns - i; j++) {
+                int offset = columns - i - j - 1;
+                res.data[i][j] = data[i + offset][columns - i - 1];
+                res.data[i + offset][columns - i - 1] = data[i][j];
+            }
+        }
+        return res;
+    }
+
+    private AbstractMatrix<T> transposeVerticalLine() {
+        AbstractMatrix<T> res = copy();
+        boolean hasEvenColumns = columns % 2 == 0;
+        int middle = columns / 2;
+        int columnsLimit = hasEvenColumns ? middle : middle + 1;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columnsLimit; j++) {
+                int offset = hasEvenColumns ? middle - j - 1 : middle - j;
+                int mirrorJ = middle + offset;
+                res.data[i][j] = data[i][mirrorJ];
+                res.data[i][mirrorJ] = data[i][j];
+            }
+        }
+        return res;
+    }
+
+    private AbstractMatrix<T> transposeHorizontalLine() {
+        AbstractMatrix<T> res = copy();
+        boolean hasEvenRows = rows % 2 == 0;
+        int middle = rows / 2;
+        int rowsLimit = hasEvenRows ? middle : middle + 1;
+        for (int i = 0; i < rowsLimit; i++) {
+            for (int j = 0; j < columns; j++) {
+                int offset = hasEvenRows ? middle - i - 1 : middle - i;
+                int mirrorI = middle + offset;
+                res.data[i][j] = data[mirrorI][j];
+                res.data[mirrorI][j] = data[i][j];
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public Matrix<T> transpose(TranspositionType type) {
+        switch (type) {
+            case MAIN_DIAG:
+                return transposeMainDiag();
+            case SIDE_DIAG:
+                return transposeSideDiag();
+            case VERTICAL_LINE:
+                return transposeVerticalLine();
+            default:
+                return transposeHorizontalLine();
+        }
+    }
+
+    private AbstractMatrix<T> copy() {
+        return new AbstractMatrix<>(rows, columns, operations);
     }
 
     private T dotProduct(T[] row, T[] column) {

@@ -1,21 +1,27 @@
 package processor;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public enum Operation implements MenuEntry {
     ADD(1, "Add matrices"),
     SCALAR(2, "Multiply matrix by a constant"),
     TIMES(3, "Multiply matrices"),
+    TRANSPOSE(4, "Transpose matrix", TransposeOperation.values()),
     EXIT(0, "Exit");
 
     private final int choice;
     private final String title;
+    private final List<MenuEntry> children;
 
     Operation(int choice, String title) {
+        this(choice, title, new MenuEntry[] {});
+    }
+
+    Operation(int choice, String title, MenuEntry... values) {
         this.choice = choice;
         this.title = title;
+        this.children = Arrays.asList(values);
     }
 
     @Override
@@ -30,7 +36,7 @@ public enum Operation implements MenuEntry {
 
     @Override
     public List<MenuEntry> getChildren() {
-        return Collections.emptyList();
+        return children;
     }
 
     public static Operation byChoice(int choice) {
