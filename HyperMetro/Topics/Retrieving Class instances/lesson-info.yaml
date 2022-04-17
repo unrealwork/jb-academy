@@ -1,5 +1,5 @@
 content:
-  - Theory
+- Theory
 - getClass method
 - Class retrieval
 - myClass variable
@@ -7,4 +7,3 @@ content:
 - Code output
 - Select statements
 - Retrieve class name
-- Getting Superclass

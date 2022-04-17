@@ -1,10 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: public void method() { }
-- text: public instance void method() { }
-- text: public static void method() { }
-- text: public instance method() { }
 files:
 - name: src/Task.java
   visible: true

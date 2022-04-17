@@ -176,6 +176,11 @@ class AbstractMatrix<T extends Number> implements Matrix<T> {
         }
     }
 
+    @Override
+    public T det() {
+        return null;
+    }
+
     private AbstractMatrix<T> copy() {
         return new AbstractMatrix<>(rows, columns, operations);
     }

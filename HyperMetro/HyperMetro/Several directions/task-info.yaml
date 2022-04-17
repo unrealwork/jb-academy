@@ -248,24 +248,6 @@ files:
       }
     }
   learner_created: false
-- name: test/samara.json
-  visible: false
-  text: |-
-    {
-      "line 1": {
-        "1": "Alabinskaya",
-        "2": "Rossiyskaya",
-        "3": "Moskovskaya",
-        "4": "Gagarinskaya",
-        "5": "Sportivnaya",
-        "6": "Sovetskaya",
-        "7": "Pobeda",
-        "8": "Bezymyanka",
-        "9": "Kirovskaya",
-        "10": "Yungorodok"
-      }
-    }
-  learner_created: false
 - name: test/baltimore.json
   visible: false
   text: |-
@@ -288,39 +270,9 @@ files:
       }
     }
   learner_created: false
-- name: src/metro/SubwayStorage.java
-  visible: true
-  learner_created: true
-- name: src/metro/InMemorySubwayStorage.java
-  visible: true
-  learner_created: true
-- name: src/metro/StorageCommand.java
-  visible: true
-  learner_created: true
-- name: src/metro/StorageCommands.java
-  visible: true
-  learner_created: true
-- name: src/metro/StorageCommandFactory.java
-  visible: true
-  learner_created: true
-- name: src/metro/StorageCommandFactoryImpl.java
-  visible: true
-  learner_created: true
-- name: src/metro/ConsoleCommand.java
-  visible: true
-  learner_created: true
-- name: src/metro/AppendCommand.java
-  visible: true
-  learner_created: true
-- name: src/metro/Printer.java
-  visible: true
-  learner_created: true
-- name: src/metro/StationsPrinter.java
+- name: test/prague.json
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/10342#comment
 status: Solved
-feedback:
-  message: Congratulations!
-  time: Mon, 28 Mar 2022 09:30:15 UTC
-record: 1
+record: 4

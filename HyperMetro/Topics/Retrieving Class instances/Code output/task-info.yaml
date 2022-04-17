@@ -1,12 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: throw IllegalAccessException
-- text: "null"
-- text: throw NullPointerException
-- text: the code will not compile
-- text: java.lang.Class
-- text: java.lang.Object
 files:
 - name: src/Task.java
   visible: true

@@ -1,11 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: class java.lang.Class
-- text: This code will not compile
-- text: class java.lang.String
-- text: java.lang.ClassNotFoundException will be thrown
-- text: java.lang.NullPointerException will be thrown
 files:
 - name: src/Task.java
   visible: true

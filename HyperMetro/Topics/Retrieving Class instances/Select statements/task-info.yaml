@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: Class nullClass = null.class;
-- text: Class stringClass = String.class;
-- text: Class intClass = int.class;
-- text: Class voidClass = void.class;
-- text: Class objectClass = Object.class;
-- text: Class integerClass = Integer.class;
+is_multiple_choice: false
 files:
 - name: src/Task.java
   visible: true

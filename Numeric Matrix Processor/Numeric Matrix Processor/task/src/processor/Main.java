@@ -32,6 +32,9 @@ public class Main {
                     break;
                 case TRANSPOSE:
                     transposeCommand(it);
+                    break;
+                case DETERMINANT:
+                    determinantCommand(it);
                 case EXIT:
                     System.exit(0);
                     break;
@@ -41,6 +44,10 @@ public class Main {
         } catch (Exception e) {
             System.out.println("The operation cannot be performed.");
         }
+    }
+
+    private static void determinantCommand(Scanner it) {
+        
     }
 
     private static void printMenuOptions(MenuEntry... ops) {

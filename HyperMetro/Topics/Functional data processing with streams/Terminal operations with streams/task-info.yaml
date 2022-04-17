@@ -1,12 +1,5 @@
 type: choice
-is_multiple_choice: true
-options:
-- text: max
-- text: reduce
-- text: sorted
-- text: limit
-- text: flatMap
-- text: collect
+is_multiple_choice: false
 files:
 - name: src/Task.java
   visible: true

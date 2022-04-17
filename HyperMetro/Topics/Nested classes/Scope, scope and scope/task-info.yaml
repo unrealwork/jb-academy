@@ -1,9 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: x = 10
-- text: x = 5
-- text: ' The code won''t compile.'
 files:
 - name: src/Task.java
   visible: true

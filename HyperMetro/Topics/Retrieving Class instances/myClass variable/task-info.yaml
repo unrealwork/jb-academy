@@ -1,12 +1,5 @@
 type: choice
 is_multiple_choice: false
-options:
-- text: The code will not compile
-- text: Three-dimensional long array
-- text: Java String
-- text: Three-dimensional Java Object array
-- text: Java Object
-- text: Three-dimensional boolean array
 files:
 - name: src/Task.java
   visible: true

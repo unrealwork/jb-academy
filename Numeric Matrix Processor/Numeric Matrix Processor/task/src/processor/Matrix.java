@@ -22,4 +22,6 @@ public interface Matrix<T extends Number> {
     Matrix<T> times(Matrix<T> b);
     
     Matrix<T> transpose(TranspositionType type);
+    
+    T det();
 }

@@ -8,6 +8,7 @@ public enum Operation implements MenuEntry {
     SCALAR(2, "Multiply matrix by a constant"),
     TIMES(3, "Multiply matrices"),
     TRANSPOSE(4, "Transpose matrix", TransposeOperation.values()),
+    DETERMINANT(5, "Calculate a determinant"),
     EXIT(0, "Exit");
 
     private final int choice;
