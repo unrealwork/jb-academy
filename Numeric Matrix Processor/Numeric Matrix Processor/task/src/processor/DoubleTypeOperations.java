@@ -22,8 +22,13 @@ public class DoubleTypeOperations implements TypeOperations<Double> {
     }
 
     @Override
-    public Double negate(Double a) {
+    public Double inverseAdd(Double a) {
         return -a;
+    }
+
+    @Override
+    public Double inverseMult(Double a) {
+        return 1/a;
     }
 
     @Override

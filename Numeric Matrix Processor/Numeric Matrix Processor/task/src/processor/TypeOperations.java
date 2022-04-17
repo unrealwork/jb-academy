@@ -9,14 +9,16 @@ public interface TypeOperations<T> {
 
     T one();
 
-    T negate(T a);
+    T inverseAdd(T a);
+    
+    T inverseMult(T a);
 
     default T negateOne() {
-        return negate(one());
+        return inverseAdd(one());
     }
 
     default T minus(T a, T b) {
-        return add(a, negate(b));
+        return add(a, inverseAdd(b));
     }
 
     Class<T> typeClass();

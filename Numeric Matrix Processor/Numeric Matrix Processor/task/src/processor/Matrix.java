@@ -24,4 +24,6 @@ public interface Matrix<T extends Number> {
     Matrix<T> transpose(TranspositionType type);
     
     T det();
+    
+    Matrix<T> inverse();
 }

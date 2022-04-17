@@ -196,7 +196,8 @@ class AbstractMatrix<T extends Number> implements Matrix<T> {
 
     private T cofactor(int i, int j) {
         final T sign = ((i + j) % 2 == 0) ? operations.one() : operations.negateOne();
-        return operations.multiply(sign, minor(i, j).det());
+        AbstractMatrix<T> minor = minor(i, j);
+        return operations.multiply(sign, minor.det());
     }
 
     @Override
@@ -215,6 +216,28 @@ class AbstractMatrix<T extends Number> implements Matrix<T> {
             res = operations.add(res, el);
         }
         return res;
+    }
+
+    private AbstractMatrix<T> cofactorMatrix() {
+        final AbstractMatrix<T> res = new AbstractMatrix<>(rows, columns, operations);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                res.data[i][j] = cofactor(i, j);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public Matrix<T> inverse() {
+        if (rows != columns) {
+            throw new NotMatchingDimensionsException("Inverse matrix can be calculated only for square matrix");
+        }
+        T det = det();
+        AbstractMatrix<T> cofactor = cofactorMatrix();
+        return cofactor
+                .transpose(TranspositionType.MAIN_DIAG)
+                .scalarMultiply(operations.inverseMult(det));
     }
 
     private AbstractMatrix<T> copy() {

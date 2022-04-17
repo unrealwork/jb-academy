@@ -35,6 +35,10 @@ public class Main {
                     break;
                 case DETERMINANT:
                     determinantCommand(it);
+                    break;
+                case INVERSE:
+                    inverseCommand(it);
+                    break;
                 case EXIT:
                     System.exit(0);
                     break;
@@ -44,6 +48,16 @@ public class Main {
         } catch (Exception e) {
             System.out.println("The operation cannot be performed.");
         }
+    }
+
+    private static void inverseCommand(Scanner it) {
+        System.out.print("Enter size of matrix: ");
+        int rows = it.nextInt();
+        int columns = it.nextInt();
+        System.out.println("Enter matrix:");
+        Matrix<Double> a = IOUtil.readDoubleMatrix(it, rows, columns);
+        System.out.println("The result is:");
+        System.out.println(a.inverse().content());
     }
 
     private static void determinantCommand(Scanner it) {

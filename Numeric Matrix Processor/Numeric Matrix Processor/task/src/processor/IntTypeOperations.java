@@ -22,8 +22,13 @@ public class IntTypeOperations implements TypeOperations<Integer> {
     }
 
     @Override
-    public Integer negate(Integer a) {
+    public Integer inverseAdd(Integer a) {
         return -a;
+    }
+
+    @Override
+    public Integer inverseMult(Integer a) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

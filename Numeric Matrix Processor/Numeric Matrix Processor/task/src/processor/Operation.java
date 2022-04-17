@@ -9,6 +9,7 @@ public enum Operation implements MenuEntry {
     TIMES(3, "Multiply matrices"),
     TRANSPOSE(4, "Transpose matrix", TransposeOperation.values()),
     DETERMINANT(5, "Calculate a determinant"),
+    INVERSE(6, "Inverse matrix"),
     EXIT(0, "Exit");
 
     private final int choice;
