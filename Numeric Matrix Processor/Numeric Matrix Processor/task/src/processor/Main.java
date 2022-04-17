@@ -47,7 +47,13 @@ public class Main {
     }
 
     private static void determinantCommand(Scanner it) {
-        
+        System.out.print("Enter size of matrix: ");
+        int rows = it.nextInt();
+        int columns = it.nextInt();
+        System.out.println("Enter matrix:");
+        Matrix<Double> a = IOUtil.readDoubleMatrix(it, rows, columns);
+        System.out.println("The result is:");
+        System.out.println(a.det());
     }
 
     private static void printMenuOptions(MenuEntry... ops) {

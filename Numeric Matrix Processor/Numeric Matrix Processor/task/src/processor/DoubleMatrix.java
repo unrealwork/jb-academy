@@ -51,4 +51,9 @@ public class DoubleMatrix<T extends Number> implements Matrix<Double> {
     public Matrix<Double> transpose(TranspositionType type) {
         return delegate.transpose(type);
     }
+    
+    @Override
+    public Double det() {
+        return delegate.det();
+    }
 }

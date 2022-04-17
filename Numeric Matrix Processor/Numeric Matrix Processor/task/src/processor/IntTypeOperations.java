@@ -17,6 +17,16 @@ public class IntTypeOperations implements TypeOperations<Integer> {
     }
 
     @Override
+    public Integer one() {
+        return 1;
+    }
+
+    @Override
+    public Integer negate(Integer a) {
+        return -a;
+    }
+
+    @Override
     public Class<Integer> typeClass() {
         return Integer.class;
     }

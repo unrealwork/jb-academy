@@ -17,6 +17,16 @@ public class DoubleTypeOperations implements TypeOperations<Double> {
     }
 
     @Override
+    public Double one() {
+        return 1d;
+    }
+
+    @Override
+    public Double negate(Double a) {
+        return -a;
+    }
+
+    @Override
     public Class<Double> typeClass() {
         return Double.class;
     }
