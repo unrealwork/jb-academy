@@ -17,6 +17,8 @@
       <module name="Numeric_Matrix_Processor.Topics-Package-Sorting_arrays.main" target="11" />
       <module name="Numeric_Matrix_Processor.Topics-Package-The_default_import.main" target="11" />
       <module name="Numeric_Matrix_Processor.Topics-Package-Theory.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Recursion-Number_of_decompositions.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Recursion-Theory.main" target="11" />
       <module name="Numeric_Matrix_Processor.util.main" target="11" />
     </bytecodeTargetLevel>
   </component>
