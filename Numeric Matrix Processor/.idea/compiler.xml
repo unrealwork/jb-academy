@@ -9,6 +9,10 @@
       <module name="Numeric_Matrix_Processor.Numeric_Matrix_Processor-task-build-test-results.main" target="11" />
       <module name="Numeric_Matrix_Processor.Numeric_Matrix_Processor-task-build-tmp.main" target="11" />
       <module name="Numeric_Matrix_Processor.Numeric_Matrix_Processor-task.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Math_library-Heron's_formula.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Math_library-Quadratic_equation.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Math_library-The_angle_between_vectors.main" target="11" />
+      <module name="Numeric_Matrix_Processor.Topics-Math_library-Theory.main" target="11" />
       <module name="Numeric_Matrix_Processor.Topics-Package-Binary_search.main" target="11" />
       <module name="Numeric_Matrix_Processor.Topics-Package-Creating_instances.main" target="11" />
       <module name="Numeric_Matrix_Processor.Topics-Package-Default_packages.main" target="11" />
