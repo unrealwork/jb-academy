@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="distributionType" value="WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Multifunctional mapper" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Reducer operator" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Returning functions" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Statements" />
+            <option value="$PROJECT_DIR$/Topics/Currying/String concatenation" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Currying/Types of a curried function" />
+            <option value="$PROJECT_DIR$/util" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
