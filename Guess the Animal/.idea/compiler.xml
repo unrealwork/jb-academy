@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="17">
+      <module name="Guess_the_Animal.Guess_the_Animal-task.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Multifunctional_mapper.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Reducer_operator.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Returning_functions.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Statements.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-String_concatenation.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Theory.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Currying-Types_of_a_curried_function.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Recursion-About_recursion.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Recursion-K-combination.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Recursion-Number_of_decompositions.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Recursion-Select_statement.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Recursion-Theory.main" target="11" />
+      <module name="Guess_the_Animal.util.main" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
