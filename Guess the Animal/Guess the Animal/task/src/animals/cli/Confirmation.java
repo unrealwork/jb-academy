@@ -25,8 +25,13 @@ public class Confirmation extends Question<Boolean> {
 
     private final Scanner scanner;
 
-    public Confirmation(Scanner scanner) {
+    private final Message startQuestion;
+    private boolean isFirst;
+
+    public Confirmation(Scanner scanner, Message startQuestion) {
         this.scanner = scanner;
+        this.startQuestion = startQuestion;
+        this.isFirst = true;
     }
 
     @Override
@@ -43,6 +48,10 @@ public class Confirmation extends Question<Boolean> {
 
     @Override
     public Message question() {
+        if (isFirst) {
+            isFirst = false;
+            return startQuestion;
+        }
         return questionGenerator.get();
     }
 

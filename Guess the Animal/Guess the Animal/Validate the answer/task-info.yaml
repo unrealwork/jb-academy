@@ -461,6 +461,33 @@ files:
 - name: src/animals/cli/LineBreakMessage.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/132/stages/703/implement#comment
-status: Unchecked
+- name: src/animals/Article.java
+  visible: true
+  learner_created: true
+- name: src/animals/ArticleType.java
+  visible: true
+  learner_created: true
+- name: src/animals/Expression.java
+  visible: true
+  learner_created: true
+- name: src/animals/Token.java
+  visible: true
+  learner_created: true
+- name: src/animals/ExpressionImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/Word.java
+  visible: true
+  learner_created: true
+- name: src/animals/Subject.java
+  visible: true
+  learner_created: true
+- name: src/animals/IllegalExpression.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/11079#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 22 Apr 2022 19:41:12 UTC
 record: -1

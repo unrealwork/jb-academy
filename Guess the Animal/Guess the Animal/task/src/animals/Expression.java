@@ -1,0 +1,60 @@
+package animals;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public interface Expression {
+
+    default Token first() {
+        return tokens().iterator().next();
+    }
+
+    List<Token> tokens();
+
+    default boolean equalsIgnoreCase(Expression e) {
+        List<Token> words = tokens();
+        if (e == null) {
+            return false;
+        }
+        if (words.size() != e.tokens().size()) {
+            return false;
+        }
+        Iterator<Token> it1 = words.iterator();
+        Iterator<Token> it2 = e.tokens().iterator();
+        while (it1.hasNext() && it2.hasNext()) {
+            Token t1 = it1.next();
+            Token t2 = it2.next();
+            if (!t1.content().equalsIgnoreCase(t2.content())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static Expression parse(String s) throws IllegalExpression {
+        List<Token> tokens = new ArrayList<>();
+        StringBuilder tokenBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if ((c == '!' || c == '.') && i != (s.length() - 1)) {
+                throw new IllegalExpression("Expression should contain only one terminal symbol");
+            }
+            if (Character.isLetterOrDigit(c)) {
+                tokenBuilder.append(c);
+            } else {
+                int tokenLength = tokenBuilder.length();
+                if (tokenLength > 0) {
+                    tokens.add(new Word(tokenBuilder.toString(), i - tokenLength));
+                }
+                tokenBuilder.setLength(0);
+            }
+        }
+        if (tokenBuilder.length() > 0) {
+            tokens.add(new Word(tokenBuilder.toString(),
+                    s.length() - tokenBuilder.length()));
+        }
+        return new ExpressionImpl(Collections.unmodifiableList(tokens));
+    }
+}

@@ -18,13 +18,13 @@ public class ActionFactoryImpl implements ActionFactory {
 
 
     @Override
-    public Action<String> question(String question) {
+    public Question<String> question(String question) {
         return new SimpleQuestion(question, scanner);
     }
 
     @Override
-    public Action<Boolean> confirmation() {
-        return new Confirmation(scanner);
+    public Action<Boolean> confirmation(Message startQuestion) {
+        return new Confirmation(scanner, startQuestion);
     }
 
     @Override

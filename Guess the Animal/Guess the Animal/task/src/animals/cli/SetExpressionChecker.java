@@ -1,5 +1,8 @@
 package animals.cli;
 
+import animals.Expression;
+import animals.IllegalExpression;
+
 import java.util.Set;
 
 public class SetExpressionChecker implements ExpressionChecker {
@@ -12,7 +15,13 @@ public class SetExpressionChecker implements ExpressionChecker {
     @Override
     public boolean isExpression(String exp) {
         final String trimmed = exp.trim();
-        return expressions.stream()
-                .anyMatch(trimmed::equalsIgnoreCase);
+        try {
+            final Expression expression = Expression.parse(trimmed);
+            return expressions.stream()
+                    .map(Expression::parse)
+                    .anyMatch(expression::equalsIgnoreCase);
+        } catch (IllegalExpression e) {
+            return false;
+        }
     }
 }

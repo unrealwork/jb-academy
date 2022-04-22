@@ -2,9 +2,9 @@ package animals.cli;
 
 public interface ActionFactory extends AutoCloseable {
 
-    Action<String> question(String question);
+    Question<String> question(String question);
 
-    Action<Boolean> confirmation();
+    Action<Boolean> confirmation(Message startQuestion);
 
     static ActionFactory cli() {
         return new ActionFactoryImpl();
@@ -17,8 +17,9 @@ public interface ActionFactory extends AutoCloseable {
     Action<String> animalRequest();
 
     Message randomMessage(String... messages);
-    
+
     Message lineBreak();
+
     default Message byeMessage() {
         return randomMessage("Have a nice day!",
                 "See you soon!",
