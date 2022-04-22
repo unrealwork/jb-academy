@@ -404,6 +404,63 @@ files:
     public class Main {
     }
   learner_created: false
+- name: src/animals/cli/Action.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/Message.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/CliMessage.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/greeting/GreetingMessage.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/greeting/Greeting.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/greeting/TimeBasedGreeting.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/greeting/DayTimes.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/Question.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/SimpleQuestion.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/SimpleMessage.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/Confirmation.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/RandomGenerator.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/ActionFactory.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/ActionFactoryImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/ExpressionChecker.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/SetExpressionChecker.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/AnimalRequestAction.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/RandomMessage.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/LineBreakMessage.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/703/implement#comment
 status: Unchecked
 record: -1
