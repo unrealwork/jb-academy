@@ -918,8 +918,5 @@ files:
     \    }\n}\n"
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5469#comment
-status: Solved
-feedback:
-  message: Congratulations!
-  time: Sun, 17 Apr 2022 16:09:39 UTC
-record: 5
+status: Unchecked
+record: -1

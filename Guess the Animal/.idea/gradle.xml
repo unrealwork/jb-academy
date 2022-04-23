@@ -8,28 +8,22 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../ProgramData/chocolatey/lib/gradle/tools/gradle-6.8" />
+        <option name="gradleJvm" value="azul-11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Guess the Animal/task" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/classes/java" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/generated/sources/annotationProcessor/java" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/generated/sources/headers/java" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/reports/tests" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/test-results" />
-            <option value="$PROJECT_DIR$/Guess the Animal/task/build/tmp" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Multifunctional mapper" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Reducer operator" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Returning functions" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Statements" />
             <option value="$PROJECT_DIR$/Topics/Currying/String concatenation" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Theory" />
-            <option value="$PROJECT_DIR$/Topics/Currying/Types of a curried function" />
             <option value="$PROJECT_DIR$/Topics/Recursion/About recursion" />
             <option value="$PROJECT_DIR$/Topics/Recursion/K-combination" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Number of decompositions" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Select statement" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Check the essay" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Remove comments" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Remove extra spaces" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Theory" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
