@@ -2,7 +2,6 @@ package animals;
 
 import animals.cli.Action;
 import animals.cli.ActionFactory;
-import animals.cli.Message;
 
 public class Main {
     public static void main(String[] args) throws Exception {
