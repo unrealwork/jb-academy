@@ -29,6 +29,10 @@
       <module name="Guess_the_Animal.Topics-Recursion-Number_of_decompositions.main" target="11" />
       <module name="Guess_the_Animal.Topics-Recursion-Select_statement.main" target="11" />
       <module name="Guess_the_Animal.Topics-Recursion-Theory.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters-Check_the_essay.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters-Remove_comments.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters-Remove_extra_spaces.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters-Theory.main" target="11" />
       <module name="Guess_the_Animal.util.main" target="11" />
     </bytecodeTargetLevel>
   </component>
