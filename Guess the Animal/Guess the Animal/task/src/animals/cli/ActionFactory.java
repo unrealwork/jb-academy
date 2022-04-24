@@ -1,10 +1,14 @@
 package animals.cli;
 
+import animals.Subject;
+
 public interface ActionFactory extends AutoCloseable {
 
     Question<String> question(String question);
 
     Action<Boolean> confirmation(Message startQuestion);
+    
+    Question<Subject> subjectQuestion(String s);
 
     static ActionFactory cli() {
         return new ActionFactoryImpl();

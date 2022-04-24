@@ -4,11 +4,10 @@ import java.util.Scanner;
 
 public class SimpleQuestion extends Question<String> {
     private final Message questionMessage;
-    private final Scanner scanner;
 
     public SimpleQuestion(String question, Scanner scanner) {
+        super(scanner);
         questionMessage = new SimpleMessage(question);
-        this.scanner = scanner;
     }
 
     @Override
@@ -19,10 +18,5 @@ public class SimpleQuestion extends Question<String> {
     @Override
     public Message question() {
         return questionMessage;
-    }
-
-    @Override
-    public Scanner scanner() {
-        return scanner;
     }
 }

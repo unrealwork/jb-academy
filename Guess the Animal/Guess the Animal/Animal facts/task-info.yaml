@@ -1179,6 +1179,24 @@ files:
 
     - [finish, The program should finish.]
   learner_created: false
+- name: src/animals/cli/SubjectQuestion.java
+  visible: true
+  learner_created: true
+- name: src/animals/MessageStorage.java
+  visible: true
+  learner_created: true
+- name: src/animals/InMemoryMessageStorage.java
+  visible: true
+  learner_created: true
+- name: src/animals/MessageStorageDecorator.java
+  visible: true
+  learner_created: true
+- name: src/animals/DefaultMessageStorage.java
+  visible: true
+  learner_created: true
+- name: src/animals/CollectionUtils.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11080#comment
 status: Unchecked
 record: -1

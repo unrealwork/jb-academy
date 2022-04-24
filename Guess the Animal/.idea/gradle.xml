@@ -25,7 +25,15 @@
             <option value="$PROJECT_DIR$/Topics/Currying/String concatenation" />
             <option value="$PROJECT_DIR$/Topics/Currying/Theory" />
             <option value="$PROJECT_DIR$/Topics/Currying/Types of a curried function" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/E-mail address" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/Find a word with a given length" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/In the middle of a word" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/Number parsing" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/Start or end of a word" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Patterns and Matcher/Why use Pattern and Matcher" />
             <option value="$PROJECT_DIR$/Topics/Recursion/About recursion" />
+            <option value="$PROJECT_DIR$/Topics/Recursion/Fix the method to print strings in the reverse order" />
             <option value="$PROJECT_DIR$/Topics/Recursion/K-combination" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Number of decompositions" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Select statement" />

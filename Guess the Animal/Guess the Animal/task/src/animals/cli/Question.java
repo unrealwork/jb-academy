@@ -4,11 +4,19 @@ import java.util.Scanner;
 
 public abstract class Question<T> implements Action<T> {
 
+    private final Scanner scanner;
+
+    Question(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public abstract T read(Scanner sc);
 
     public abstract Message question();
 
-    public abstract Scanner scanner();
+    public Scanner scanner() {
+        return scanner;
+    };
 
     @Override
     public T execute() {

@@ -1,5 +1,6 @@
 package animals.cli;
 
+import animals.Subject;
 import animals.cli.greeting.GreetingMessage;
 
 import java.io.InputStream;
@@ -25,6 +26,11 @@ public class ActionFactoryImpl implements ActionFactory {
     @Override
     public Action<Boolean> confirmation(Message startQuestion) {
         return new Confirmation(scanner, startQuestion);
+    }
+
+    @Override
+    public Question<Subject> subjectQuestion(String s) {
+        return new SubjectQuestion(s, scanner);
     }
 
     @Override
