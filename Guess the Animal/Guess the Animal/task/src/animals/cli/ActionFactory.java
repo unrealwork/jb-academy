@@ -1,5 +1,6 @@
 package animals.cli;
 
+import animals.Fact;
 import animals.Subject;
 
 public interface ActionFactory extends AutoCloseable {
@@ -7,7 +8,7 @@ public interface ActionFactory extends AutoCloseable {
     Question<String> question(String question);
 
     Action<Boolean> confirmation(Message startQuestion);
-    
+
     Question<Subject> subjectQuestion(String s);
 
     static ActionFactory cli() {
@@ -24,9 +25,7 @@ public interface ActionFactory extends AutoCloseable {
 
     Message lineBreak();
 
-    default Message byeMessage() {
-        return randomMessage("Have a nice day!",
-                "See you soon!",
-                "Bye!");
-    }
+    Message byeMessage();
+    
+    Action<Fact> factRequest(String question, String confirmationMessage);
 }

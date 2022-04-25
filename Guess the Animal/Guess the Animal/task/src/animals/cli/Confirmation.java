@@ -29,6 +29,7 @@ public class Confirmation extends Question<Boolean> {
     private boolean isFirst;
 
     public Confirmation(Scanner scanner, Message startQuestion) {
+        super(scanner);
         this.scanner = scanner;
         this.startQuestion = startQuestion;
         this.isFirst = true;

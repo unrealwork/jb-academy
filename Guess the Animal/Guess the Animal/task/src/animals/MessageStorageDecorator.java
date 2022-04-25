@@ -19,4 +19,9 @@ class MessageStorageDecorator implements MessageStorage {
     public String find(String messageKey) {
         return delegate.find(messageKey);
     }
+
+    @Override
+    public String template(String templateKey, Object... objects) {
+        return delegate.template(templateKey, objects);
+    }
 }

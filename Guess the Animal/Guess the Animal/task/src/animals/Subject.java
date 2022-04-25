@@ -28,6 +28,12 @@ public class Subject implements Expression {
         return articleType;
     }
 
+    public String asText() {
+        Expression expression = withoutArticle();
+        ArticleType type = hasArticle ? articleType : ArticleType.forExpression(expression);
+        return type.content() + " " + expression.asText();
+    }
+
     public Expression withoutArticle() {
         return new ExpressionImpl(tokens().stream()
                 .skip(hasArticle ? 1 : 0)

@@ -1,5 +1,8 @@
 package animals.cli;
 
+import animals.Fact;
+import animals.MessageKeys;
+import animals.MessageStorage;
 import animals.Subject;
 import animals.cli.greeting.GreetingMessage;
 
@@ -8,9 +11,11 @@ import java.util.Scanner;
 
 public class ActionFactoryImpl implements ActionFactory {
     private final Scanner scanner;
+    private final MessageStorage storage;
 
     private ActionFactoryImpl(InputStream is) {
         this.scanner = new Scanner(is);
+        this.storage = MessageStorage.def();
     }
 
     ActionFactoryImpl() {
@@ -59,7 +64,25 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
+    public Message byeMessage() {
+        return new RandomMessage(storage.get(MessageKeys.BYE)
+                .toArray(String[]::new));
+    }
+
+    @Override
+    public Action<Fact> factRequest(String question, String confirmationMessage) {
+        return new FactRequest(this, question, confirmationMessage);
+    }
+
+    @Override
     public void close() {
         scanner.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+        try(ActionFactory factory = ActionFactory.cli()) {
+            factory.byeMessage()
+                    .execute();
+        }
     }
 }

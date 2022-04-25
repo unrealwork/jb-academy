@@ -1194,7 +1194,28 @@ files:
 - name: src/animals/DefaultMessageStorage.java
   visible: true
   learner_created: true
-- name: src/animals/CollectionUtils.java
+- name: src/animals/MapBuilder.java
+  visible: true
+  learner_created: true
+- name: src/animals/Fact.java
+  visible: true
+  learner_created: true
+- name: src/animals/FactType.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/FactRequest.java
+  visible: true
+  learner_created: true
+- name: src/animals/Template.java
+  visible: true
+  learner_created: true
+- name: src/animals/TemplateImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/MessageKeys.java
+  visible: true
+  learner_created: true
+- name: src/animals/FactImpl.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11080#comment

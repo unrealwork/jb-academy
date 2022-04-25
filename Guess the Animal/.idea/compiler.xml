@@ -9,6 +9,13 @@
       <module name="Guess_the_Animal.Guess_the_Animal-task-build-test-results.main" target="11" />
       <module name="Guess_the_Animal.Guess_the_Animal-task-build-tmp.main" target="11" />
       <module name="Guess_the_Animal.Guess_the_Animal-task.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Comparing_numbers.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Comparing_values.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Multiple_fields.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Non-abstract_methods.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Odd_and_even.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Reverse_sorting.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Comparator-Theory.main" target="11" />
       <module name="Guess_the_Animal.Topics-Currying-Multifunctional_mapper.main" target="11" />
       <module name="Guess_the_Animal.Topics-Currying-Reducer_operator.main" target="11" />
       <module name="Guess_the_Animal.Topics-Currying-Returning_functions.main" target="11" />

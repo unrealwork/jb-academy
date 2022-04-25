@@ -20,4 +20,9 @@ public class InMemoryMessageStorage implements MessageStorage {
     public String find(String messageKey) {
         return storage.getOrDefault(messageKey, Collections.emptySet()).iterator().next();
     }
+
+    @Override
+    public String template(String templateKey, Object... objects) {
+        return Template.create().format(find(templateKey), objects);
+    }
 }

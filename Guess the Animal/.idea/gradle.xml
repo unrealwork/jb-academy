@@ -18,6 +18,13 @@
             <option value="$PROJECT_DIR$/Guess the Animal/task/build/reports/tests" />
             <option value="$PROJECT_DIR$/Guess the Animal/task/build/test-results" />
             <option value="$PROJECT_DIR$/Guess the Animal/task/build/tmp" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Comparing numbers" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Comparing values" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Multiple fields" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Non-abstract methods" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Odd and even" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Reverse sorting" />
+            <option value="$PROJECT_DIR$/Topics/Comparator/Theory" />
             <option value="$PROJECT_DIR$/Topics/Currying/Multifunctional mapper" />
             <option value="$PROJECT_DIR$/Topics/Currying/Reducer operator" />
             <option value="$PROJECT_DIR$/Topics/Currying/Returning functions" />
@@ -38,6 +45,10 @@
             <option value="$PROJECT_DIR$/Topics/Recursion/Number of decompositions" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Select statement" />
             <option value="$PROJECT_DIR$/Topics/Recursion/Theory" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Check the essay" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Remove comments" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Remove extra spaces" />
+            <option value="$PROJECT_DIR$/Topics/Replacing characters/Theory" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

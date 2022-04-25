@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface Expression {
 
@@ -12,6 +13,19 @@ public interface Expression {
     }
 
     List<Token> tokens();
+
+    default String asText() {
+        return tokens().stream()
+                .map(Token::content)
+                .collect(Collectors.joining(" "));
+    }
+
+    default Expression concat(Expression o) {
+        List<Token> concatenatedTokens = new ArrayList<>();
+        concatenatedTokens.addAll(tokens());
+        concatenatedTokens.addAll(o.tokens());
+        return new ExpressionImpl(Collections.unmodifiableList(concatenatedTokens));
+    }
 
     default boolean equalsIgnoreCase(Expression e) {
         List<Token> words = tokens();
