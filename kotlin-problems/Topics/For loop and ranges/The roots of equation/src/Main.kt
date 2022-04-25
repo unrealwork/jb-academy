@@ -1,5 +1,4 @@
 fun main() {
-    // put your code here
     val coef = generateSequence { readInt() }
         .take(4)
         .toList()
