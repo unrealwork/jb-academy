@@ -4,3 +4,6 @@ content:
 - Type conversion
 - Repeating blocks
 - For loop and ranges
+- Processing strings
+- Floating-point types
+- When expression

@@ -18,7 +18,9 @@ public class Main {
             final Subject animal1 = animal1Req.execute();
             final Subject animal2 = animal2Req.execute();
 
-            final Action<Fact> factRequest = actionFactory.factRequest(storage.template(FACT_TEMPLATE, animal1.asText(), animal2.asText()), storage.find(MessageKeys.FACT_CONFIRM));
+            final String question = storage.template(FACT_TEMPLATE, animal1.asText(), animal2.asText());
+            final String confirmationMessage = storage.find(MessageKeys.FACT_CONFIRM);
+            final Action<Fact> factRequest = actionFactory.factRequest(question, confirmationMessage);
             factRequest.execute();
             actionFactory.lineBreak().execute();
             actionFactory.byeMessage().execute();

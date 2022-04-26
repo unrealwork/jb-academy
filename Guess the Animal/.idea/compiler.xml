@@ -2,6 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Multifunctional_mapper.main" target="11" />
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Reducer_operator.main" target="11" />
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Returning_functions.main" target="11" />
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Statements.main" target="11" />
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Theory.main" target="11" />
+      <module name="Guess the Animal.Guess_the_Animal.Topics-Currying-Types_of_a_curried_function.main" target="11" />
       <module name="Guess_the_Animal.Guess_the_Animal-task-build-classes-java.main" target="11" />
       <module name="Guess_the_Animal.Guess_the_Animal-task-build-generated-sources-annotationProcessor-java.main" target="11" />
       <module name="Guess_the_Animal.Guess_the_Animal-task-build-generated-sources-headers-java.main" target="11" />

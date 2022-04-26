@@ -7,6 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/Topics/Type conversion/Simple converter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Type conversion/Theory/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and ranges/The roots of equation/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Floating-point types/Liquid pressure/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Processing strings/The longest word/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/When expression/Harry Potter/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
