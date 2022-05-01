@@ -1,10 +1,10 @@
-<h5>Description</h5>
+<h5 id="description">Description</h5>
 
 <p>Our program is growing and learning so quickly, but just as quickly it forgets everything as soon as we finish the game session. Let's save the precious information: in this stage, you need to implement saving the accumulated knowledge. Now, when the user starts the program, the computer will load the knowledge tree saved in the memory from the previous session.</p>
 
-<h5>Theory</h5>
+<h5 id="theory">Theory</h5>
 
-<p>We will save the knowledge base in one of the following formats: JSON, XML, YAML. For this, we will use the library <a target="_blank" href="https://en.wikipedia.org/wiki/Jackson_(API)" rel="nofollow noopener noreferrer">Jackson</a>.</p>
+<p>We will save the knowledge base in one of the following formats: JSON, XML, YAML. For this, we will use the library <a target="_blank" target="_blank" href="https://en.wikipedia.org/wiki/Jackson_(API)" rel="nofollow noopener noreferrer">Jackson</a>.</p>
 
 <p>First of all, we must add the required dependencies to our <em>build.gradle</em> file:</p>
 
@@ -106,7 +106,7 @@ public class TreeNode {
   }
 }</code></pre>
 
-<h5>Objectives</h5>
+<h5 id="objectives">Objectives</h5>
 
 <p>When starting the program, the user can specify the parameter "-type" with one of the following options: "json", "xml", or "yaml". If the parameter is not specified, the program should select the default format "json".</p>
 
@@ -114,7 +114,7 @@ public class TreeNode {
 
 <p>At the start, the program must search for the file with the database. If the file isn't found, the computer must ask the user about their favorite animal and create a new knowledge tree.</p>
 
-<h5>Examples</h5>
+<h5 id="examples">Examples</h5>
 
 <p>The greater-than symbol followed by a space <code class="language-java">&gt; </code> represents the user input. Note that it's not part of the input.</p>
 

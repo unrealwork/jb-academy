@@ -46,6 +46,13 @@
       <module name="Guess_the_Animal.Topics-Replacing_characters-Remove_comments.main" target="11" />
       <module name="Guess_the_Animal.Topics-Replacing_characters-Remove_extra_spaces.main" target="11" />
       <module name="Guess_the_Animal.Topics-Replacing_characters-Theory.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Check_the_essay.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Methods_of_a_string.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Remove_comments.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Remove_extra_spaces.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Remove_HTML_tags.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-Theory.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Replacing_characters__1_-What_is_the_result.main" target="11" />
       <module name="Guess_the_Animal.util.main" target="11" />
     </bytecodeTargetLevel>
   </component>
