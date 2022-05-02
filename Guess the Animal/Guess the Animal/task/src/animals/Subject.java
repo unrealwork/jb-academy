@@ -35,7 +35,7 @@ public class Subject implements Expression {
     }
 
     public Expression withoutArticle() {
-        return new ExpressionImpl(tokens().stream()
+        return ExpressionImpl.create(tokens().stream()
                 .skip(hasArticle ? 1 : 0)
                 .collect(Collectors.toList()));
     }

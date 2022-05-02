@@ -26,6 +26,14 @@ public interface ActionFactory extends AutoCloseable {
     Message lineBreak();
 
     Message byeMessage();
-    
+
     Action<Fact> factRequest(String question, String confirmationMessage);
+
+    Action<Boolean> predicateQuestion(String question);
+
+    public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond);
+
+    default Action<Boolean> confirmation(String correctQuestion) {
+        return confirmation(message(correctQuestion));
+    }
 }

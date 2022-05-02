@@ -24,4 +24,9 @@ class MessageStorageDecorator implements MessageStorage {
     public String template(String templateKey, Object... objects) {
         return delegate.template(templateKey, objects);
     }
+
+    @Override
+    public Template template(String templateKey) {
+        return delegate.template(templateKey);
+    }
 }

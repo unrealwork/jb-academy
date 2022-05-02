@@ -4,13 +4,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TemplateImpl implements Template {
+    private final String templateText;
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{}");
 
+    public TemplateImpl(String templateText) {
+        this.templateText = templateText;
+    }
+
     @Override
-    public String format(String template, Object... objs) {
-        Matcher matcher = PLACEHOLDER_PATTERN.matcher(template);
+    public String format(Object... objs) {
+        Matcher matcher = PLACEHOLDER_PATTERN.matcher(templateText);
         int i = 0;
-        String res = template;
+        String res = templateText;
         int shift = 0;
         while (matcher.find() && i < objs.length) {
             String value = objs[i].toString();
@@ -20,11 +25,5 @@ public class TemplateImpl implements Template {
         }
 
         return res;
-    }
-
-    public static void main(String[] args) {
-        String res = Template.create()
-                .format("Specify a fact that distinguishes {} from {}.", "a cat", "a shark");
-        System.out.println(res);
     }
 }

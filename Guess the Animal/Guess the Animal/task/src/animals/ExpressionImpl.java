@@ -3,11 +3,15 @@ package animals;
 import java.util.List;
 import java.util.Objects;
 
-public class ExpressionImpl implements Expression {
+class ExpressionImpl implements Expression {
     private final List<Token> words;
 
-    public ExpressionImpl(List<Token> words) {
+    private ExpressionImpl(List<Token> words) {
         this.words = words;
+    }
+
+    public static ExpressionImpl create(List<Token> words) {
+        return new ExpressionImpl(words);
     }
 
     @Override

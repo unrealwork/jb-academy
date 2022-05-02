@@ -1,10 +1,10 @@
 package animals;
 
 public interface Template {
-    String format(String template, Object... objs);
+    String format(Object... objs);
 
-    static Template create() {
-        return new TemplateImpl();
+    static Template create(String templateText) {
+        return new TemplateImpl(templateText);
     }
 
 }

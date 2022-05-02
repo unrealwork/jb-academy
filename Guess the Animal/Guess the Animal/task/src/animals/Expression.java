@@ -24,9 +24,14 @@ public interface Expression {
         List<Token> concatenatedTokens = new ArrayList<>();
         concatenatedTokens.addAll(tokens());
         concatenatedTokens.addAll(o.tokens());
-        return new ExpressionImpl(Collections.unmodifiableList(concatenatedTokens));
+        return ExpressionImpl.create(Collections.unmodifiableList(concatenatedTokens));
     }
-
+    
+    default Expression toLowerCase() {
+        List<Token> tokens = tokens().stream().map(Token::toLowercase).collect(Collectors.toList());
+        return fromTokens(tokens);
+    }
+    
     default boolean equalsIgnoreCase(Expression e) {
         List<Token> words = tokens();
         if (e == null) {
@@ -46,7 +51,11 @@ public interface Expression {
         }
         return true;
     }
-
+    
+    static Expression fromTokens(final List<Token> tokens) {
+        return ExpressionImpl.create(tokens);
+    }
+    
     static Expression parse(String s) throws IllegalExpression {
         List<Token> tokens = new ArrayList<>();
         StringBuilder tokenBuilder = new StringBuilder();
@@ -69,6 +78,6 @@ public interface Expression {
             tokens.add(new Word(tokenBuilder.toString(),
                     s.length() - tokenBuilder.length()));
         }
-        return new ExpressionImpl(Collections.unmodifiableList(tokens));
+        return ExpressionImpl.create(Collections.unmodifiableList(tokens));
     }
 }

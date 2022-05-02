@@ -18,10 +18,17 @@ public class Main {
             final Subject animal1 = animal1Req.execute();
             final Subject animal2 = animal2Req.execute();
 
-            final String question = storage.template(FACT_TEMPLATE, animal1.asText(), animal2.asText());
+            final String question = storage.template(FACT_TEMPLATE, animal1.asText().toLowerCase(), animal2.asText().toLowerCase());
             final String confirmationMessage = storage.find(MessageKeys.FACT_CONFIRM);
             final Action<Fact> factRequest = actionFactory.factRequest(question, confirmationMessage);
-            factRequest.execute();
+            final Fact fact = factRequest.execute();
+            final String correctQuestion = storage.template(MessageKeys.FACT_CORRECT_QUESTION, animal2.asText().toLowerCase());
+            Action<Boolean> correctnessQuestion = actionFactory.predicateQuestion(correctQuestion);
+            final Boolean isCorrect = correctnessQuestion.execute();
+            FactStorage factStorage = FactStorage.create();
+            factStorage.add(fact, isCorrect ? animal2 : animal1);
+            actionFactory.animalFactDescription(fact, animal1, animal2, isCorrect)
+                    .execute();
             actionFactory.lineBreak().execute();
             actionFactory.byeMessage().execute();
         }

@@ -8,6 +8,16 @@ public class MessageKeys {
     public static final String FACT_TEMPLATE = "fact_template";
     public static final String FACT_CONFIRM = "fact_confirm";
 
+    public static final String YES = "YES";
+
+    public static final String NO = "NO";
+
+    public static final String FACT_CORRECT_QUESTION = "FACT_CORRECT_QUESTION";
+    public static final String NOT_SURE = "NOT_SURE";
+
+    public static final String FACT_DESCRIPTION = "FACT_DESCRIPTION";
+
+
     private MessageKeys() {
 
     }

@@ -1218,6 +1218,21 @@ files:
 - name: src/animals/FactImpl.java
   visible: true
   learner_created: true
+- name: src/animals/FactStorage.java
+  visible: true
+  learner_created: true
+- name: src/animals/FactStorageImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/PredicateQuestion.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/AnimalFactDescription.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11080#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 02 May 2022 17:31:04 UTC
 record: -1

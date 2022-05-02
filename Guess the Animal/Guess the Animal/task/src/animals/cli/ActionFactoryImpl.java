@@ -4,6 +4,7 @@ import animals.Fact;
 import animals.MessageKeys;
 import animals.MessageStorage;
 import animals.Subject;
+import animals.Template;
 import animals.cli.greeting.GreetingMessage;
 
 import java.io.InputStream;
@@ -30,7 +31,7 @@ public class ActionFactoryImpl implements ActionFactory {
 
     @Override
     public Action<Boolean> confirmation(Message startQuestion) {
-        return new Confirmation(scanner, startQuestion);
+        return new Confirmation(scanner, startQuestion, storage);
     }
 
     @Override
@@ -75,14 +76,19 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
-    public void close() {
-        scanner.close();
+    public Action<Boolean> predicateQuestion(String question) {
+        return new PredicateQuestion(this, storage, question);
     }
 
-    public static void main(String[] args) throws Exception {
-        try(ActionFactory factory = ActionFactory.cli()) {
-            factory.byeMessage()
-                    .execute();
-        }
+    @Override
+    public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond) {
+        final Template template = storage.template(MessageKeys.FACT_DESCRIPTION);
+        return new AnimalFactDescription(template, fact, animal1, animal2, isAboutSecond);
+    }
+
+
+    @Override
+    public void close() {
+        scanner.close();
     }
 }

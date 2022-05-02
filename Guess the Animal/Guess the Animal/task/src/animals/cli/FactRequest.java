@@ -7,29 +7,28 @@ import animals.IllegalExpression;
 public class FactRequest implements Action<Fact> {
     private final Question<String> question;
     private final Message confirmationMessage;
-    private final ActionFactory actionFactory;
 
     public FactRequest(ActionFactory actionFactory,
                        String question, String confirmationMessage) {
-        this.actionFactory = actionFactory;
         this.question = actionFactory.question(question);
         this.confirmationMessage = actionFactory.message(confirmationMessage);
     }
 
     @Override
     public Fact execute() {
-        String res = question.execute();
-        
-        Fact fact = readFact();
+        String res = question.execute().toLowerCase();
+
+        Fact fact = readFact(res);
         while (fact == null) {
             confirmationMessage.execute();
-            fact = readFact();
+            fact = readFact(null);
         }
         return fact;
     }
 
-    private Fact readFact() {
+    private Fact readFact(final String ans) {
         try {
+            String res = ans == null ? question.execute().toLowerCase() : ans;
             Expression expression = Expression.parse(res);
             return Fact.fromExpression(expression);
         } catch (IllegalExpression e) {

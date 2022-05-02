@@ -8,7 +8,9 @@ public interface MessageStorage {
     String find(String messageKey);
     
     String template(String templateKey, Object... objects);
-
+    
+    Template template(String templateKey);
+    
     static MessageStorage def() {
         return new DefaultMessageStorage();
     }

@@ -10,4 +10,12 @@ public interface Token {
 
     String content();
 
+    default Token toLowercase() {
+        return word(content().toLowerCase());
+    }
+
+    static Token word(String s) {
+        return new Word(s, -1);
+    }
+
 }

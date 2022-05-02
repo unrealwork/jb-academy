@@ -10,7 +10,7 @@ public interface Fact {
             throw new IllegalExpression("Too short fact");
         }
         if (!tokenList.get(0).content().equalsIgnoreCase("it")) {
-            throw new IllegalExpression("Fact shoult start with 'it'");
+            throw new IllegalExpression("Fact should start with 'it'");
         }
         final FactType type = FactType.fromToken(tokenList.get(1));
         if (type == null) {
@@ -22,4 +22,9 @@ public interface Fact {
     FactType type();
 
     Expression exp();
+
+    Expression about(Subject s, final boolean isTrue);
+
+    Expression question();
+
 }

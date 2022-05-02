@@ -32,7 +32,29 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                                         " - It can fly\n" +
                                         " - It has horn\n" +
                                         " - It is a mammal"
-                        )).build();
+                        )).put(NOT_SURE, Set.of(
+                                "I'm not sure I caught you: was it yes or no?",
+                                "Funny, I still don't understand, is it yes or no?",
+                                "Oh, it's too complicated for me: just tell me yes or no.",
+                                "Could you please simply say yes or no?",
+                                "Oh, no, don't try to confuse me: say yes or no."
+                        ))
+                        .put(YES, Set.of(
+                                "y", "yes", "yeah", "yep", "sure", "right", "affirmative", "correct", "indeed", "you bet", "exactly", "you said it"
+                        ))
+                        .put(NO, Set.of(
+                                "n", "no", "no way", "nah", "nope", "negative", "I don't think so", "yeah no"
+                        )).put(FACT_CORRECT_QUESTION, Set.of(
+                                "Is it correct for {}?"
+                        ))
+                        .put(FACT_DESCRIPTION, Set.of(
+                                "I have learned the following facts about animals:\n" +
+                                        "- {}.\n" +
+                                        "- {}.\n" +
+                                        "I can distinguish these animals by asking the question:\n" +
+                                        "- {}?"
+                        ))
+                        .build();
         return new InMemoryMessageStorage(storage);
     }
 }
