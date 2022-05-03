@@ -16,7 +16,8 @@ public class MessageKeys {
     public static final String NOT_SURE = "NOT_SURE";
 
     public static final String FACT_DESCRIPTION = "FACT_DESCRIPTION";
-
+    public static final String BASE_ANIMAL_REQUEST = "BASE_ANIMAL_REQUEST";
+    public static final String GAME_INTRO = "GAME_INTRO";
 
     private MessageKeys() {
 

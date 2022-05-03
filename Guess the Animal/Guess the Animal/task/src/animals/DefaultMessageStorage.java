@@ -7,6 +7,7 @@ import static animals.MessageKeys.*;
 class DefaultMessageStorage extends MessageStorageDecorator {
 
 
+
     public DefaultMessageStorage() {
         super(storage());
     }
@@ -53,6 +54,16 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                                         "- {}.\n" +
                                         "I can distinguish these animals by asking the question:\n" +
                                         "- {}?"
+                        ))
+                        .put(BASE_ANIMAL_REQUEST, Set.of(
+                                "I want to learn about animals.\n" +
+                                        "Which animal do you like most?"
+                        ))
+                        .put(GAME_INTRO, Set.of(
+                                "Wonderful! I've learned so much about animals!\n" +
+                                        "Let's play a game!\n" +
+                                        "You think of an animal, and I guess it.\n" +
+                                        "Press enter when you're ready."
                         ))
                         .build();
         return new InMemoryMessageStorage(storage);

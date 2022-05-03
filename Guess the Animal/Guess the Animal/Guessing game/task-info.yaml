@@ -8,115 +8,6 @@ files:
     public class Main {
     }
   learner_created: false
-- name: test/unclear-answers.script.yaml
-  visible: false
-  text: |
-    #
-    # This is a script to test the interpretation of unclear responses.
-    #
-    ---
-    - [start]
-    - [input, cat]
-    - [input, ""]   # Press Enter to start the game
-    #
-    # The game started
-    #
-    - [contains, "Is it a cat?", "The program should ask: \"Is it a cat?\""]
-    #
-    # Here we substitute all values from the data file
-    #
-    - [input, "{0}"]
-    - - contains
-      - "yes or no"
-      - "The answer \"{0}\" is unclear and the program should ask again."
-  learner_created: false
-- name: test/unclear-answers.data.yaml
-  visible: false
-  text: |-
-    #
-    # All of the following expressions should be treated as unclear
-    #
-    ---
-    - - y..
-    - - Y!.
-    - - ye
-    - - jes
-    - - Jes
-    - - yes...
-    - - да
-    - - Так
-    - - yes, yes
-    - - Yea
-    - - Ja
-    - - Jawohl!
-    - - ja natürlich!
-    - - so genau
-    - - 1
-    - - +
-    - - yepi
-    - - Yep!!
-    - - Yes, sure!
-    - - Ok
-    - - Rights
-    - - affErmative
-    - - n..
-    - - N!!
-    - - nea
-    - - nop
-    - - noppi
-    - - no wa
-    - - no way!!!
-    - - na
-    - - nahi
-    - - nega
-    - - negat
-    - - negati
-    - - negativ
-    - - i don't think..
-    - - i don't
-    - - i
-    - - I no
-    - - i don't think so...
-    - -
-  learner_created: false
-- name: test/the-first-question.script.yaml
-  visible: false
-  text: |-
-    #
-    # This is a script to test the generation of the first question.
-    #
-    ---
-    - [start]
-    - [input, "{0}"]
-    - [input, ""]   # Press Enter to start the game
-    #
-    # The game started
-    #
-    - [contains, "Is it {1}?", "The program should ask: \"Is it {1}?\""]
-  learner_created: false
-- name: test/positive-answers.script.yaml
-  visible: false
-  text: |+
-    #
-    # This is a script to test the correct interpretation of negative responses.
-    #
-    ---
-    - [start]
-    - [input, cat]
-    - [input, ""]   # Press Enter to start the game
-    #
-    # The game started
-    #
-    - [contains, "Is it a cat?", "The program should ask: \"Is it a cat?\""]
-    #
-    # Here we substitute all values from the data file
-    #
-    - [input, "{0}"]
-    - - not contains
-      - "yes or no"
-      - "The answer \"{0}\" should be treated as correct positive."
-
-  learner_created: false
 - name: test/Scenario.java
   visible: false
   text: |-
@@ -209,22 +100,1439 @@ files:
 
     }
   learner_created: false
-- name: test/the-first-question.data.yaml
+- name: test/GuessAnimalTest.java
   visible: false
   text: |-
-    ---
-    - [cat, a cat]
-    - [DOG, a dog]
-    - [hare, a hare]
-    - [WOLF, a wolf]
-    - [uniCorn, an unicorn]
-    - [uniCorn, an unicorn]
-    - [A Unicorn, a unicorn]
-    - [APE, an ape]
-    - [uniCorn, an unicorn]
-    - [uniCorn, an unicorn]
-    - [linX, a linx]
+    import org.hyperskill.hstest.dynamic.DynamicTest;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+
+    import java.io.IOException;
+
+    public class GuessAnimalTest extends StageTest<String> {
+        final String[] script = new String[]{
+                "the-first-question",
+                "positive-answers",
+                "negative-answers",
+                "unclear-answers",
+                "guessing-game"
+        };
+
+        @DynamicTest(data = "script")
+        CheckResult runScripts(final String script) throws IOException {
+            return new Scenario(script).check();
+        }
+
+    }
   learner_created: false
+- name: src/animals/cli/Confirmation.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.MessageKeys;
+    import animals.MessageStorage;
+
+    import java.util.Scanner;
+    import java.util.Set;
+    import java.util.function.Supplier;
+    import java.util.stream.Collectors;
+
+    public class Confirmation extends Question<Boolean> {
+        private final Supplier<Message> questionGenerator;
+
+
+        private final ExpressionChecker yesChecker;
+        private final ExpressionChecker noChecker;
+        private final Scanner scanner;
+
+        private final Message startQuestion;
+        private boolean isFirst;
+
+        public Confirmation(Scanner scanner, Message startQuestion, MessageStorage storage) {
+            super(scanner);
+            this.scanner = scanner;
+            this.startQuestion = startQuestion;
+            this.isFirst = true;
+            // TODO: Flyweight for checkers, no need to recreate this objects
+            this.yesChecker = ExpressionChecker.fromSet(
+                    storage.get(MessageKeys.YES)
+            );
+            this.noChecker = ExpressionChecker.fromSet(
+                    storage.get(MessageKeys.NO)
+            );
+
+            this.questionGenerator = messages(
+                    storage.get(MessageKeys.NOT_SURE));
+        }
+
+        @Override
+        public Boolean read(Scanner sc) {
+            String s = sc.nextLine();
+            if (yesChecker.isExpression(s)) {
+                return Boolean.TRUE;
+            }
+            if (noChecker.isExpression(s)) {
+                return Boolean.FALSE;
+            }
+            return null;
+        }
+
+        @Override
+        public Message question() {
+            if (isFirst) {
+                isFirst = false;
+                return startQuestion;
+            }
+            return questionGenerator.get();
+        }
+
+        @Override
+        public Scanner scanner() {
+            return scanner;
+        }
+
+        private static Supplier<Message> messages(final Set<String> messages) {
+            Set<Message> msgs = messages.stream()
+                    .map(SimpleMessage::new)
+                    .collect(Collectors.toSet());
+            return RandomGenerator.random(msgs);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/greeting/TimeBasedGreeting.java
+  visible: true
+  text: |
+    package animals.cli.greeting;
+
+    import java.time.LocalTime;
+
+    enum TimeBasedGreeting implements Greeting {
+        MORNING("Good morning!", DayTimes.MORNING, DayTimes.AFTERNOON),
+        AFTERNOON("Good afternoon!", DayTimes.AFTERNOON, DayTimes.EVENING),
+        EVENING("Good evening!", DayTimes.EVENING, DayTimes.MORNING);
+        private final String message;
+        private final LocalTime start;
+        private final LocalTime end;
+
+        TimeBasedGreeting(String message, LocalTime start, LocalTime end) {
+            this.message = message;
+            this.start = start;
+            this.end = end;
+        }
+
+        public boolean isGreetingTime(LocalTime lt) {
+            if (end.isAfter(start)) {
+                return lt.isAfter(start) && lt.isBefore(end);
+            } else {
+                return lt.isAfter(end) || lt.isBefore(start);
+            }
+        }
+
+        @Override
+        public String message() {
+            return message;
+        }
+    }
+  learner_created: true
+- name: src/animals/MessageKeys.java
+  visible: true
+  text: |
+    package animals;
+
+    public class MessageKeys {
+        public static final String GREETING_MORNING = "greeting_morning";
+        public static final String GREETING_AFTERNOON = "greeting_afternoon";
+        public static final String GREETING_EVENING = "greeting_evening";
+        public static final String BYE = "bye";
+        public static final String FACT_TEMPLATE = "fact_template";
+        public static final String FACT_CONFIRM = "fact_confirm";
+
+        public static final String YES = "YES";
+
+        public static final String NO = "NO";
+
+        public static final String FACT_CORRECT_QUESTION = "FACT_CORRECT_QUESTION";
+        public static final String NOT_SURE = "NOT_SURE";
+
+        public static final String FACT_DESCRIPTION = "FACT_DESCRIPTION";
+
+
+        private MessageKeys() {
+
+        }
+    }
+  learner_created: true
+- name: src/animals/IllegalExpression.java
+  visible: true
+  text: |
+    package animals;
+
+    public class IllegalExpression extends RuntimeException {
+        public IllegalExpression(String s) {
+        }
+    }
+  learner_created: true
+- name: src/animals/Expression.java
+  visible: true
+  text: "package animals;\n\nimport java.util.ArrayList;\nimport java.util.Collections;\n\
+    import java.util.Iterator;\nimport java.util.List;\nimport java.util.stream.Collectors;\n\
+    \npublic interface Expression {\n\n    default Token first() {\n        return\
+    \ tokens().iterator().next();\n    }\n\n    List<Token> tokens();\n\n    default\
+    \ String asText() {\n        return tokens().stream()\n                .map(Token::content)\n\
+    \                .collect(Collectors.joining(\" \"));\n    }\n\n    default Expression\
+    \ concat(Expression o) {\n        List<Token> concatenatedTokens = new ArrayList<>();\n\
+    \        concatenatedTokens.addAll(tokens());\n        concatenatedTokens.addAll(o.tokens());\n\
+    \        return ExpressionImpl.create(Collections.unmodifiableList(concatenatedTokens));\n\
+    \    }\n    \n    default Expression toLowerCase() {\n        List<Token> tokens\
+    \ = tokens().stream().map(Token::toLowercase).collect(Collectors.toList());\n\
+    \        return fromTokens(tokens);\n    }\n    \n    default boolean equalsIgnoreCase(Expression\
+    \ e) {\n        List<Token> words = tokens();\n        if (e == null) {\n    \
+    \        return false;\n        }\n        if (words.size() != e.tokens().size())\
+    \ {\n            return false;\n        }\n        Iterator<Token> it1 = words.iterator();\n\
+    \        Iterator<Token> it2 = e.tokens().iterator();\n        while (it1.hasNext()\
+    \ && it2.hasNext()) {\n            Token t1 = it1.next();\n            Token t2\
+    \ = it2.next();\n            if (!t1.content().equalsIgnoreCase(t2.content()))\
+    \ {\n                return false;\n            }\n        }\n        return true;\n\
+    \    }\n    \n    static Expression fromTokens(final List<Token> tokens) {\n \
+    \       return ExpressionImpl.create(tokens);\n    }\n    \n    static Expression\
+    \ parse(String s) throws IllegalExpression {\n        List<Token> tokens = new\
+    \ ArrayList<>();\n        StringBuilder tokenBuilder = new StringBuilder();\n\
+    \        for (int i = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n\
+    \            if ((c == '!' || c == '.') && i != (s.length() - 1)) {\n        \
+    \        throw new IllegalExpression(\"Expression should contain only one terminal\
+    \ symbol\");\n            }\n            if (Character.isLetterOrDigit(c)) {\n\
+    \                tokenBuilder.append(c);\n            } else {\n             \
+    \   int tokenLength = tokenBuilder.length();\n                if (tokenLength\
+    \ > 0) {\n                    tokens.add(new Word(tokenBuilder.toString(), i -\
+    \ tokenLength));\n                }\n                tokenBuilder.setLength(0);\n\
+    \            }\n        }\n        if (tokenBuilder.length() > 0) {\n        \
+    \    tokens.add(new Word(tokenBuilder.toString(),\n                    s.length()\
+    \ - tokenBuilder.length()));\n        }\n        return ExpressionImpl.create(Collections.unmodifiableList(tokens));\n\
+    \    }\n}\n"
+  learner_created: true
+- name: src/animals/DefaultMessageStorage.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Set;
+
+    import static animals.MessageKeys.*;
+
+    class DefaultMessageStorage extends MessageStorageDecorator {
+
+
+        public DefaultMessageStorage() {
+            super(storage());
+        }
+
+        private static MessageStorage storage() {
+            final var storage =
+                    MapBuilder.<String, Set<String>>immutable()
+                            .put(GREETING_MORNING, Set.of(
+                                    "Good morning!")
+                            ).put(GREETING_AFTERNOON, Set.of(
+                                    "Good afternoon!")
+                            ).put(GREETING_EVENING, Set.of(
+                                    "Good evening!"
+                            )).put(BYE, Set.of(
+                                    "Have a nice day!",
+                                    "See you soon!",
+                                    "Bye!"
+                            )).put(FACT_TEMPLATE, Set.of(
+                                    "Specify a fact that distinguishes {} from {}.\n" +
+                                            "The sentence should be of the format: 'It can/has/is ...'."
+                            )).put(FACT_CONFIRM, Set.of(
+                                    "The examples of a statement:\n" +
+                                            " - It can fly\n" +
+                                            " - It has horn\n" +
+                                            " - It is a mammal"
+                            )).put(NOT_SURE, Set.of(
+                                    "I'm not sure I caught you: was it yes or no?",
+                                    "Funny, I still don't understand, is it yes or no?",
+                                    "Oh, it's too complicated for me: just tell me yes or no.",
+                                    "Could you please simply say yes or no?",
+                                    "Oh, no, don't try to confuse me: say yes or no."
+                            ))
+                            .put(YES, Set.of(
+                                    "y", "yes", "yeah", "yep", "sure", "right", "affirmative", "correct", "indeed", "you bet", "exactly", "you said it"
+                            ))
+                            .put(NO, Set.of(
+                                    "n", "no", "no way", "nah", "nope", "negative", "I don't think so", "yeah no"
+                            )).put(FACT_CORRECT_QUESTION, Set.of(
+                                    "Is it correct for {}?"
+                            ))
+                            .put(FACT_DESCRIPTION, Set.of(
+                                    "I have learned the following facts about animals:\n" +
+                                            "- {}.\n" +
+                                            "- {}.\n" +
+                                            "I can distinguish these animals by asking the question:\n" +
+                                            "- {}?"
+                            ))
+                            .build();
+            return new InMemoryMessageStorage(storage);
+        }
+    }
+  learner_created: true
+- name: src/animals/Template.java
+  visible: true
+  text: |
+    package animals;
+
+    public interface Template {
+        String format(Object... objs);
+
+        static Template create(String templateText) {
+            return new TemplateImpl(templateText);
+        }
+
+    }
+  learner_created: true
+- name: src/animals/FactStorageImpl.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.HashMap;
+    import java.util.HashSet;
+    import java.util.Map;
+    import java.util.Set;
+
+    public class FactStorageImpl implements FactStorage {
+        private final Map<Fact, Set<Subject>> subjects = new HashMap<>();
+
+        @Override
+        public void add(Fact fact, Subject s) {
+            subjects.computeIfAbsent(fact, f -> new HashSet<>())
+                    .add(s);
+        }
+
+        @Override
+        public boolean has(Fact fact, Subject s) {
+            return subjects.get(fact).contains(s);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/SubjectQuestion.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Expression;
+    import animals.Subject;
+
+    import java.util.Scanner;
+
+    public class SubjectQuestion extends Question<Subject> {
+        private final Message message;
+
+        public SubjectQuestion(String message, Scanner scanner) {
+            super(scanner);
+            this.message = new SimpleMessage(message);
+        }
+
+        @Override
+        public Subject read(Scanner sc) {
+            Expression exp = Expression.parse(sc.nextLine());
+            return new Subject(exp);
+        }
+
+        @Override
+        public Message question() {
+            return message;
+        }
+    }
+  learner_created: true
+- name: src/animals/ArticleType.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Arrays;
+    import java.util.HashSet;
+    import java.util.Set;
+
+    public enum ArticleType {
+        THE(true, "the"), AN("an"), A("a"), NONE(null);
+        private final boolean isDefinite;
+        private final String content;
+
+        ArticleType(boolean isDefinite, String content) {
+            this.isDefinite = isDefinite;
+            this.content = content;
+        }
+
+        ArticleType(String content) {
+            this.content = content;
+            this.isDefinite = false;
+        }
+
+        public String content() {
+            return content;
+        }
+
+        public boolean isDefinite() {
+            return isDefinite;
+        }
+
+
+        public static ArticleType fromToken(Token s) {
+            for (ArticleType art : values()) {
+                if (s.content().equalsIgnoreCase(art.content)) {
+                    return art;
+                }
+            }
+            return NONE;
+        }
+
+        public static ArticleType forExpression(Expression expression) {
+            Token first = expression.first();
+            if (first != null && first.length() > 0) {
+                char c = first.content().charAt(0);
+                if (Character.isAlphabetic(c)) {
+                    char lc = Character.toLowerCase(c);
+                    Set<Character> vowels = new HashSet<>(Arrays.asList('a', 'e', 'o', 'u', 'e', 'i'));
+                    return vowels.contains(lc) ? AN : A;
+                }
+            }
+            throw new IllegalStateException("Unable to define article");
+        }
+    }
+  learner_created: true
+- name: src/animals/Subject.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+    public class Subject implements Expression {
+        public boolean hasArticle() {
+            return hasArticle;
+        }
+
+        private final ArticleType articleType;
+        private final List<Token> word;
+        private final boolean hasArticle;
+
+        public Subject(Expression e) {
+            ArticleType type = ArticleType.fromToken(e.first());
+            this.hasArticle = type != ArticleType.NONE;
+            this.articleType = hasArticle ? type : ArticleType.forExpression(e);
+            this.word = e.tokens();
+        }
+
+        @Override
+        public List<Token> tokens() {
+            return word;
+        }
+
+        public ArticleType getArticleType() {
+            return articleType;
+        }
+
+        public String asText() {
+            Expression expression = withoutArticle();
+            ArticleType type = hasArticle ? articleType : ArticleType.forExpression(expression);
+            return type.content() + " " + expression.asText();
+        }
+
+        public Expression withoutArticle() {
+            return ExpressionImpl.create(tokens().stream()
+                    .skip(hasArticle ? 1 : 0)
+                    .collect(Collectors.toList()));
+        }
+    }
+  learner_created: true
+- name: src/animals/FactImpl.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+    import static animals.ArticleType.THE;
+
+    public class FactImpl implements Fact {
+        private final Expression expression;
+        private final FactType type;
+
+        public FactImpl(Expression expression, FactType type) {
+            this.expression = expression;
+            this.type = type;
+        }
+
+        public Expression factExpression() {
+            List<Token> tokens = expression.tokens().stream()
+                    .skip(2)
+                    .collect(Collectors.toList());
+            return ExpressionImpl.create(tokens);
+        }
+
+        @Override
+        public FactType type() {
+            return type;
+        }
+
+        @Override
+        public Expression exp() {
+            return expression;
+        }
+
+        @Override
+        public Expression about(Subject s, boolean isTrue) {
+            final List<Token> tokenList = new ArrayList<>();
+            String article = capitalizeFirstLetter(THE.content());
+            tokenList.add(Token.word(article));
+            tokenList.addAll(s.withoutArticle().toLowerCase().tokens());
+            tokenList.add(Token.word(isTrue ? type.content() : type.negation()));
+            List<Token> expTokens = expression.tokens();
+            tokenList.addAll(expTokens.subList(2, expTokens.size()));
+            return Expression.fromTokens(tokenList);
+        }
+
+
+        @Override
+        public Expression question() {
+            List<Token> tokens = new ArrayList<>(Expression.parse(type.question()).tokens());
+            List<Token> expTokens = expression.tokens();
+            tokens.addAll(expTokens.subList(2, expTokens.size()));
+            return Expression.fromTokens(tokens);
+        }
+
+
+        private String capitalizeFirstLetter(final String s) {
+            return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/greeting/DayTimes.java
+  visible: true
+  text: |
+    package animals.cli.greeting;
+
+    import java.time.LocalTime;
+
+    class DayTimes {
+        static final LocalTime MORNING = LocalTime.of(5, 0);
+        static final LocalTime AFTERNOON = LocalTime.of(12, 0);
+        static final LocalTime EVENING = LocalTime.of(18, 0);
+
+        private DayTimes() {
+
+        }
+    }
+  learner_created: true
+- name: src/animals/MessageStorage.java
+  visible: true
+  text: "package animals;\n\nimport java.util.Set;\n\npublic interface MessageStorage\
+    \ {\n    Set<String> get(String messageKey);\n\n    String find(String messageKey);\n\
+    \    \n    String template(String templateKey, Object... objects);\n    \n   \
+    \ Template template(String templateKey);\n    \n    static MessageStorage def()\
+    \ {\n        return new DefaultMessageStorage();\n    }\n}\n"
+  learner_created: true
+- name: src/animals/cli/SetExpressionChecker.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Expression;
+    import animals.IllegalExpression;
+
+    import java.util.Set;
+
+    public class SetExpressionChecker implements ExpressionChecker {
+        private final Set<String> expressions;
+
+        public SetExpressionChecker(Set<String> expressions) {
+            this.expressions = expressions;
+        }
+
+        @Override
+        public boolean isExpression(String exp) {
+            final String trimmed = exp.trim();
+            try {
+                final Expression expression = Expression.parse(trimmed);
+                return expressions.stream()
+                        .map(Expression::parse)
+                        .anyMatch(expression::equalsIgnoreCase);
+            } catch (IllegalExpression e) {
+                return false;
+            }
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/PredicateQuestion.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.MessageStorage;
+
+    import java.util.Scanner;
+
+    class PredicateQuestion implements Action<Boolean> {
+        private final Action<Boolean> confirmation;
+
+        PredicateQuestion(ActionFactory factory, MessageStorage storage, String question) {
+            this.confirmation = factory.confirmation(question);
+        }
+
+
+        @Override
+        public Boolean execute() {
+            Boolean res = confirmation.execute();
+            while (res == null) {
+                res = confirmation.execute();
+            }
+            return res;
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/AnimalFactDescription.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Fact;
+    import animals.Subject;
+    import animals.Template;
+    import animals.Token;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class AnimalFactDescription extends CliMessage {
+        private final Template contentTemplate;
+
+        private final Fact fact;
+        private final Subject animal1;
+        private final Subject animal2;
+        private final boolean isAboutSecond;
+
+        public AnimalFactDescription(Template contentTemplate, Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond) {
+            this.contentTemplate = contentTemplate;
+            this.fact = fact;
+            this.animal1 = animal1;
+            this.animal2 = animal2;
+            this.isAboutSecond = isAboutSecond;
+        }
+
+
+        @Override
+        public String content() {
+            final List<Token> tokenList = new ArrayList<>();
+            final String factAboutFirst = fact.about(animal1, !isAboutSecond)
+                    .asText();
+            final String factAboutSecond = fact.about(animal2, isAboutSecond)
+                    .asText();
+
+            final String question = fact.question().asText();
+            return contentTemplate.format(factAboutFirst, factAboutSecond, question);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/Action.java
+  visible: true
+  text: "package animals.cli;\n\npublic interface Action<T> {\n    T execute();\n\n\
+    \    \n}\n"
+  learner_created: true
+- name: src/animals/MapBuilder.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Collections;
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class MapBuilder<K, V> {
+
+        private final Map<K, V> map;
+        private final boolean immutable;
+
+        private MapBuilder(boolean immutable) {
+            this.immutable = immutable;
+            this.map = new HashMap<>();
+        }
+
+        public static <K, V> MapBuilder<K, V> immutable() {
+            return new MapBuilder<>(true);
+        }
+
+        public static <K, V> MapBuilder<K, V> mutable() {
+            return new MapBuilder<>(false);
+        }
+
+        public MapBuilder<K, V> put(K key, V value) {
+            map.put(key, value);
+            return this;
+        }
+
+        public Map<K, V> build() {
+            if (immutable) {
+                return Collections.unmodifiableMap(map);
+            }
+
+            return map;
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/ActionFactory.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Fact;
+    import animals.Subject;
+
+    public interface ActionFactory extends AutoCloseable {
+
+        Question<String> question(String question);
+
+        Action<Boolean> confirmation(Message startQuestion);
+
+        Question<Subject> subjectQuestion(String s);
+
+        static ActionFactory cli() {
+            return new ActionFactoryImpl();
+        }
+
+        Message greetingMessage();
+
+        Message message(String s);
+
+        Action<String> animalRequest();
+
+        Message randomMessage(String... messages);
+
+        Message lineBreak();
+
+        Message byeMessage();
+
+        Action<Fact> factRequest(String question, String confirmationMessage);
+
+        Action<Boolean> predicateQuestion(String question);
+
+        public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond);
+
+        default Action<Boolean> confirmation(String correctQuestion) {
+            return confirmation(message(correctQuestion));
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/RandomMessage.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import java.util.function.Supplier;
+
+    public class RandomMessage implements Message {
+        private final Supplier<String> randomMessage;
+
+        public RandomMessage(String... messages) {
+            randomMessage = RandomGenerator.random(messages);
+        }
+
+        @Override
+        public Void execute() {
+            print();
+            return null;
+        }
+
+        @Override
+        public String content() {
+            return randomMessage.get();
+        }
+
+        @Override
+        public void print() {
+            System.out.println(content());
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/Message.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    public interface Message extends Action<Void> {
+        String content();
+        void print();
+    }
+  learner_created: true
+- name: src/animals/cli/greeting/Greeting.java
+  visible: true
+  text: |
+    package animals.cli.greeting;
+
+    import java.time.LocalTime;
+    import java.util.Arrays;
+
+    public interface Greeting {
+        String message();
+
+        static Greeting fromLocalTime() {
+            final LocalTime now = LocalTime.now();
+            return Arrays.stream(TimeBasedGreeting.values())
+                    .filter(g -> g.isGreetingTime(now))
+                    .findFirst()
+                    .orElseThrow(()->new IllegalStateException("Unsupported time for greeting"));
+        }
+    }
+  learner_created: true
+- name: src/animals/ExpressionImpl.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.List;
+    import java.util.Objects;
+
+    class ExpressionImpl implements Expression {
+        private final List<Token> words;
+
+        private ExpressionImpl(List<Token> words) {
+            this.words = words;
+        }
+
+        public static ExpressionImpl create(List<Token> words) {
+            return new ExpressionImpl(words);
+        }
+
+        @Override
+        public List<Token> tokens() {
+            return words;
+        }
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            ExpressionImpl that = (ExpressionImpl) o;
+            return Objects.equals(words, that.words);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(words);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/SimpleMessage.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    public class SimpleMessage extends CliMessage {
+        private final String msg;
+
+        public SimpleMessage(String msg) {
+            this.msg = msg;
+        }
+
+        @Override
+        public String content() {
+            return msg;
+        }
+    }
+  learner_created: true
+- name: src/animals/MessageStorageDecorator.java
+  visible: true
+  text: "package animals;\n\nimport java.util.Set;\n\nclass MessageStorageDecorator\
+    \ implements MessageStorage {\n    \n    private final MessageStorage delegate;\n\
+    \n    public MessageStorageDecorator(MessageStorage delegate) {\n        this.delegate\
+    \ = delegate;\n    }\n\n    @Override\n    public Set<String> get(String messageKey)\
+    \ {\n        return delegate.get(messageKey);\n    }\n\n    @Override\n    public\
+    \ String find(String messageKey) {\n        return delegate.find(messageKey);\n\
+    \    }\n\n    @Override\n    public String template(String templateKey, Object...\
+    \ objects) {\n        return delegate.template(templateKey, objects);\n    }\n\
+    \n    @Override\n    public Template template(String templateKey) {\n        return\
+    \ delegate.template(templateKey);\n    }\n}\n"
+  learner_created: true
+- name: src/animals/cli/ExpressionChecker.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import java.util.Arrays;
+    import java.util.HashSet;
+    import java.util.Set;
+
+    public interface ExpressionChecker {
+        boolean isExpression(String exp);
+
+        static ExpressionChecker fromSet(String... expressions) {
+            return new SetExpressionChecker(new HashSet<>(Arrays.asList(expressions)));
+        }
+        static ExpressionChecker fromSet(Set<String> messages) {
+            return new SetExpressionChecker(messages);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/LineBreakMessage.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    public class LineBreakMessage extends CliMessage {
+        @Override
+        public String content() {
+            return "";
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/AnimalRequestAction.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.ArticleType;
+    import animals.Expression;
+    import animals.Subject;
+    import animals.Token;
+
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.List;
+
+    public class AnimalRequestAction implements Action<String> {
+        private final ActionFactory actionFactory;
+
+        public AnimalRequestAction(ActionFactory actionFactory) {
+            this.actionFactory = actionFactory;
+        }
+
+        @Override
+        public String execute() {
+            final Action<String> animalQuestion = actionFactory.question("Enter an animal:");
+            String res = animalQuestion.execute().toLowerCase();
+            Expression animalExpression = Expression.parse(res);
+            Subject subject = new Subject(animalExpression);
+            String question = buildQuestion(subject);
+            final Action<Boolean> confirmation = actionFactory.confirmation(actionFactory.message(question));
+            Boolean confirm = confirmation.execute();
+            while (confirm == null) {
+                confirm = confirmation.execute();
+            }
+            final Message resMessage = actionFactory.message("You answered: " + (confirm ? "Yes" : "No"));
+            resMessage.execute();
+            return confirm ? res : null;
+        }
+
+        private String buildQuestion(final Subject subject) {
+            List<String> words = new ArrayList<>();
+            words.addAll(Arrays.asList("Is", "it"));
+            if (!subject.hasArticle()) {
+                words.add(subject.getArticleType().content());
+            }
+
+            if (subject.hasArticle() && subject.getArticleType().isDefinite()) {
+                Expression word = subject.withoutArticle();
+                words.add(ArticleType.forExpression(word).content());
+                word.tokens().stream()
+                        .map(Token::content)
+                        .forEach(words::add);
+            } else {
+                subject.tokens().stream()
+                        .map(Token::content)
+                        .forEach(words::add);
+            }
+            return String.join(" ", words) + "?";
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/FactRequest.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Expression;
+    import animals.Fact;
+    import animals.IllegalExpression;
+
+    public class FactRequest implements Action<Fact> {
+        private final Question<String> question;
+        private final Message confirmationMessage;
+
+        public FactRequest(ActionFactory actionFactory,
+                           String question, String confirmationMessage) {
+            this.question = actionFactory.question(question);
+            this.confirmationMessage = actionFactory.message(confirmationMessage);
+        }
+
+        @Override
+        public Fact execute() {
+            String res = question.execute().toLowerCase();
+
+            Fact fact = readFact(res);
+            while (fact == null) {
+                confirmationMessage.execute();
+                fact = readFact(null);
+            }
+            return fact;
+        }
+
+        private Fact readFact(final String ans) {
+            try {
+                String res = ans == null ? question.execute().toLowerCase() : ans;
+                Expression expression = Expression.parse(res);
+                return Fact.fromExpression(expression);
+            } catch (IllegalExpression e) {
+                return null;
+            }
+        }
+    }
+  learner_created: true
+- name: src/animals/Word.java
+  visible: true
+  text: "package animals;\n\npublic class Word implements Token {\n\n    private final\
+    \ int pos;\n    private final int len;\n    private final String content;\n\n\
+    \    Word(String s, int pos) {\n        this.pos = pos;\n        this.len = s.length();\n\
+    \        this.content = s;\n    }\n    \n    @Override\n    public int pos() {\n\
+    \        return pos;\n    }\n\n    @Override\n    public int length() {\n    \
+    \    return len;\n    }\n\n    @Override\n    public String content() {\n    \
+    \    return content;\n    }\n}\n"
+  learner_created: true
+- name: src/animals/Token.java
+  visible: true
+  text: |
+    package animals;
+
+    public interface Token {
+
+        static Token EMPTY = new Word("", -1);
+
+        int pos();
+
+        int length();
+
+        String content();
+
+        default Token toLowercase() {
+            return word(content().toLowerCase());
+        }
+
+        static Token word(String s) {
+            return new Word(s, -1);
+        }
+
+    }
+  learner_created: true
+- name: src/animals/TemplateImpl.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
+    public class TemplateImpl implements Template {
+        private final String templateText;
+        private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{}");
+
+        public TemplateImpl(String templateText) {
+            this.templateText = templateText;
+        }
+
+        @Override
+        public String format(Object... objs) {
+            Matcher matcher = PLACEHOLDER_PATTERN.matcher(templateText);
+            int i = 0;
+            String res = templateText;
+            int shift = 0;
+            while (matcher.find() && i < objs.length) {
+                String value = objs[i].toString();
+                res = res.substring(0, matcher.start() + shift) + value + res.substring(matcher.end() + shift);
+                shift += (value.length() - (matcher.end() - matcher.start()));
+                i++;
+            }
+
+            return res;
+        }
+    }
+  learner_created: true
+- name: src/animals/InMemoryMessageStorage.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Collections;
+    import java.util.Map;
+    import java.util.Set;
+
+    public class InMemoryMessageStorage implements MessageStorage {
+        private final Map<String, Set<String>> storage;
+
+        public InMemoryMessageStorage(Map<String, Set<String>> storage) {
+            this.storage = storage;
+        }
+
+        @Override
+        public Set<String> get(String messageKey) {
+            return storage.get(messageKey);
+        }
+
+        @Override
+        public String find(String messageKey) {
+            return storage.getOrDefault(messageKey, Collections.emptySet())
+                    .iterator()
+                    .next();
+        }
+
+
+        public Template template(String templateKey) {
+            return Template.create(find(templateKey));
+        }
+
+        @Override
+        public String template(String templateKey, Object... objects) {
+            return template(templateKey).format(objects);
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/SimpleQuestion.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import java.util.Scanner;
+
+    public class SimpleQuestion extends Question<String> {
+        private final Message questionMessage;
+
+        public SimpleQuestion(String question, Scanner scanner) {
+            super(scanner);
+            questionMessage = new SimpleMessage(question);
+        }
+
+        @Override
+        public String read(Scanner sc) {
+            return sc.nextLine();
+        }
+
+        @Override
+        public Message question() {
+            return questionMessage;
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/CliMessage.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    public abstract class CliMessage implements Message {
+
+        @Override
+        public Void execute() {
+            print();
+            return null;
+        }
+
+        @Override
+        public abstract String content();
+
+        @Override
+        public void print() {
+            System.out.println(content());
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/Question.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import java.util.Scanner;
+
+    public abstract class Question<T> implements Action<T> {
+
+        private final Scanner scanner;
+
+        Question(Scanner scanner) {
+            this.scanner = scanner;
+        }
+
+        public abstract T read(Scanner sc);
+
+        public abstract Message question();
+
+        public Scanner scanner() {
+            return scanner;
+        };
+
+        @Override
+        public T execute() {
+            question().execute();
+            return read(scanner());
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/ActionFactoryImpl.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import animals.Fact;
+    import animals.MessageKeys;
+    import animals.MessageStorage;
+    import animals.Subject;
+    import animals.Template;
+    import animals.cli.greeting.GreetingMessage;
+
+    import java.io.InputStream;
+    import java.util.Scanner;
+
+    public class ActionFactoryImpl implements ActionFactory {
+        private final Scanner scanner;
+        private final MessageStorage storage;
+
+        private ActionFactoryImpl(InputStream is) {
+            this.scanner = new Scanner(is);
+            this.storage = MessageStorage.def();
+        }
+
+        ActionFactoryImpl() {
+            this(System.in);
+        }
+
+
+        @Override
+        public Question<String> question(String question) {
+            return new SimpleQuestion(question, scanner);
+        }
+
+        @Override
+        public Action<Boolean> confirmation(Message startQuestion) {
+            return new Confirmation(scanner, startQuestion, storage);
+        }
+
+        @Override
+        public Question<Subject> subjectQuestion(String s) {
+            return new SubjectQuestion(s, scanner);
+        }
+
+        @Override
+        public Message greetingMessage() {
+            return new GreetingMessage();
+        }
+
+        @Override
+        public Message message(String s) {
+            return new SimpleMessage(s);
+        }
+
+        @Override
+        public Action<String> animalRequest() {
+            return new AnimalRequestAction(this);
+        }
+
+        @Override
+        public Message randomMessage(String... messages) {
+            return new RandomMessage(messages);
+        }
+
+        @Override
+        public Message lineBreak() {
+            return new LineBreakMessage();
+        }
+
+        @Override
+        public Message byeMessage() {
+            return new RandomMessage(storage.get(MessageKeys.BYE)
+                    .toArray(String[]::new));
+        }
+
+        @Override
+        public Action<Fact> factRequest(String question, String confirmationMessage) {
+            return new FactRequest(this, question, confirmationMessage);
+        }
+
+        @Override
+        public Action<Boolean> predicateQuestion(String question) {
+            return new PredicateQuestion(this, storage, question);
+        }
+
+        @Override
+        public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond) {
+            final Template template = storage.template(MessageKeys.FACT_DESCRIPTION);
+            return new AnimalFactDescription(template, fact, animal1, animal2, isAboutSecond);
+        }
+
+
+        @Override
+        public void close() {
+            scanner.close();
+        }
+    }
+  learner_created: true
+- name: src/animals/cli/greeting/GreetingMessage.java
+  visible: true
+  text: |
+    package animals.cli.greeting;
+
+    import animals.cli.CliMessage;
+
+    public class GreetingMessage extends CliMessage {
+
+
+        @Override
+        public String content() {
+            return Greeting.fromLocalTime()
+                    .message();
+        }
+    }
+  learner_created: true
+- name: src/animals/FactStorage.java
+  visible: true
+  text: |
+    package animals;
+
+    public interface FactStorage {
+        void add(Fact fact, Subject s);
+
+        boolean has(Fact fact, Subject s);
+
+        static FactStorage create() {
+            return new FactStorageImpl();
+        }
+    }
+  learner_created: true
+- name: src/animals/Fact.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Arrays;
+    import java.util.List;
+
+    public interface Fact {
+        static Fact fromExpression(Expression expression) throws IllegalExpression {
+            List<Token> tokenList = expression.tokens();
+            if (tokenList.size() < 3) {
+                throw new IllegalExpression("Too short fact");
+            }
+            if (!tokenList.get(0).content().equalsIgnoreCase("it")) {
+                throw new IllegalExpression("Fact should start with 'it'");
+            }
+            final FactType type = FactType.fromToken(tokenList.get(1));
+            if (type == null) {
+                throw new IllegalExpression("Invalid fact verb. Should be one of " + Arrays.toString(FactType.values()));
+            }
+            return new FactImpl(expression, type);
+        }
+
+        FactType type();
+
+        Expression exp();
+
+        Expression about(Subject s, final boolean isTrue);
+
+        Expression question();
+
+    }
+  learner_created: true
+- name: src/animals/cli/RandomGenerator.java
+  visible: true
+  text: |
+    package animals.cli;
+
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    import java.util.HashSet;
+    import java.util.List;
+    import java.util.Set;
+    import java.util.concurrent.ThreadLocalRandom;
+    import java.util.function.Supplier;
+    import java.util.stream.Collectors;
+    import java.util.stream.Stream;
+
+    class RandomGenerator<T> implements Supplier<T> {
+        private final List<T> messages;
+
+        public RandomGenerator(Set<T> messages) {
+            this.messages = new ArrayList<>(messages);
+        }
+
+
+        @Override
+        public T get() {
+            int index = ThreadLocalRandom.current()
+                    .nextInt(messages.size());
+            return messages.get(index);
+        }
+
+        static <T> Supplier<T> random(Set<T> options) {
+            return new RandomGenerator<>(options);
+        }
+
+        static <T> Supplier<T> random(T... options) {
+            return new RandomGenerator<>(new HashSet<>(Arrays.asList(options)));
+        }
+
+
+    }
+  learner_created: true
+- name: src/animals/Article.java
+  visible: true
+  text: |
+    package animals;
+
+    public interface Article extends Token {
+        ArticleType type();
+    }
+  learner_created: true
+- name: src/animals/FactType.java
+  visible: true
+  text: |
+    package animals;
+
+    public enum FactType {
+        IS("is", "isn't", "Is it"), HAS("has", "doesn't have", "Does it have"), CAN("can", "can't", "Can it");
+
+        private final String content;
+        private final String negation;
+        private final String question;
+
+        FactType(String can, String negation, String question) {
+            this.content = can;
+            this.negation = negation;
+            this.question = question;
+        }
+
+        public String negation() {
+            return negation;
+        }
+
+        public String question() {
+            return question;
+        }
+
+        public String content() {
+            return content;
+        }
+
+        public static FactType fromToken(Token token) {
+            for (FactType value : values()) {
+                if (value.content.equalsIgnoreCase(token.content())) {
+                    return value;
+                }
+            }
+            return null;
+        }
+    }
+  learner_created: true
 - name: test/positive-answers.data.yaml
   visible: false
   text: |-
@@ -280,31 +1588,6 @@ files:
     - - you said it.
     - - you said it!
     - - you said it
-  learner_created: false
-- name: test/GuessAnimalTest.java
-  visible: false
-  text: |-
-    import org.hyperskill.hstest.dynamic.DynamicTest;
-    import org.hyperskill.hstest.stage.StageTest;
-    import org.hyperskill.hstest.testcase.CheckResult;
-
-    import java.io.IOException;
-
-    public class GuessAnimalTest extends StageTest<String> {
-        final String[] script = new String[]{
-                "the-first-question",
-                "positive-answers",
-                "negative-answers",
-                "unclear-answers",
-                "guessing-game"
-        };
-
-        @DynamicTest(data = "script")
-        CheckResult runScripts(final String script) throws IOException {
-            return new Scenario(script).check();
-        }
-
-    }
   learner_created: false
 - name: test/negative-answers.script.yaml
   visible: false
@@ -414,6 +1697,71 @@ files:
         no
         no
       - a dog
+  learner_created: false
+- name: test/unclear-answers.data.yaml
+  visible: false
+  text: |-
+    #
+    # All of the following expressions should be treated as unclear
+    #
+    ---
+    - - y..
+    - - Y!.
+    - - ye
+    - - jes
+    - - Jes
+    - - yes...
+    - - да
+    - - Так
+    - - yes, yes
+    - - Yea
+    - - Ja
+    - - Jawohl!
+    - - ja natürlich!
+    - - so genau
+    - - 1
+    - - +
+    - - yepi
+    - - Yep!!
+    - - Yes, sure!
+    - - Ok
+    - - Rights
+    - - affErmative
+    - - n..
+    - - N!!
+    - - nea
+    - - nop
+    - - noppi
+    - - no wa
+    - - no way!!!
+    - - na
+    - - nahi
+    - - nega
+    - - negat
+    - - negati
+    - - negativ
+    - - i don't think..
+    - - i don't
+    - - i
+    - - I no
+    - - i don't think so...
+    - -
+  learner_created: false
+- name: test/the-first-question.data.yaml
+  visible: false
+  text: |-
+    ---
+    - [cat, a cat]
+    - [DOG, a dog]
+    - [hare, a hare]
+    - [WOLF, a wolf]
+    - [uniCorn, an unicorn]
+    - [uniCorn, an unicorn]
+    - [A Unicorn, a unicorn]
+    - [APE, an ape]
+    - [uniCorn, an unicorn]
+    - [uniCorn, an unicorn]
+    - [linX, a linx]
   learner_created: false
 - name: test/guessing-game.script.yaml
   visible: false
@@ -581,6 +1929,81 @@ files:
       - If we do not want to play any more, then the program should exit.
 
   learner_created: false
+- name: test/the-first-question.script.yaml
+  visible: false
+  text: |-
+    #
+    # This is a script to test the generation of the first question.
+    #
+    ---
+    - [start]
+    - [input, "{0}"]
+    - [input, ""]   # Press Enter to start the game
+    #
+    # The game started
+    #
+    - [contains, "Is it {1}?", "The program should ask: \"Is it {1}?\""]
+  learner_created: false
+- name: test/positive-answers.script.yaml
+  visible: false
+  text: |+
+    #
+    # This is a script to test the correct interpretation of negative responses.
+    #
+    ---
+    - [start]
+    - [input, cat]
+    - [input, ""]   # Press Enter to start the game
+    #
+    # The game started
+    #
+    - [contains, "Is it a cat?", "The program should ask: \"Is it a cat?\""]
+    #
+    # Here we substitute all values from the data file
+    #
+    - [input, "{0}"]
+    - - not contains
+      - "yes or no"
+      - "The answer \"{0}\" should be treated as correct positive."
+
+  learner_created: false
+- name: test/unclear-answers.script.yaml
+  visible: false
+  text: |
+    #
+    # This is a script to test the interpretation of unclear responses.
+    #
+    ---
+    - [start]
+    - [input, cat]
+    - [input, ""]   # Press Enter to start the game
+    #
+    # The game started
+    #
+    - [contains, "Is it a cat?", "The program should ask: \"Is it a cat?\""]
+    #
+    # Here we substitute all values from the data file
+    #
+    - [input, "{0}"]
+    - - contains
+      - "yes or no"
+      - "The answer \"{0}\" is unclear and the program should ask again."
+  learner_created: false
+- name: src/animals/bst/BinarySearchTree.java
+  visible: true
+  learner_created: true
+- name: src/animals/bst/TreeNode.java
+  visible: true
+  learner_created: true
+- name: src/animals/bst/TreeNodeImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/bst/BinarySearchTreeImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/GuessGame.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11081#comment
 status: Unchecked
 record: -1
