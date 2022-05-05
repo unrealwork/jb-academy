@@ -1,7 +1,7 @@
 package animals.cli;
 
-import animals.Expression;
-import animals.Subject;
+import animals.lang.Expression;
+import animals.lang.Subject;
 
 import java.util.Scanner;
 

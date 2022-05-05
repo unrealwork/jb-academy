@@ -1,8 +1,8 @@
 package animals.cli;
 
-import animals.Expression;
-import animals.Fact;
-import animals.IllegalExpression;
+import animals.lang.Expression;
+import animals.lang.Fact;
+import animals.lang.IllegalExpression;
 
 public class FactRequest implements Action<Fact> {
     private final Question<String> question;

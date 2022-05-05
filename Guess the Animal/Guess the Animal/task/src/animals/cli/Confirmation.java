@@ -1,7 +1,7 @@
 package animals.cli;
 
-import animals.MessageKeys;
-import animals.MessageStorage;
+import animals.storage.MessageKeys;
+import animals.storage.MessageStorage;
 
 import java.util.Scanner;
 import java.util.Set;

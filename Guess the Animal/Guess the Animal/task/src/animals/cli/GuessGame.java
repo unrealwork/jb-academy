@@ -1,11 +1,12 @@
 package animals.cli;
 
-import animals.Expression;
-import animals.Fact;
-import animals.Subject;
-import animals.bst.TreeNode;
+import animals.lang.Fact;
+import animals.lang.Subject;
+import animals.tree.TreeNode;
 
-public class GuessGame implements Action<Subject> {
+import static animals.lang.Fact.fromSubject;
+
+public class GuessGame implements Action<TreeNode<Fact>> {
     private final TreeNode<Fact> decisionTree;
     private final ActionFactory actionFactory;
 
@@ -16,7 +17,7 @@ public class GuessGame implements Action<Subject> {
     }
 
     @Override
-    public Subject execute() {
+    public TreeNode<Fact> execute() {
         TreeNode<Fact> factNode = decisionTree;
         while (!factNode.isTerminal()) {
             Action<Boolean> confirmation = actionFactory.confirmation(factNode.val().question().asText());
@@ -27,10 +28,6 @@ public class GuessGame implements Action<Subject> {
             }
             factNode = isConfirmed ? factNode.right() : factNode.left();
         }
-        
-    }
-
-    private static Fact fromSubject(Subject subject) {
-        return Fact.fromExpression(Expression.parse("It is " + subject.asText()));
+        return factNode;
     }
 }

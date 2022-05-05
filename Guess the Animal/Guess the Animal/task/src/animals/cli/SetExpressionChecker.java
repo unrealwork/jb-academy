@@ -1,7 +1,7 @@
 package animals.cli;
 
-import animals.Expression;
-import animals.IllegalExpression;
+import animals.lang.Expression;
+import animals.lang.IllegalExpression;
 
 import java.util.Set;
 

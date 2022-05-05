@@ -1,10 +1,10 @@
 package animals.cli;
 
-import animals.Fact;
-import animals.MessageKeys;
-import animals.MessageStorage;
-import animals.Subject;
-import animals.Template;
+import animals.lang.Fact;
+import animals.storage.MessageKeys;
+import animals.storage.MessageStorage;
+import animals.lang.Subject;
+import animals.lang.Template;
 import animals.cli.greeting.GreetingMessage;
 
 import java.io.InputStream;

@@ -1,8 +1,6 @@
 package animals.cli;
 
-import animals.MessageStorage;
-
-import java.util.Scanner;
+import animals.storage.MessageStorage;
 
 class PredicateQuestion implements Action<Boolean> {
     private final Action<Boolean> confirmation;

@@ -1,7 +1,7 @@
 package animals.cli;
 
-import animals.Fact;
-import animals.Subject;
+import animals.lang.Fact;
+import animals.lang.Subject;
 
 public interface ActionFactory extends AutoCloseable {
 
