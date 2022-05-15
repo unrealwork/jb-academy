@@ -1,13 +1,14 @@
 package animals.cli;
 
-import animals.Fact;
-import animals.Subject;
+import animals.lang.Fact;
+import animals.lang.Subject;
+import animals.tree.TreeNode;
 
 public interface ActionFactory extends AutoCloseable {
 
     Question<String> question(String question);
 
-    Action<Boolean> confirmation(Message startQuestion);
+    Action<Boolean> confirmationQuestion(Message startQuestion);
 
     Question<Subject> subjectQuestion(String s);
 
@@ -28,12 +29,22 @@ public interface ActionFactory extends AutoCloseable {
     Message byeMessage();
 
     Action<Fact> factRequest(String question, String confirmationMessage);
-
+    
+    Action<Fact> animalDiffRequest(Subject firstAnimal, Subject secondAnimal);
+    
     Action<Boolean> predicateQuestion(String question);
 
-    public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond);
+    Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond);
 
-    default Action<Boolean> confirmation(String correctQuestion) {
-        return confirmation(message(correctQuestion));
+    default Action<TreeNode<Fact>> guessGame(final TreeNode<Fact> tree) {
+        return new GuessFlowAction(this, tree);
+    }
+
+    default Action<Boolean> confirmationQuestion(String correctQuestion) {
+        return confirmationQuestion(message(correctQuestion));
+    }
+
+    default Action<Boolean> confirmation(String question) {
+        return new Confirmation(this, question);
     }
 }

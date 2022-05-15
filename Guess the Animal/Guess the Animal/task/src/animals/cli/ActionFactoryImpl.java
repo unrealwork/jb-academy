@@ -1,14 +1,16 @@
 package animals.cli;
 
-import animals.Fact;
-import animals.MessageKeys;
-import animals.MessageStorage;
-import animals.Subject;
-import animals.Template;
+import animals.lang.Fact;
+import animals.storage.MessageKeys;
+import animals.storage.MessageStorage;
+import animals.lang.Subject;
+import animals.lang.Template;
 import animals.cli.greeting.GreetingMessage;
 
 import java.io.InputStream;
 import java.util.Scanner;
+
+import static animals.storage.MessageKeys.FACT_TEMPLATE;
 
 public class ActionFactoryImpl implements ActionFactory {
     private final Scanner scanner;
@@ -30,8 +32,8 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
-    public Action<Boolean> confirmation(Message startQuestion) {
-        return new Confirmation(scanner, startQuestion, storage);
+    public Action<Boolean> confirmationQuestion(Message startQuestion) {
+        return new ConfirmationQuestion(scanner, startQuestion, storage);
     }
 
     @Override
@@ -73,6 +75,13 @@ public class ActionFactoryImpl implements ActionFactory {
     @Override
     public Action<Fact> factRequest(String question, String confirmationMessage) {
         return new FactRequest(this, question, confirmationMessage);
+    }
+
+    @Override
+    public Action<Fact> animalDiffRequest(Subject firstAnimal, Subject secondAnimal) {
+        final String question = storage.template(FACT_TEMPLATE, firstAnimal.asText().toLowerCase(), secondAnimal.asText().toLowerCase());
+        final String confirmationMessage = storage.find(MessageKeys.FACT_CONFIRM);
+        return factRequest(question, confirmationMessage);
     }
 
     @Override

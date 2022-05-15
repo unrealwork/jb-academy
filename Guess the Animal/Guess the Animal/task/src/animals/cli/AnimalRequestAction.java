@@ -1,9 +1,9 @@
 package animals.cli;
 
-import animals.ArticleType;
-import animals.Expression;
-import animals.Subject;
-import animals.Token;
+import animals.lang.ArticleType;
+import animals.lang.Expression;
+import animals.lang.Subject;
+import animals.lang.Token;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class AnimalRequestAction implements Action<String> {
         Expression animalExpression = Expression.parse(res);
         Subject subject = new Subject(animalExpression);
         String question = buildQuestion(subject);
-        final Action<Boolean> confirmation = actionFactory.confirmation(actionFactory.message(question));
+        final Action<Boolean> confirmation = actionFactory.confirmationQuestion(actionFactory.message(question));
         Boolean confirm = confirmation.execute();
         while (confirm == null) {
             confirm = confirmation.execute();

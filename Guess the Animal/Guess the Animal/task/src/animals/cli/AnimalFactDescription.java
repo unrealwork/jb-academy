@@ -1,9 +1,9 @@
 package animals.cli;
 
-import animals.Fact;
-import animals.Subject;
-import animals.Template;
-import animals.Token;
+import animals.lang.Fact;
+import animals.lang.Subject;
+import animals.lang.Template;
+import animals.lang.Token;
 
 import java.util.ArrayList;
 import java.util.List;

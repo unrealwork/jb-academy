@@ -1,14 +1,12 @@
 package animals.cli;
 
-import animals.MessageStorage;
-
-import java.util.Scanner;
+import animals.storage.MessageStorage;
 
 class PredicateQuestion implements Action<Boolean> {
     private final Action<Boolean> confirmation;
 
     PredicateQuestion(ActionFactory factory, MessageStorage storage, String question) {
-        this.confirmation = factory.confirmation(question);
+        this.confirmation = factory.confirmationQuestion(question);
     }
 
 
