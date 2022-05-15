@@ -48,7 +48,7 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                         .put(NO, Set.of(
                                 "n", "no", "no way", "nah", "nope", "negative", "I don't think so", "yeah no"
                         )).put(FACT_CORRECT_QUESTION, Set.of(
-                                "Is it correct for {}?"
+                                "Is the statement correct for {}?"
                         ))
                         .put(FACT_DESCRIPTION, Set.of(
                                 "I have learned the following facts about animals:\n" +
