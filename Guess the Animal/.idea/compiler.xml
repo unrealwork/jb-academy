@@ -29,6 +29,9 @@
       <module name="Guess_the_Animal.Topics-Currying-String_concatenation.main" target="11" />
       <module name="Guess_the_Animal.Topics-Currying-Theory.main" target="11" />
       <module name="Guess_the_Animal.Topics-Currying-Types_of_a_curried_function.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Custom_exceptions-Checked_exception_with_constructor.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Custom_exceptions-Square_class.main" target="11" />
+      <module name="Guess_the_Animal.Topics-Custom_exceptions-Theory.main" target="11" />
       <module name="Guess_the_Animal.Topics-Patterns_and_Matcher-E-mail_address.main" target="11" />
       <module name="Guess_the_Animal.Topics-Patterns_and_Matcher-Find_a_word_with_a_given_length.main" target="11" />
       <module name="Guess_the_Animal.Topics-Patterns_and_Matcher-In_the_middle_of_a_word.main" target="11" />
