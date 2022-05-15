@@ -72,8 +72,4 @@ public class Main {
         );
         return new Subject(subExpression);
     }
-
-    private static void distinguishRequest(MessageStorage storage, ActionFactory actionFactory, Subject animal1, Subject animal2) {
-
-    }
 }
