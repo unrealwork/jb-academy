@@ -55,7 +55,7 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                                         "- {}.\n" +
                                         "- {}.\n" +
                                         "I can distinguish these animals by asking the question:\n" +
-                                        "- {}?"
+                                        "- {}"
                         ))
                         .put(BASE_ANIMAL_REQUEST, Set.of(
                                 "I want to learn about animals.\n" +
@@ -66,6 +66,15 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                                         "Let's play a game!\n" +
                                         "You think of an animal, and I guess it.\n" +
                                         "Press enter when you're ready."
+                        ))
+                        .put(NEW_ANIMAL, Set.of(
+                                "I give up. What animal do you have in mind?"
+                        ))
+                        .put(NEW_KNOWLEDGE, Set.of(
+                                "Nice! I've learned so much about animals!"
+                        ))
+                        .put(PLAY_AGAIN, Set.of(
+                                "Would you like to play again?"
                         ))
                         .build();
         return new InMemoryMessageStorage(storage);

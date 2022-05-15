@@ -17,7 +17,10 @@ public class Subject implements Expression {
         ArticleType type = ArticleType.fromToken(e.first());
         this.hasArticle = type != ArticleType.NONE;
         this.articleType = hasArticle ? type : ArticleType.forExpression(e);
-        this.word = e.tokens();
+        this.word = e.tokens().stream()
+                .map(Token::content)
+                .map(String::toLowerCase)
+                .map(Token::word).collect(Collectors.toList());
     }
 
     @Override

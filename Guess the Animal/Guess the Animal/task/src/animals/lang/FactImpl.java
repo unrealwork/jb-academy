@@ -50,8 +50,14 @@ public class FactImpl implements Fact {
     public Expression question() {
         List<Token> tokens = new ArrayList<>(Expression.parse(type.question()).tokens());
         List<Token> expTokens = expression.tokens();
-        tokens.addAll(expTokens.subList(2, expTokens.size()));
+        tokens.addAll(expTokens.subList(2, expTokens.size() - 1));
+        final Token lastWord = expTokens.get(expTokens.size() - 1);
+        tokens.add(questionize(lastWord));
         return Expression.fromTokens(tokens);
+    }
+
+    private Token questionize(Token lastWord) {
+        return lastWord.content().endsWith("?") ? Token.word(lastWord.content()) : Token.word(lastWord.content() + "?");
     }
 
 

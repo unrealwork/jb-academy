@@ -3,7 +3,7 @@
  <head></head>
  <body>
   <p>Sometimes we may need to replace a substring with another string. Java provides us with several convenient methods to do this, and regular expressions play an important role in this process.</p> 
-  <h5 style="text-align: center;" id="the-methods-replacefirst-and-replaceall-of-a-string">The methods replaceFirst and replaceAll of a string</h5> 
+  <h5 id="the-methods-replacefirst-and-replaceall-of-a-string" style="text-align: center;">The methods replaceFirst and replaceAll of a string</h5> 
   <p>There are two strings methods for substring replacement:</p> 
   <ul> 
    <li><code class="language-java">String replaceFirst(String regex, String replacement)</code> replaces the first occurrence of <code class="language-java">regex</code> in the string with <code class="language-java">replacement</code>;</li> 
@@ -35,7 +35,7 @@ String str = "aBoeQNmDFEFu";
 
 String result = str.replaceAll(regex, "-"); // "a-oe-m-u"</code></pre> 
   <p>The Matcher class, however, has the same methods. Let's take a quick look at them.</p> 
-  <h5 style="text-align: center;" id="the-methods-replacefirst-and-replaceall-of-a-matcher">The methods replaceFirst and replaceAll of a matcher</h5> 
+  <h5 id="the-methods-replacefirst-and-replaceall-of-a-matcher" style="text-align: center;">The methods replaceFirst and replaceAll of a matcher</h5> 
   <p>An object of <code class="language-java">Matcher</code> also has two methods for replacing a substring found by means of a regular expression:</p> 
   <ul> 
    <li><code class="language-java">Matcher replaceFirst(String replacement)</code>;</li> 
@@ -51,7 +51,7 @@ Matcher matcher = pattern.matcher(str);
 System.out.println(matcher.replaceAll("#"));   // ab##c##abc#
 System.out.println(matcher.replaceFirst("#")); // ab#3c80abc9</code></pre> 
   <p>As you can see, the replacement works quite simple, the main goal is to write a correct regular expression.</p> 
-  <h5 style="text-align: center;" id="conclusions">Conclusions</h5> 
+  <h5 id="conclusions" style="text-align: center;">Conclusions</h5> 
   <p>In this topic, we've learned:</p> 
   <ul> 
    <li>we can replace a substring with any other string by means of <code class="language-java">replaceFirst</code> and <code class="language-java">replaceAll</code> methods belonging either to <code class="language-java">String</code> objects or <code class="language-java">Matcher</code> objects;</li> 

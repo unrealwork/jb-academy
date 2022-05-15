@@ -37,7 +37,7 @@ class TreeNodeImpl<T> implements TreeNode<T> {
     }
 
     @Override
-    public void setRight(TreeNode<T> setRight) {
+    public void setRight(TreeNode<T> right) {
         this.right = right;
     }
 }

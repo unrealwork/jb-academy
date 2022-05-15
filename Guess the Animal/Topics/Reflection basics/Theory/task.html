@@ -2,9 +2,9 @@
 <html>
  <head></head>
  <body>
-  <h5 style="text-align: center;" id="introduction">Introduction</h5> 
+  <h5 id="introduction" style="text-align: center;">Introduction</h5> 
   <p><strong>Reflection</strong> is one of the most powerful features in Java. Reflection is the process of <strong>accessing </strong>and <strong>modifying </strong>the application at runtime. It means you can get and modify classes and its members such as constructors, fields, and methods in runtime.</p> 
-  <h5 style="text-align: center;" id="javalangreflect-package">java.lang.reflect package</h5> 
+  <h5 id="javalangreflect-package" style="text-align: center;">java.lang.reflect package</h5> 
   <p>Java Reflection is implemented by the <code class="language-java">java.lang.reflect</code> package. Although<code class="language-java">java.lang.reflect</code> package includes many interfaces, classes, and exceptions, there are only four classes that you need to know at this level. These classes are:</p> 
   <ul> 
    <li><strong>Field</strong>: you can use it to get and modify name, value, datatype and access modifier of a variable.</li> 
@@ -12,7 +12,7 @@
    <li><strong>Constructor</strong>: you can use it to get and modify name, parameter types and access modifier of a constructor.</li> 
    <li><strong>Modifier</strong>: you can use it to get information about a particular access modifier.</li> 
   </ul> 
-  <h5 style="text-align: center;" id="javalangclass">java.lang.Class</h5> 
+  <h5 id="javalangclass" style="text-align: center;">java.lang.Class</h5> 
   <p>There is another important point. You can’t just achieve reflection only with the Reflect package that we've mentioned above. Reflect package can give you information about a field, method or constructor of a class, but first you have to take field list, method list, and constructor list. </p> 
   <p>This is possible with <code class="language-java">java.lang.Class</code> class and its static <code class="language-java">forName()</code><strong> </strong>method. When you pass the name of any class to the <code class="language-java">forName()</code> method, it returns a <strong>Class</strong> object that includes information about this class. </p> 
   <p>The <code class="language-java">java.lang.Class</code> also has several methods that you can use to get <strong>attributes </strong>(fields, methods, constructors) of the particular class you passed to <code class="language-java">forName()</code> method. Here are some of those methods:</p> 
@@ -31,7 +31,7 @@
   <p>Second, <code class="language-java">getConstructors()</code>, <code class="language-java">getFields()</code> and <code class="language-java">getMethods()</code> return only public constructors, fields and methods from the class represented by the <strong>Class </strong>object. These methods also return <strong>inherited </strong>public fields and methods from <strong>superclasses</strong>. </p> 
   <p>Similarly,<code class="language-java">getDeclaredConstructors()</code>, <code class="language-java">getDeclaredFields()</code>, <code class="language-java">getDeclaredMethods()</code> return all the constructors, fields and methods from the class represented by the <strong>Class </strong>object. These methods do <strong>not</strong> return inherited fields and methods from the superclasses.</p> 
   <p>Usually, you can see developers use declared methods more often than non-declared methods. You will understand these things better with a code sample. Let’s try out a practical example now.</p> 
-  <h5 style="text-align: center;" id="coding-examples">Coding examples </h5> 
+  <h5 id="coding-examples" style="text-align: center;">Coding examples </h5> 
   <p>Suppose that you have a class called <code class="language-java">Student</code>. It has three public fields, one protected field, and a private field. It also has a default constructor and a public constructor. <code class="language-java">Student</code> class also has a private method and a public method. </p> 
   <pre><code class="language-java">public class Student {
     public String firstName;
@@ -91,7 +91,7 @@ for (Method m : methods) {
     System.out.println("Method " + m.getName());
 }</code></pre> 
   <p>You can write these three sections inside the <code class="language-java">main()</code> method and run this code. </p> 
-  <h5 style="text-align: center;" id="explaining-the-output">Explaining the output</h5> 
+  <h5 id="explaining-the-output" style="text-align: center;">Explaining the output</h5> 
   <p>When you run the code above you will get a list of constructors, fields, and methods: </p> 
   <pre><code class="language-java">Declared Constructor Student
 Declared Constructor Student
@@ -118,7 +118,7 @@ Method notify
 Method notifyAll</code></pre> 
   <p>You can see that <code class="language-java">getDeclaredConstructor()</code> has returned both constructors of the <code class="language-java">Student</code> class while <code class="language-java">getConstructors()</code> has returned only the public constructor. Likewise, <code class="language-java">getDeclaredFields()</code> has returned all fields of the <code class="language-java">Student</code> class while <code class="language-java">getFields()</code> has returned only public fields.</p> 
   <p>Finally, we print the methods of the <code class="language-java">Student</code> class. As expected, <code class="language-java">getDeclaredMethods()</code> has returned both methods. Now the interesting part is that <code class="language-java">getMethods()</code> has returned some methods other than <code class="language-java">setAccountNumber()</code> we've expected. If you remember, in one of our previous topics, we've mentioned that <code class="language-java">java.lang.Object</code> class is the <strong>superclass</strong> of all the classes we create. <code class="language-java">Object</code> class has <strong>nine</strong> public methods and all classes we create inherit<strong> </strong>those methods. That's why you can see nine extra methods in the output. </p> 
-  <h5 style="text-align: center;" id="summary">Summary</h5> 
+  <h5 id="summary" style="text-align: center;">Summary</h5> 
   <p><strong>Reflection</strong> is a way to get information about or modify fields, methods, and constructors of a class. <code class="language-java">java.lang.reflect</code> package and <code class="language-java">java.lang.Class</code> class are essential in Java reflection.</p> 
   <p>There are three steps in the Java reflection process: </p> 
   <ul> 

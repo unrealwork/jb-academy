@@ -23,7 +23,7 @@ public class AnimalRequestAction implements Action<String> {
         Expression animalExpression = Expression.parse(res);
         Subject subject = new Subject(animalExpression);
         String question = buildQuestion(subject);
-        final Action<Boolean> confirmation = actionFactory.confirmation(actionFactory.message(question));
+        final Action<Boolean> confirmation = actionFactory.confirmationQuestion(actionFactory.message(question));
         Boolean confirm = confirmation.execute();
         while (confirm == null) {
             confirm = confirmation.execute();
