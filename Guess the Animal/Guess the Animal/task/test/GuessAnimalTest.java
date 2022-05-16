@@ -6,11 +6,8 @@ import java.io.IOException;
 
 public class GuessAnimalTest extends StageTest<String> {
     final String[] script = new String[]{
-            "the-first-question",
-            "positive-answers",
-            "negative-answers",
-            "unclear-answers",
-            "guessing-game"
+            "file-formats",
+            "menu"
     };
 
     @DynamicTest(data = "script")

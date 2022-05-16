@@ -9,6 +9,8 @@ import animals.lang.Subject;
 import animals.lang.Token;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
+import animals.tree.FileFormat;
+import animals.tree.TreeLoader;
 import animals.tree.TreeNode;
 
 import java.util.List;
@@ -23,10 +25,15 @@ public class Main {
             final Action<Void> greeting = actionFactory.greetingMessage();
             greeting.execute();
             actionFactory.lineBreak().execute();
-            final Question<Subject> baseAnimalRequest = actionFactory.subjectQuestion(storage.find(MessageKeys.BASE_ANIMAL_REQUEST));
-            final Subject baseAnimal = baseAnimalRequest.execute();
-            TreeNode<Fact> tree = TreeNode.create(Fact.fromSubject(baseAnimal));
+            final FileFormat format = FileFormat.fromArgs(args);
+            TreeNode<Fact> tree = TreeLoader.load(format);
+            if (tree == null) {
+                final Question<Subject> baseAnimalRequest = actionFactory.subjectQuestion(storage.find(MessageKeys.BASE_ANIMAL_REQUEST));
+                final Subject baseAnimal = baseAnimalRequest.execute();
+                tree = TreeNode.create(Fact.fromSubject(baseAnimal));
+            }
             final Action<Boolean> finishGameConfirmation = actionFactory.confirmation(storage.find(MessageKeys.PLAY_AGAIN));
+
             Question<String> gameIntro = actionFactory.question(storage.find(MessageKeys.GAME_INTRO));
             do {
                 gameIntro.execute();
@@ -52,6 +59,7 @@ public class Main {
                             .execute();
                 }
             } while (TRUE.equals(finishGameConfirmation.execute()));
+            TreeLoader.save(tree, format);
             actionFactory.lineBreak().execute();
             actionFactory.byeMessage().execute();
         }
@@ -63,9 +71,5 @@ public class Main {
                 factTokens.subList(2, factTokens.size())
         );
         return new Subject(subExpression);
-    }
-
-    private static void distinguishRequest(MessageStorage storage, ActionFactory actionFactory, Subject animal1, Subject animal2) {
-
     }
 }
