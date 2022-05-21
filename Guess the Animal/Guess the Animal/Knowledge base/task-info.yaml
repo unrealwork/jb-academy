@@ -2310,6 +2310,12 @@ files:
 - name: src/animals/cli/StatisticsAction.java
   visible: true
   learner_created: true
+- name: src/animals/cli/menu/ListAnimalsAction.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/menu/PrintTreeAction.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11083#comment
 status: Unchecked
 record: -1
