@@ -3,6 +3,7 @@ package animals.cli.menu;
 import animals.cli.Action;
 import animals.cli.ActionFactory;
 import animals.cli.Message;
+import animals.cli.StatisticsAction;
 import animals.lang.Fact;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
@@ -11,7 +12,6 @@ import animals.tree.TreeNode;
 import animals.util.MapBuilder;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public class MenuServiceImpl implements MenuService {
@@ -47,6 +47,10 @@ public class MenuServiceImpl implements MenuService {
                     return new GameAction(actionFactory, messageStorage, tree, format);
                 case EXIT:
                     return () -> null;
+                case STAT:
+                    return new StatisticsAction(actionFactory, messageStorage, tree);
+                    
+                    
                 default:
                     throw new IllegalStateException("Unsupported Game Action");
             }

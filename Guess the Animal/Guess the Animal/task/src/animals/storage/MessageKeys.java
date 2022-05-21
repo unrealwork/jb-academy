@@ -31,6 +31,14 @@ public class MessageKeys {
     public static final String MENU_PRINT_TREE = "MENU_PRINT_TREE";
     public static final String MENU_EXIT = "EXIT";
 
+    public static final String STAT_TITLE = "STAT_TITLE";
+    public static final String STAT_ROOT_NODE = "STAT_ROOT_NODE";
+    public static final String STAT_TOTAL_NODES = "STAT_TOTAL_NODES";
+    public static final String STAT_TOTAL_ANIMALS = "STAT_TOTAL_ANIMALS";
+    public static final String STAT_TOTAL_STATEMENTS = "STAT_TOTAL_STATEMENTS";
+    public static final String STAT_HEIGHT = "STAT_HEIGHT";
+    public static final String STAT_MIN_DEPTH = "STAT_MIN_DEPTH";
+    public static final String STAT_AVG_DEPTH = "STAT_AVG_DEPTH";
     private MessageKeys() {
 
     }

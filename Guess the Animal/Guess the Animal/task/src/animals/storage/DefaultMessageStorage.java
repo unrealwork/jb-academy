@@ -7,7 +7,6 @@ import java.util.Set;
 import static animals.storage.MessageKeys.*;
 
 class DefaultMessageStorage extends MessageStorageDecorator {
-    
 
     public DefaultMessageStorage() {
         super(storage());
@@ -98,6 +97,31 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                         ))
                         .put(MENU_EXIT, Set.of(
                                 "Exit"
+                        ))
+                        .put(STAT_TITLE, Set.of(
+                                "The Knowledge Tree stats\n" +
+                                        "\n"
+                        ))
+                        .put(STAT_ROOT_NODE, Set.of(
+                                "root node"
+                        ))
+                        .put(STAT_TOTAL_NODES, Set.of(
+                                "total number of nodes"
+                        ))
+                        .put(STAT_TOTAL_ANIMALS, Set.of(
+                                "total number of animals"
+                        ))
+                        .put(STAT_TOTAL_STATEMENTS, Set.of(
+                                "total number of statements"
+                        ))
+                        .put(STAT_HEIGHT, Set.of(
+                                "height of the tree"
+                        ))
+                        .put(STAT_MIN_DEPTH, Set.of(
+                                "minimum animal's depth"
+                        ))
+                        .put(STAT_AVG_DEPTH, Set.of(
+                                "average animal's depth"
                         ))
                         .build();
         return new InMemoryMessageStorage(storage);
