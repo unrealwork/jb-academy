@@ -13,4 +13,12 @@ public final class TreeTraversals {
             preOrder(node.right(), callback);
         }
     }
+    
+    public static <T> void inOrder(TreeNode<T> node, Consumer<TreeNode<T>> callback) {
+        if (node != null) {
+            callback.accept(node);
+            preOrder(node.left(), callback);
+            preOrder(node.right(), callback);
+        }
+    }
 }

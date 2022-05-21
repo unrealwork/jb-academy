@@ -49,6 +49,8 @@ public class MenuServiceImpl implements MenuService {
                     return () -> null;
                 case LIST:
                     return new ListAnimalsAction(actionFactory, messageStorage, tree);
+                case PRINT_TREE:
+                    return new PrintTreeAction(actionFactory, tree);
                 case STAT:
                     return new StatisticsAction(actionFactory, messageStorage, tree);
 
