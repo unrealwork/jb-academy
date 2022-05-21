@@ -16,6 +16,6 @@ public final class Statistics {
     }
 
     public static Statistic fact(Fact fact) {
-        return () -> fact.exp().asText();
+        return () -> fact.exp(true).asText();
     }
 }

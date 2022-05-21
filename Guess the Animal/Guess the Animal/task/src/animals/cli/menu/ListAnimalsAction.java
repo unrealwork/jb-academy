@@ -11,6 +11,8 @@ import animals.storage.MessageStorage;
 import animals.tree.TreeNode;
 import animals.tree.TreeTraversals;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListAnimalsAction implements Action<Void> {
@@ -34,14 +36,24 @@ public class ListAnimalsAction implements Action<Void> {
     private String buildMessage() {
         StringBuilder builder = new StringBuilder(storage.find(MessageKeys.LIST_TITLE))
                 .append(System.lineSeparator());
+        List<String> animals = findAnimals();
+        for (String animal : animals) {
+            builder.append(" - ")
+                    .append(animal)
+                    .append(System.lineSeparator());
+        }
+        return builder.toString();
+    }
+
+    private List<String> findAnimals() {
+        List<String> animals = new ArrayList<>();
         TreeTraversals.preOrder(tree, node -> {
             if (node.isTerminal()) {
-                builder.append(" - ")
-                        .append(extractAnimal(node.val()))
-                        .append(System.lineSeparator());
+                animals.add(extractAnimal(node.val()));
             }
         });
-        return builder.toString();
+        Collections.sort(animals);
+        return Collections.unmodifiableList(animals);
     }
 
     private String extractAnimal(final Fact fact) {

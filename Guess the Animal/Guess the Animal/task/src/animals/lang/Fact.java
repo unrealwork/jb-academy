@@ -25,8 +25,12 @@ public interface Fact {
     FactType type();
 
     Expression exp();
+    
+    Expression exp(final boolean capitalizeFirst);
 
     Expression about(Subject s, final boolean isTrue);
+
+    Expression aboutIt(boolean isTrue);
 
     Expression question();
 
