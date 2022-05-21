@@ -34,11 +34,34 @@ public class FactImpl implements Fact {
     }
 
     @Override
+    public Expression exp(boolean capitalizeFirst) {
+        if (capitalizeFirst) {
+            Expression exp = exp();
+            List<Token> newTokens = new ArrayList<>();
+            newTokens.add(Token.word(capitalizeFirstLetter(exp.first().content())));
+            List<Token> tokens = exp.tokens();
+            newTokens.addAll(tokens.subList(1, tokens.size()));
+            return Expression.fromTokens(newTokens);
+        }
+        return expression;
+    }
+
+    @Override
     public Expression about(Subject s, boolean isTrue) {
         final List<Token> tokenList = new ArrayList<>();
         String article = capitalizeFirstLetter(THE.content());
         tokenList.add(Token.word(article));
         tokenList.addAll(s.withoutArticle().toLowerCase().tokens());
+        tokenList.add(Token.word(isTrue ? type.content() : type.negation()));
+        List<Token> expTokens = expression.tokens();
+        tokenList.addAll(expTokens.subList(2, expTokens.size()));
+        return Expression.fromTokens(tokenList);
+    }
+
+    @Override
+    public Expression aboutIt(boolean isTrue) {
+        final List<Token> tokenList = new ArrayList<>();
+        tokenList.add(Token.word("It"));
         tokenList.add(Token.word(isTrue ? type.content() : type.negation()));
         List<Token> expTokens = expression.tokens();
         tokenList.addAll(expTokens.subList(2, expTokens.size()));

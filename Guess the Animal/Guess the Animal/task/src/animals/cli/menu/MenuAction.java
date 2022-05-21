@@ -13,7 +13,7 @@ public class MenuAction extends Question<MenuOption> {
     } 
     @Override
     public MenuOption read(Scanner sc) {
-        return MenuOption.fromOrderNumber(sc.nextInt());
+        return MenuOption.fromOrderNumber(Integer.parseInt(sc.nextLine()));
     }
 
     @Override

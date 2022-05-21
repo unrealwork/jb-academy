@@ -41,6 +41,10 @@ public class MessageKeys {
     public static final String STAT_AVG_DEPTH = "STAT_AVG_DEPTH";
     
     public static final String LIST_TITLE = "LIST_TITLE";
+    public static final String ENTER_ANIMAL = "ENTER_ANIMAL";
+
+    public static final String FACTS_ABOUT = "FACTS_ABOUT";
+    public static final String NO_FACTS = "NO_FACTS";
     private MessageKeys() {
 
     }
