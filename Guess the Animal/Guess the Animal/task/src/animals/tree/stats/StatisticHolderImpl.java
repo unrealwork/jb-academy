@@ -36,7 +36,7 @@ class StatisticHolderImpl implements StatisticHolder {
         int totalNodes = 0;
         int totalAnimals = 0;
         int height = 0;
-        int minDepth = totalNodes;
+        int minDepth = Integer.MAX_VALUE;
         int leaveDepthSum = 0;
         for (Map.Entry<TreeNode<Fact>, Integer> kv : nodeToHeight.entrySet()) {
             totalNodes++;
