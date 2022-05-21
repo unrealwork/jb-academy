@@ -47,10 +47,12 @@ public class MenuServiceImpl implements MenuService {
                     return new GameAction(actionFactory, messageStorage, tree, format);
                 case EXIT:
                     return () -> null;
+                case LIST:
+                    return new ListAnimalsAction(actionFactory, messageStorage, tree);
                 case STAT:
                     return new StatisticsAction(actionFactory, messageStorage, tree);
-                    
-                    
+
+
                 default:
                     throw new IllegalStateException("Unsupported Game Action");
             }

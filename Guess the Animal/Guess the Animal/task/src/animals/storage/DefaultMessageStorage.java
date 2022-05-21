@@ -123,6 +123,9 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                         .put(STAT_AVG_DEPTH, Set.of(
                                 "average animal's depth"
                         ))
+                        .put(LIST_TITLE, Set.of(
+                                "Here are the animals I know:"
+                        ))
                         .build();
         return new InMemoryMessageStorage(storage);
     }

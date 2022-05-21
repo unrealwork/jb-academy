@@ -39,6 +39,8 @@ public class MessageKeys {
     public static final String STAT_HEIGHT = "STAT_HEIGHT";
     public static final String STAT_MIN_DEPTH = "STAT_MIN_DEPTH";
     public static final String STAT_AVG_DEPTH = "STAT_AVG_DEPTH";
+    
+    public static final String LIST_TITLE = "LIST_TITLE";
     private MessageKeys() {
 
     }
