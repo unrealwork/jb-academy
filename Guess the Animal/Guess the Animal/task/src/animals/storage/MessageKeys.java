@@ -20,8 +20,16 @@ public class MessageKeys {
     public static final String GAME_INTRO = "GAME_INTRO";
     public static final String NEW_ANIMAL = "NEW_ANIMAL";
     public static final String PLAY_AGAIN = "PLAY_AGAIN";
-    
+
     public static final String NEW_KNOWLEDGE = "NEW_KNOWLEDGE";
+    public static final String MENU_GAME = "MENU_GAME";
+    public static final String MENU_INTRO = "MENU_INTRO";
+    public static final String MENU_LIST = "MENU_LIST";
+
+    public static final String MENU_SEARCH = "MENU_SEARCH";
+    public static final String MENU_STAT = "MENU_STAT";
+    public static final String MENU_PRINT_TREE = "MENU_PRINT_TREE";
+    public static final String MENU_EXIT = "EXIT";
 
     private MessageKeys() {
 

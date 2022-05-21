@@ -6,7 +6,7 @@ public abstract class Question<T> implements Action<T> {
 
     private final Scanner scanner;
 
-    Question(Scanner scanner) {
+    protected Question(Scanner scanner) {
         this.scanner = scanner;
     }
 

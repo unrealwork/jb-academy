@@ -1,5 +1,7 @@
 package animals.cli;
 
+import animals.cli.menu.MenuOption;
+import animals.cli.menu.MenuService;
 import animals.lang.Fact;
 import animals.lang.Subject;
 import animals.tree.TreeNode;
@@ -47,4 +49,6 @@ public interface ActionFactory extends AutoCloseable {
     default Action<Boolean> confirmation(String question) {
         return new Confirmation(this, question);
     }
+
+    Action<MenuOption> menuAction(MenuService menuService);
 }
