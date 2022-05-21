@@ -7,8 +7,7 @@ import java.util.Set;
 import static animals.storage.MessageKeys.*;
 
 class DefaultMessageStorage extends MessageStorageDecorator {
-
-
+    
 
     public DefaultMessageStorage() {
         super(storage());
@@ -75,6 +74,30 @@ class DefaultMessageStorage extends MessageStorageDecorator {
                         ))
                         .put(PLAY_AGAIN, Set.of(
                                 "Would you like to play again?"
+                        ))
+                        .put(MENU_GAME, Set.of(
+                                "Play the guessing game"
+                        ))
+                        .put(MENU_INTRO, Set.of(
+                                "Welcome to the animal expert system!\n" +
+                                        "\n" +
+                                        "What do you want to do:\n" +
+                                        "\n"
+                        ))
+                        .put(MENU_LIST, Set.of(
+                                "List of all animals"
+                        ))
+                        .put(MENU_SEARCH, Set.of(
+                               "Search for an animal" 
+                        ))
+                        .put(MENU_STAT, Set.of(
+                                "Calculate statistics"
+                        ))
+                        .put(MENU_PRINT_TREE, Set.of(
+                            "Print the Knowledge Tree"      
+                        ))
+                        .put(MENU_EXIT, Set.of(
+                                "Exit"
                         ))
                         .build();
         return new InMemoryMessageStorage(storage);

@@ -2274,6 +2274,21 @@ files:
       - "1"
       - "3"
   learner_created: false
+- name: src/animals/cli/menu/MenuService.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/menu/MenuOption.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/menu/MenuServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/menu/MenuAction.java
+  visible: true
+  learner_created: true
+- name: src/animals/cli/menu/GameAction.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11083#comment
 status: Unchecked
 record: -1

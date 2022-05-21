@@ -2,3 +2,5 @@ content:
 - Theory
 - Square class
 - Checked exception with constructor
+- Custom checked exception
+- Exception chaining

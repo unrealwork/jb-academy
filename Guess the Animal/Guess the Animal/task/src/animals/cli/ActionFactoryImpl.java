@@ -1,5 +1,8 @@
 package animals.cli;
 
+import animals.cli.menu.MenuAction;
+import animals.cli.menu.MenuOption;
+import animals.cli.menu.MenuService;
 import animals.lang.Fact;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
@@ -93,6 +96,11 @@ public class ActionFactoryImpl implements ActionFactory {
     public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond) {
         final Template template = storage.template(MessageKeys.FACT_DESCRIPTION);
         return new AnimalFactDescription(template, fact, animal1, animal2, isAboutSecond);
+    }
+
+    @Override
+    public Action<MenuOption> menuAction(MenuService menuService) {
+        return new MenuAction(scanner, menuService);
     }
 
 
