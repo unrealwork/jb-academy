@@ -5,20 +5,13 @@ import animals.cli.ActionFactory;
 import animals.cli.Question;
 import animals.cli.menu.MenuOption;
 import animals.cli.menu.MenuService;
-import animals.lang.Expression;
 import animals.lang.Fact;
 import animals.lang.Subject;
-import animals.lang.Token;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
 import animals.tree.FileFormat;
 import animals.tree.TreeLoader;
 import animals.tree.TreeNode;
-
-import java.util.List;
-
-import static animals.storage.MessageKeys.FACT_TEMPLATE;
-import static java.lang.Boolean.TRUE;
 
 public class Main {
     public static void main(String[] args) throws Exception {

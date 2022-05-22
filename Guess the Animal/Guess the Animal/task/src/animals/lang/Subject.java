@@ -32,6 +32,7 @@ public class Subject implements Expression {
         return articleType;
     }
 
+    @Override
     public String asText() {
         Expression expression = withoutArticle();
         ArticleType type = hasArticle ? articleType : ArticleType.forExpression(expression);

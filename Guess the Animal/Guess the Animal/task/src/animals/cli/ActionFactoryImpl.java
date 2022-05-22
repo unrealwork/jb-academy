@@ -89,7 +89,7 @@ public class ActionFactoryImpl implements ActionFactory {
 
     @Override
     public Action<Boolean> predicateQuestion(String question) {
-        return new PredicateQuestion(this, storage, question);
+        return new PredicateQuestion(this, question);
     }
 
     @Override

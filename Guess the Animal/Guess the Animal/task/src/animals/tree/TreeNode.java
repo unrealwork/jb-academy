@@ -18,7 +18,7 @@ public interface TreeNode<T> {
     }
 
     static <T> TreeNode<T> create(T val, TreeNode<T> left, TreeNode<T> right) {
-        return new TreeNodeImpl(val, left, right);
+        return new TreeNodeImpl<>(val, left, right);
     }
 
     static <T> TreeNode<T> create(T val) {

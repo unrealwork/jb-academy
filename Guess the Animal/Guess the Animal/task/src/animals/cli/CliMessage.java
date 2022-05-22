@@ -9,9 +9,7 @@ public abstract class CliMessage implements Message {
     }
 
     @Override
-    public abstract String content();
-
-    @Override
+    @SuppressWarnings("squid:S106")
     public void print() {
         System.out.println(content());
     }

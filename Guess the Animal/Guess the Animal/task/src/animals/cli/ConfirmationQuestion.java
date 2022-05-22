@@ -39,13 +39,14 @@ public class ConfirmationQuestion extends Question<Boolean> {
     @Override
     public Boolean read(Scanner sc) {
         String s = sc.nextLine();
+        Boolean res = null;
         if (yesChecker.isExpression(s)) {
-            return Boolean.TRUE;
+            res = Boolean.TRUE;
         }
         if (noChecker.isExpression(s)) {
-            return Boolean.FALSE;
+            res = Boolean.FALSE;
         }
-        return null;
+        return res;
     }
 
     @Override

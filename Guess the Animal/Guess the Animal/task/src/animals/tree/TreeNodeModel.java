@@ -9,9 +9,6 @@ public class TreeNodeModel {
     private TreeNodeModel yes;
     private TreeNodeModel no;
 
-    public TreeNodeModel() {
-    }
-
     public String getData() {
         return data;
     }

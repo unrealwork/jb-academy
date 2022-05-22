@@ -3,10 +3,10 @@ package animals.cli;
 import java.util.function.Supplier;
 
 public class RandomMessage implements Message {
-    private final Supplier<String> randomMessage;
+    private final Supplier<String> messageSupplier;
 
     public RandomMessage(String... messages) {
-        randomMessage = RandomGenerator.random(messages);
+        messageSupplier = RandomGenerator.random(messages);
     }
 
     @Override
@@ -17,10 +17,11 @@ public class RandomMessage implements Message {
 
     @Override
     public String content() {
-        return randomMessage.get();
+        return messageSupplier.get();
     }
 
     @Override
+    @SuppressWarnings("squid:S106")
     public void print() {
         System.out.println(content());
     }

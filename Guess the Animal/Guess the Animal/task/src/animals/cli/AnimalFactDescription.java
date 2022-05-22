@@ -3,10 +3,6 @@ package animals.cli;
 import animals.lang.Fact;
 import animals.lang.Subject;
 import animals.lang.Template;
-import animals.lang.Token;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AnimalFactDescription extends CliMessage {
     private final Template contentTemplate;
@@ -27,7 +23,7 @@ public class AnimalFactDescription extends CliMessage {
 
     @Override
     public String content() {
-        final List<Token> tokenList = new ArrayList<>();
+        
         final String factAboutFirst = fact.about(animal1, !isAboutSecond)
                 .asText();
         final String factAboutSecond = fact.about(animal2, isAboutSecond)

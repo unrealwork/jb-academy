@@ -1,4 +1,5 @@
 content:
+- Math library
 - Currying
 - Recursion
 - Patterns and Matcher
@@ -6,4 +7,3 @@ content:
 - Replacing characters (1)
 - Reflection basics
 - Custom exceptions
-- Integer types and operations

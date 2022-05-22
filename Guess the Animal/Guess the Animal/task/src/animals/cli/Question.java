@@ -16,7 +16,7 @@ public abstract class Question<T> implements Action<T> {
 
     public Scanner scanner() {
         return scanner;
-    };
+    }
 
     @Override
     public T execute() {

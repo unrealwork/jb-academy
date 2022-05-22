@@ -2304,12 +2304,6 @@ files:
 - name: src/animals/tree/stats/Statistics.java
   visible: true
   learner_created: true
-- name: src/animals/tree/TreeTraversals.java
-  visible: true
-  learner_created: true
-- name: src/animals/cli/StatisticsAction.java
-  visible: true
-  learner_created: true
 - name: src/animals/cli/menu/ListAnimalsAction.java
   visible: true
   learner_created: true
@@ -2327,4 +2321,4 @@ status: Solved
 feedback:
   message: Congratulations!
   time: Sat, 21 May 2022 15:10:55 UTC
-record: -1
+record: 6

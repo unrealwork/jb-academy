@@ -1,7 +1,5 @@
 package animals.lang;
 
-import animals.lang.Token;
-
 public class Word implements Token {
 
     private final int pos;
