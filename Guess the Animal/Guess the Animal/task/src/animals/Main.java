@@ -28,7 +28,7 @@ public class Main {
             }
             final MenuService menuService = MenuService.create(actionFactory, storage, tree, format);
             final Action<MenuOption> menuRoutine = menuService.menuRoutine();
-            MenuOption option = null;
+            MenuOption option;
             do {
                 option = menuRoutine.execute();
                 menuService.menuAction(option)

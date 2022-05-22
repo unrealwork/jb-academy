@@ -1,7 +1,7 @@
 package animals.cli;
 
 import animals.lang.Expression;
-import animals.lang.IllegalExpression;
+import animals.lang.IllegalExpressionException;
 
 import java.util.Set;
 
@@ -20,7 +20,7 @@ public class SetExpressionChecker implements ExpressionChecker {
             return expressions.stream()
                     .map(Expression::parse)
                     .anyMatch(expression::equalsIgnoreCase);
-        } catch (IllegalExpression e) {
+        } catch (IllegalExpressionException e) {
             return false;
         }
     }

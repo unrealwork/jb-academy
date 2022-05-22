@@ -56,13 +56,13 @@ public interface Expression {
         return ExpressionImpl.create(tokens);
     }
     
-    static Expression parse(String s) throws IllegalExpression {
+    static Expression parse(String s) throws IllegalExpressionException {
         List<Token> tokens = new ArrayList<>();
         StringBuilder tokenBuilder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if ((c == '!' || c == '.') && i != (s.length() - 1)) {
-                throw new IllegalExpression("Expression should contain only one terminal symbol");
+            if (isSentenceEnd(c) && i != (s.length() - 1)) {
+                throw new IllegalExpressionException("Expression should contain only one terminal symbol");
             }
             if (Character.isLetterOrDigit(c)) {
                 tokenBuilder.append(c);
@@ -79,5 +79,9 @@ public interface Expression {
                     s.length() - tokenBuilder.length()));
         }
         return ExpressionImpl.create(Collections.unmodifiableList(tokens));
+    }
+
+    private static boolean isSentenceEnd(char c) {
+        return c == '!' || c == '.';
     }
 }

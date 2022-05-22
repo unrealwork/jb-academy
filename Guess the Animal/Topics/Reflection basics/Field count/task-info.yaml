@@ -21,5 +21,31 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/2881#comment
-status: Solved
+status: Failed
+feedback:
+  message: |
+    Compilation error
+    Main.java:57: error: cannot find symbol
+    @Target(value= ElementType.METHOD)
+     ^
+      symbol: class Target
+    Main.java:58: error: cannot find symbol
+    @Retention(value= RetentionPolicy.RUNTIME)
+     ^
+      symbol: class Retention
+    Main.java:57: error: cannot find symbol
+    @Target(value= ElementType.METHOD)
+                   ^
+      symbol: variable ElementType
+    Main.java:58: error: cannot find symbol
+    @Retention(value= RetentionPolicy.RUNTIME)
+                      ^
+      symbol: variable RetentionPolicy
+    Main.java:43: error: cannot find symbol
+            for (Method method : Tester.class.getMethods()) {
+                 ^
+      symbol:   class Method
+      location: class Main
+    5 errors
+  time: Sun, 22 May 2022 01:54:56 UTC
 record: -1

@@ -2,7 +2,7 @@ package animals.cli;
 
 import animals.lang.Expression;
 import animals.lang.Fact;
-import animals.lang.IllegalExpression;
+import animals.lang.IllegalExpressionException;
 
 public class FactRequest implements Action<Fact> {
     private final Question<String> question;
@@ -31,7 +31,7 @@ public class FactRequest implements Action<Fact> {
             String res = ans == null ? question.execute().toLowerCase() : ans;
             Expression expression = Expression.parse(res);
             return Fact.fromExpression(expression);
-        } catch (IllegalExpression e) {
+        } catch (IllegalExpressionException e) {
             return null;
         }
     }
