@@ -1,13 +1,17 @@
 package animals.storage;
 
-import animals.lang.Template;
-
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
+
+import static animals.util.ResourceBundles.msg;
+
 
 public class InMemoryMessageStorage implements MessageStorage {
     private final Map<String, Set<String>> storage;
+    private final ResourceBundle bundle = msg();
 
     public InMemoryMessageStorage(Map<String, Set<String>> storage) {
         this.storage = storage;
@@ -15,23 +19,29 @@ public class InMemoryMessageStorage implements MessageStorage {
 
     @Override
     public Set<String> get(String messageKey) {
+        if (bundle.containsKey(messageKey)) {
+            return Set.of(bundle.getStringArray(messageKey));
+        }
         return storage.get(messageKey);
     }
 
     @Override
     public String find(String messageKey) {
+        if (bundle.containsKey(messageKey)) {
+            return bundle.getString(messageKey);
+        }
         return storage.getOrDefault(messageKey, Collections.emptySet())
                 .iterator()
                 .next();
     }
 
-
-    public Template template(String templateKey) {
-        return Template.create(find(templateKey));
+    @Override
+    public MessageFormat template(String templateKey) {
+        return new MessageFormat(find(templateKey));
     }
 
     @Override
     public String template(String templateKey, Object... objects) {
-        return template(templateKey).format(objects);
+        return MessageFormat.format(find(templateKey), objects);
     }
 }

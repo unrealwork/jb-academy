@@ -1,17 +1,21 @@
 package animals.cli.greeting;
 
+import animals.storage.MessageKeys;
+
 import java.time.LocalTime;
 
+import static animals.util.ResourceBundles.MSG;
+
 enum TimeBasedGreeting implements Greeting {
-    MORNING("Good morning!", DayTimes.MORNING, DayTimes.AFTERNOON),
-    AFTERNOON("Good afternoon!", DayTimes.AFTERNOON, DayTimes.EVENING),
-    EVENING("Good evening!", DayTimes.EVENING, DayTimes.MORNING);
-    private final String message;
+    MORNING(MessageKeys.GREETING_MORNING, DayTimes.MORNING, DayTimes.AFTERNOON),
+    AFTERNOON(MessageKeys.GREETING_AFTERNOON, DayTimes.AFTERNOON, DayTimes.EVENING),
+    EVENING(MessageKeys.GREETING_EVENING, DayTimes.EVENING, DayTimes.MORNING);
+    private final String messageKey;
     private final LocalTime start;
     private final LocalTime end;
 
-    TimeBasedGreeting(String message, LocalTime start, LocalTime end) {
-        this.message = message;
+    TimeBasedGreeting(String messageKey, LocalTime start, LocalTime end) {
+        this.messageKey = messageKey;
         this.start = start;
         this.end = end;
     }
@@ -26,6 +30,6 @@ enum TimeBasedGreeting implements Greeting {
 
     @Override
     public String message() {
-        return message;
+        return MSG.getString(messageKey);
     }
 }

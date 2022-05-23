@@ -11,6 +11,7 @@ import animals.lang.Template;
 import animals.cli.greeting.GreetingMessage;
 
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Scanner;
 
 import static animals.storage.MessageKeys.FACT_TEMPLATE;
@@ -55,11 +56,6 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
-    public Action<String> animalRequest() {
-        return new AnimalRequestAction(this);
-    }
-
-    @Override
     public Message randomMessage(String... messages) {
         return new RandomMessage(messages);
     }
@@ -94,7 +90,7 @@ public class ActionFactoryImpl implements ActionFactory {
 
     @Override
     public Message animalFactDescription(Fact fact, Subject animal1, Subject animal2, boolean isAboutSecond) {
-        final Template template = storage.template(MessageKeys.FACT_DESCRIPTION);
+        final MessageFormat template = storage.template(MessageKeys.FACT_DESCRIPTION);
         return new AnimalFactDescription(template, fact, animal1, animal2, isAboutSecond);
     }
 

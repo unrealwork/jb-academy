@@ -8,6 +8,7 @@ import animals.tree.stats.StatisticHolder;
 import animals.tree.stats.StatisticType;
 import animals.util.MapBuilder;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 public class StatisticsAction implements Action<Void> {
@@ -41,25 +42,17 @@ public class StatisticsAction implements Action<Void> {
     private String buildStatDesc() {
         StringBuilder builder = new StringBuilder(storage.find(MessageKeys.STAT_TITLE));
         StatisticHolder statisticHolder = StatisticHolder.fromTree(tree);
-        final int columnSize = LABEL_MAP.keySet().stream()
-                .map(this::statLabel)
-                .mapToInt(String::length)
-                .max().orElse(0) + 3;
 
         for (StatisticType type : StatisticType.values()) {
-            String label = statLabel(type);
-            builder.append("- ")
-                    .append(label);
-            for (int i = 0; i < (columnSize - label.length()); i++) {
-                builder.append(' ');
-            }
-            builder.append(statisticHolder.getAsString(type))
+            MessageFormat template = statLabel(type);
+            String formattedStat = template.format(new Object[] {statisticHolder.get(type)});
+            builder.append(formattedStat)
                     .append(System.lineSeparator());
         }
         return builder.toString();
     }
 
-    private String statLabel(StatisticType type) {
-        return storage.find(LABEL_MAP.get(type));
+    private MessageFormat statLabel(StatisticType type) {
+        return storage.template(LABEL_MAP.get(type));
     }
 }

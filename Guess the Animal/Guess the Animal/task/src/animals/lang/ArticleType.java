@@ -4,23 +4,29 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static animals.util.ResourceBundles.grammar;
+
+
 public enum ArticleType {
-    THE(true, "the"), AN("an"), A("a"), NONE(null);
+    THE(true, GrammarKeys.DEFINITE_ARTICLE),
+    AN(GrammarKeys.UNDEFINITE_AN),
+    A(GrammarKeys.UNDEFINITE_A),
+    NONE(null);
     private final boolean isDefinite;
-    private final String content;
+    private final String contentKey;
 
     ArticleType(boolean isDefinite, String content) {
         this.isDefinite = isDefinite;
-        this.content = content;
+        this.contentKey = content;
     }
 
-    ArticleType(String content) {
-        this.content = content;
+    ArticleType(String contentKey) {
+        this.contentKey = contentKey;
         this.isDefinite = false;
     }
 
     public String content() {
-        return content;
+        return isExist() && contentKey != null ? grammar().getString(contentKey) : null;
     }
 
     public boolean isDefinite() {
@@ -30,7 +36,7 @@ public enum ArticleType {
 
     public static ArticleType fromToken(Token s) {
         for (ArticleType art : values()) {
-            if (s.content().equalsIgnoreCase(art.content)) {
+            if (art.isExist() && art.content() != null && art.content().equalsIgnoreCase(s.content())) {
                 return art;
             }
         }
@@ -39,6 +45,9 @@ public enum ArticleType {
 
     public static ArticleType forExpression(Expression expression) {
         Token first = expression.first();
+        if (!hasIndefinite()) {
+            return NONE;
+        }
         if (first != null && first.length() > 0) {
             char c = first.content().charAt(0);
             if (Character.isAlphabetic(c)) {
@@ -48,5 +57,19 @@ public enum ArticleType {
             }
         }
         throw new IllegalStateException("Unable to define article");
+    }
+
+    private static boolean hasIndefinite() {
+        return (Boolean) grammar().getObject(GrammarKeys.HAS_UNDEFINITE);
+    }
+
+    private boolean isExist() {
+        if (this == NONE) {
+            return true;
+        }
+        if (isDefinite()) {
+            return true;
+        }
+        return hasIndefinite();
     }
 }

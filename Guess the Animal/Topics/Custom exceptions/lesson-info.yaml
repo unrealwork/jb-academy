@@ -4,3 +4,4 @@ content:
 - Checked exception with constructor
 - Custom checked exception
 - Exception chaining
+- DriverNotReadyException

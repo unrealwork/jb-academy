@@ -17,8 +17,8 @@ class StatisticHolderImpl implements StatisticHolder {
     }
 
     @Override
-    public String getAsString(StatisticType type) {
-        return statStorage.get(type).getAsString();
+    public Object get(StatisticType type) {
+        return statStorage.get(type).get();
     }
 
     public static StatisticHolder fromTree(TreeNode<Fact> treeNode) {

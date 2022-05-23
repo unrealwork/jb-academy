@@ -36,7 +36,7 @@ public class Subject implements Expression {
     public String asText() {
         Expression expression = withoutArticle();
         ArticleType type = hasArticle ? articleType : ArticleType.forExpression(expression);
-        return type.content() + " " + expression.asText();
+        return ArticleType.NONE == type ? expression.asText() : (type.content() + " " + expression.asText());
     }
 
     public Expression withoutArticle() {

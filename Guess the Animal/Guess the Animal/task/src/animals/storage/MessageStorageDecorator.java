@@ -2,6 +2,7 @@ package animals.storage;
 
 import animals.lang.Template;
 
+import java.text.MessageFormat;
 import java.util.Set;
 
 class MessageStorageDecorator implements MessageStorage {
@@ -28,7 +29,7 @@ class MessageStorageDecorator implements MessageStorage {
     }
 
     @Override
-    public Template template(String templateKey) {
+    public MessageFormat template(String templateKey) {
         return delegate.template(templateKey);
     }
 }

@@ -22,8 +22,6 @@ public interface ActionFactory extends AutoCloseable {
 
     Message message(String s);
 
-    Action<String> animalRequest();
-
     Message randomMessage(String... messages);
 
     Message lineBreak();

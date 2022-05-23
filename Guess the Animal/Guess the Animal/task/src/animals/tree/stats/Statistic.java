@@ -1,5 +1,8 @@
 package animals.tree.stats;
 
 public interface Statistic {
-    String getAsString();
+    default String getAsString() {
+        return get().toString();
+    }
+    Object get();
 }

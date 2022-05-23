@@ -8,11 +8,11 @@ public final class Statistics {
     }
 
     public static Statistic integer(int val) {
-        return () -> Integer.toString(val);
+        return () -> val;
     }
 
     public static Statistic real(double val) {
-        return () -> Double.toString(val);
+        return () -> val;
     }
 
     public static Statistic fact(Fact fact) {

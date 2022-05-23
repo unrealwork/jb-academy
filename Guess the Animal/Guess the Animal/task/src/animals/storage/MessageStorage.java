@@ -2,6 +2,7 @@ package animals.storage;
 
 import animals.lang.Template;
 
+import java.text.MessageFormat;
 import java.util.Set;
 
 public interface MessageStorage {
@@ -11,7 +12,7 @@ public interface MessageStorage {
     
     String template(String templateKey, Object... objects);
     
-    Template template(String templateKey);
+    MessageFormat template(String templateKey);
     
     static MessageStorage def() {
         return new DefaultMessageStorage();

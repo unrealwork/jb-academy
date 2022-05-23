@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static animals.lang.ArticleType.THE;
+import static animals.util.ResourceBundles.grammar;
 
 public class FactImpl implements Fact {
     private final Expression expression;
@@ -61,7 +62,7 @@ public class FactImpl implements Fact {
     @Override
     public Expression aboutIt(boolean isTrue) {
         final List<Token> tokenList = new ArrayList<>();
-        tokenList.add(Token.word("It"));
+        tokenList.add(Token.word(grammar(GrammarKeys.IT)));
         tokenList.add(Token.word(isTrue ? type.content() : type.negation()));
         List<Token> expTokens = expression.tokens();
         tokenList.addAll(expTokens.subList(2, expTokens.size()));
@@ -85,6 +86,9 @@ public class FactImpl implements Fact {
 
 
     private String capitalizeFirstLetter(final String s) {
+        if (null == s) {
+            throw new IllegalStateException();
+        }
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 }

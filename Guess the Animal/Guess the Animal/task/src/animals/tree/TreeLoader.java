@@ -13,13 +13,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 public class TreeLoader {
     private TreeLoader() {
     }
 
     private static Path getDefaultPath(final FileFormat fileFormat) {
-        return Paths.get("animals." + fileFormat.name().toLowerCase());
+        Locale locale = Locale.getDefault();
+        boolean isDefaultLang = Locale.US.getLanguage().equals(locale.getLanguage());
+        final String localeSuffix = isDefaultLang ? "" : ("_" + locale.getLanguage().toLowerCase());
+        return Paths.get("animals" + localeSuffix + "." + fileFormat.name().toLowerCase());
     }
 
     public static TreeNode<Fact> load(FileFormat format) {
