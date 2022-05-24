@@ -1,10 +1,12 @@
 package animals.lang;
 
+import animals.i18n.GrammarKeys;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static animals.util.ResourceBundles.grammar;
+import static animals.i18n.ResourceBundles.GRAMMAR;
 
 
 public enum ArticleType {
@@ -26,7 +28,7 @@ public enum ArticleType {
     }
 
     public String content() {
-        return isExist() && contentKey != null ? grammar().getString(contentKey) : null;
+        return isExist() && contentKey != null ? GRAMMAR.getString(contentKey) : null;
     }
 
     public boolean isDefinite() {
@@ -36,8 +38,11 @@ public enum ArticleType {
 
     public static ArticleType fromToken(Token s) {
         for (ArticleType art : values()) {
-            if (art.isExist() && art.content() != null && art.content().equalsIgnoreCase(s.content())) {
-                return art;
+            if (art.isExist()) {
+                String article = art.content();
+                if (article != null && article.equalsIgnoreCase(s.content())) {
+                    return art;
+                }
             }
         }
         return NONE;
@@ -60,7 +65,7 @@ public enum ArticleType {
     }
 
     private static boolean hasIndefinite() {
-        return (Boolean) grammar().getObject(GrammarKeys.HAS_UNDEFINITE);
+        return (Boolean) GRAMMAR.getObject(GrammarKeys.HAS_UNDEFINITE);
     }
 
     private boolean isExist() {

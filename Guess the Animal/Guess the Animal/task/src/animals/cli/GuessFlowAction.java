@@ -1,6 +1,7 @@
 package animals.cli;
 
 import animals.lang.Fact;
+import animals.lang.composer.Composer;
 import animals.tree.TreeNode;
 
 public class GuessFlowAction implements Action<TreeNode<Fact>> {
@@ -17,7 +18,7 @@ public class GuessFlowAction implements Action<TreeNode<Fact>> {
         TreeNode<Fact> cur = tree;
         while (!cur.isTerminal()) {
             Fact fact = cur.val();
-            final Action<Boolean> confirmation = factory.confirmationQuestion(fact.question().asText());
+            final Action<Boolean> confirmation = factory.confirmationQuestion(Composer.question(fact).asText());
             Boolean ans = confirmation.execute();
             while (ans == null) {
                 ans = confirmation.execute();

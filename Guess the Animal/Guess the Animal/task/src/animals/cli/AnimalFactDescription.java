@@ -2,7 +2,7 @@ package animals.cli;
 
 import animals.lang.Fact;
 import animals.lang.Subject;
-import animals.lang.Template;
+import animals.lang.composer.Composer;
 
 import java.text.MessageFormat;
 
@@ -26,12 +26,13 @@ public class AnimalFactDescription extends CliMessage {
     @Override
     public String content() {
 
-        final String factAboutFirst = fact.about(animal1, !isAboutSecond)
+        final String factAboutFirst = Composer.about(fact, animal1, !isAboutSecond)
                 .asText();
-        final String factAboutSecond = fact.about(animal2, isAboutSecond)
+        final String factAboutSecond = Composer.about(fact, animal2, isAboutSecond)
                 .asText();
 
-        final String question = fact.question().asText();
+        final String question = Composer.question(fact)
+                .asText();
         return contentTemplate.format(new Object[] {factAboutFirst, factAboutSecond, question});
     }
 }

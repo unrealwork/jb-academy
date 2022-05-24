@@ -1,15 +1,20 @@
 package animals.lang;
 
+import animals.i18n.GrammarKeys;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static animals.util.ResourceBundles.grammar;
+import static animals.i18n.ResourceBundles.GRAMMAR;
+
 
 public interface Fact {
+
+    int MIN_FACT_WORDS_AMOUNT = 3;
+
     static Fact fromExpression(Expression expression) throws IllegalExpressionException {
         List<Token> tokenList = expression.tokens();
-        if (tokenList.size() < 3) {
+        if (tokenList.size() < MIN_FACT_WORDS_AMOUNT) {
             throw new IllegalExpressionException("Too short fact");
         }
         final FactType type = FactType.fromToken(tokenList.get(1));
@@ -20,7 +25,7 @@ public interface Fact {
         Expression exp = subject.withoutArticle();
         List<Token> subTokens = exp.tokens();
         List<Token> factTokens = new ArrayList<>(2 + subTokens.size());
-        factTokens.add(Token.word(grammar(GrammarKeys.IT)));
+        factTokens.add(Token.word(GRAMMAR.getString(GrammarKeys.IT)));
         factTokens.add(Token.word(FactType.IS.content()));
         String article = ArticleType.forExpression(exp).content();
         if (article != null) {
@@ -35,11 +40,4 @@ public interface Fact {
     Expression exp();
 
     Expression exp(final boolean capitalizeFirst);
-
-    Expression about(Subject s, final boolean isTrue);
-
-    Expression aboutIt(boolean isTrue);
-
-    Expression question();
-
 }

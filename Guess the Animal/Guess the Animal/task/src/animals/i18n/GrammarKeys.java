@@ -1,4 +1,6 @@
-package animals.lang;
+package animals.i18n;
+
+import animals.i18n.Grammar;
 
 /**
  * Contains keys to lookup {@link Grammar} resource bundle.
@@ -27,4 +29,8 @@ public final class GrammarKeys {
     public static final String CAN_Q = "CAN_Q";
 
     public static final String HAS_UNDEFINITE = "HAS_INDEFINITE";
+
+    public static final String NEGATION = "NEGATION";
+    public static final String QUESTION_PATTERN = "QUESTION_PATTERN";
+
 }

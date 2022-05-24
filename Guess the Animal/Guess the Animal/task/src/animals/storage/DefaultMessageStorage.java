@@ -1,6 +1,6 @@
 package animals.storage;
 
-import java.util.Collections;
+import animals.i18n.ResourceBundles;
 
 class DefaultMessageStorage extends MessageStorageDecorator {
 
@@ -10,6 +10,6 @@ class DefaultMessageStorage extends MessageStorageDecorator {
     }
 
     private static MessageStorage storage() {
-        return new InMemoryMessageStorage(Collections.emptyMap());
+        return new InMemoryMessageStorage(ResourceBundles.MSG);
     }
 }

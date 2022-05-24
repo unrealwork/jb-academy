@@ -1,9 +1,8 @@
-package animals.lang;
+package animals.i18n;
 
 import java.util.ListResourceBundle;
-import java.util.Locale;
 
-import static animals.lang.GrammarKeys.*;
+import static animals.i18n.GrammarKeys.*;
 
 public class Grammar extends ListResourceBundle {
 
