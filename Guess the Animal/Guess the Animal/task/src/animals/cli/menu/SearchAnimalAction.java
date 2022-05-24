@@ -6,6 +6,7 @@ import animals.lang.Expression;
 import animals.lang.Fact;
 import animals.lang.Subject;
 import animals.lang.Token;
+import animals.lang.composer.Composer;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
 import animals.tree.TreeNode;
@@ -71,7 +72,7 @@ class SearchAnimalAction implements Action<Void> {
             }
             Deque<String> facts = new LinkedList<>();
             while (parent != null) {
-                String fact = parent.val().aboutIt(parent.right() == child).asText();
+                String fact = Composer.aboutIt(parent.val(),parent.right() == child).asText();
                 facts.addFirst(fact);
                 child = parent;
                 parent = parentsMap.get(parent);

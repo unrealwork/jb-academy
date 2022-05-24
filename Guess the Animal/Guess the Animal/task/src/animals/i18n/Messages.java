@@ -1,4 +1,4 @@
-package animals.storage;
+package animals.i18n;
 
 import java.util.ListResourceBundle;
 import java.util.Locale;

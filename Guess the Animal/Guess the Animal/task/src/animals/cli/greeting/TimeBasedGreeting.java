@@ -4,7 +4,7 @@ import animals.storage.MessageKeys;
 
 import java.time.LocalTime;
 
-import static animals.util.ResourceBundles.MSG;
+import static animals.i18n.ResourceBundles.MSG;
 
 enum TimeBasedGreeting implements Greeting {
     MORNING(MessageKeys.GREETING_MORNING, DayTimes.MORNING, DayTimes.AFTERNOON),

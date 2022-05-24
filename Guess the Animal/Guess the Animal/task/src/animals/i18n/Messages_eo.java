@@ -1,4 +1,4 @@
-package animals.storage;
+package animals.i18n;
 
 import java.util.ListResourceBundle;
 
@@ -37,6 +37,7 @@ import static animals.storage.MessageKeys.STAT_TOTAL_NODES;
 import static animals.storage.MessageKeys.STAT_TOTAL_STATEMENTS;
 import static animals.storage.MessageKeys.YES;
 
+@SuppressWarnings("squid:S101")
 public class Messages_eo extends ListResourceBundle {
 
     @Override
@@ -106,8 +107,8 @@ public class Messages_eo extends ListResourceBundle {
                 {STAT_AVG_DEPTH, "- averaĝa profundo             {0,number,##0.0}"},
                 {LIST_TITLE, "Jen la bestoj, kiujn mi konas:"},
                 {ENTER_ANIMAL, "Enigu la nomon de besto:"},
-                {FACTS_ABOUT, "Facts about the {0}:"},
-                {NO_FACTS, "No facts about the {0}."}
+                {FACTS_ABOUT, "Faktoj pri la {0}:"},
+                {NO_FACTS, "Neniuj faktoj pri la {0}."}
         };
     }
 }

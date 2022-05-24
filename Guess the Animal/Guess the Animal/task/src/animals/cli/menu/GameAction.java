@@ -7,6 +7,7 @@ import animals.lang.Expression;
 import animals.lang.Fact;
 import animals.lang.Subject;
 import animals.lang.Token;
+import animals.lang.composer.Composer;
 import animals.storage.MessageKeys;
 import animals.storage.MessageStorage;
 import animals.tree.FileFormat;
@@ -39,7 +40,7 @@ class GameAction implements Action<Void> {
             gameIntro.execute();
             TreeNode<Fact> terminalNode = actionFactory.guessGame(tree)
                     .execute();
-            Action<Boolean> finalQuestion = actionFactory.confirmation(terminalNode.val().question().asText());
+            Action<Boolean> finalQuestion = actionFactory.confirmation(Composer.question(terminalNode.val()).asText());
             boolean isGuessed = finalQuestion.execute();
             if (!isGuessed) {
                 final Action<Subject> newAnimalQuestion = actionFactory.subjectQuestion(storage.find(MessageKeys.NEW_ANIMAL));

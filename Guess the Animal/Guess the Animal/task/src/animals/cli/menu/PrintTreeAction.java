@@ -5,6 +5,7 @@ import animals.cli.ActionFactory;
 import animals.lang.Expression;
 import animals.lang.Fact;
 import animals.lang.Token;
+import animals.lang.composer.Composer;
 import animals.tree.TreeNode;
 
 import java.util.List;
@@ -57,7 +58,7 @@ class PrintTreeAction implements Action<Void> {
             return Expression.fromTokens(tokens.subList(2, tokens.size()))
                     .asText();
         }
-        return factTreeNode.val().question().asText();
+        return Composer.question(factTreeNode.val()).asText();
     }
 
     private static StringBuilder nextAcc(StringBuilder acc) {

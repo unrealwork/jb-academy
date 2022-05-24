@@ -524,66 +524,46 @@ files:
 
 
   learner_created: false
-- name: ./messages.properties
+- name: src/animals/lang/composer/Util.java
   visible: true
   learner_created: true
-- name: src/animals/storage/Messages.java
+- name: src/animals/lang/composer/Composer.java
   visible: true
   learner_created: true
-- name: src/animals/storage/Messages_eo.java
+- name: src/animals/lang/composer/EnglishQuestionComposerImpl.java
   visible: true
   learner_created: true
-- name: src/animals/lang/Grammar.java
+- name: src/animals/lang/composer/EsperantoQuestionComposerImpl.java
   visible: true
   learner_created: true
-- name: src/animals/lang/GrammarKeys.java
+- name: src/animals/lang/composer/EnglishAssertionComposerImpl.java
   visible: true
   learner_created: true
-- name: src/animals/util/ResourceBundles.java
+- name: src/animals/lang/composer/EsperantoAssertionComposerImpl.java
   visible: true
   learner_created: true
-- name: src/animals/lang/Grammar_eo.java
+- name: src/animals/i18n/Messages.java
+  visible: true
+  learner_created: true
+- name: src/animals/i18n/Grammar.java
+  visible: true
+  learner_created: true
+- name: src/animals/i18n/ResourceBundles.java
+  visible: true
+  learner_created: true
+- name: src/animals/i18n/GrammarKeys.java
+  visible: true
+  learner_created: true
+- name: src/animals/i18n/Grammar_eo.java
+  visible: true
+  learner_created: true
+- name: src/animals/i18n/Messages_eo.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11084#comment
-status: Failed
+status: Solved
 feedback:
-  message: "Wrong answer in test #2\n\n[Esperanto] The program should display the\
-    \ menu\r\nExpected matches: &quot;(?si).*Ludi.*Listo.*Serĉi.*Kalkuli.*Eliri.*&quot;\r\
-    \nActual data is: &quot;mi rezignas. kiun beston vi havas en la kapo?\nindiku\
-    \ fakton, kiu distingas kato de linko.\nla frazo devas esti de la formato: ĝi\
-    \ ....\nla ekzemploj de aserto:\n- ĝi povas flugi\n- ĝi havas kornojn\n- ĝi estas\
-    \ mamulo\nindiku fakton, kiu distingas kato de linko.\nla frazo devas esti de\
-    \ la formato: ĝi ....\nla ekzemploj de aserto:\n- ĝi povas flugi\n- ĝi havas kornojn\n\
-    - ĝi estas mamulo\nindiku fakton, kiu distingas kato de linko.\nla frazo devas\
-    \ esti de la formato: ĝi ....\nla ekzemploj de aserto:\n- ĝi povas flugi\n- ĝ\
-    i havas kornojn\n- ĝi estas mamulo\nindiku fakton, kiu distingas kato de linko.\n\
-    la frazo devas esti de la formato: ĝi ....&quot;.\n\nPlease find below the output\
-    \ of your program during this failed test.\nNote that the &#39;&gt;&#39; character\
-    \ indicates the beginning of the input line.\n\n---\n\nArguments: -type yaml\n\
-    \nScenario &#39;eo&#39; is started.\n\nBonan tagon!\n\nMi volas lerni pri bestoj.\n\
-    Kiun beston vi plej ŝatas?\n&gt; kato\nBonvenon al la sperta sistemo de la besto!\n\
-    \nKion vi volas fari:\n\n1. Ludi la divenludon\n2. Listo de ĉiuj bestoj\n3. Serĉ\
-    i beston\n4. Kalkuli statistikojn\n5. Printi la Sciarbon\n0. Eliri\n\n&gt; 1\n\
-    Mirinde! Mi lernis tiom multe pri bestoj!\nNi ludu!\nVi pensu pri besto, kaj mi\
-    \ divenos ĝin.\nPremu enen kiam vi pretas.\n&gt; \nĈu ĝi estas kato?\n&gt; ne\n\
-    Mi rezignas. Kiun beston vi havas en la kapo?\n&gt; hundo\nIndiku fakton, kiu\
-    \ distingas kato de hundo.\nLa frazo devas esti de la formato: Ĝi ....\n&gt; ĝ\
-    i povas surgrimpi arbon\nĈu la aserto ĝustas por la hundo?\n&gt; ne\nMi lernis\
-    \ la jenajn faktojn pri bestoj:\n- La kato povas surgrimpi arbon.\n- La hundo\
-    \ ne povas surgrimpi arbon.\nMi povas distingi ĉi tiujn bestojn per la demando:\n\
-    - Ĉu ĝi povas surgrimpi arbon?\nNice! Mi lernis tiom multe pri bestoj!\nĈu vi\
-    \ volas provi denove?\n&gt; jes\nMirinde! Mi lernis tiom multe pri bestoj!\nNi\
-    \ ludu!\nVi pensu pri besto, kaj mi divenos ĝin.\nPremu enen kiam vi pretas.\n\
-    &gt; \nĈu ĝi povas surgrimpi arbon?\n&gt; jes\nĈu ĝi estas kato?\n&gt; ne\nMi\
-    \ rezignas. Kiun beston vi havas en la kapo?\n&gt; linko\nIndiku fakton, kiu distingas\
-    \ kato de linko.\nLa frazo devas esti de la formato: Ĝi ....\n&gt; ĝi loĝas en\
-    \ la arbaro\nLa ekzemploj de aserto:\n- Ĝi povas flugi\n- Ĝi havas kornojn\n-\
-    \ Ĝi estas mamulo\nIndiku fakton, kiu distingas kato de linko.\nLa frazo devas\
-    \ esti de la formato: Ĝi ....\n&gt; jes\nLa ekzemploj de aserto:\n- Ĝi povas flugi\n\
-    - Ĝi havas kornojn\n- Ĝi estas mamulo\nIndiku fakton, kiu distingas kato de linko.\n\
-    La frazo devas esti de la formato: Ĝi ....\n&gt; ne\nLa ekzemploj de aserto:\n\
-    - Ĝi povas flugi\n- Ĝi havas kornojn\n- Ĝi estas mamulo\nIndiku fakton, kiu distingas\
-    \ kato de linko.\nLa frazo devas esti de la formato: Ĝi ...."
-  time: Mon, 23 May 2022 04:40:23 UTC
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Tue, 24 May 2022 04:01:08 UTC
 record: -1
