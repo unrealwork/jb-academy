@@ -1,7 +1,7 @@
 package carsharing.config;
 
 public interface AppConfig {
-    public static String DB_DIR = "carsharing/db/";
+    public static String DB_DIR = "src/carsharing/db/";
     
     String getDatabaseFileName();
 
