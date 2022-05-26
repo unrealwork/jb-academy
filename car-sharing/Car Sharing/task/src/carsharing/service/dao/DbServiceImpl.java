@@ -1,6 +1,4 @@
-package carsharing.service;
-
-import java.sql.Connection;
+package carsharing.service.dao;
 
 public class DbServiceImpl implements DbService {
     @Override
