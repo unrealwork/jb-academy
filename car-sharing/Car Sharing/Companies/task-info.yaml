@@ -1,17 +1,5 @@
 type: edu
 files:
-- name: src/carsharing/Main.java
-  visible: true
-  text: |-
-    package carsharing;
-
-    public class Main {
-
-        public static void main(String[] args) {
-            // write your code here
-        }
-    }
-  learner_created: false
 - name: test/DatabaseUtil.java
   visible: false
   text: |
@@ -499,10 +487,13 @@ files:
 - name: src/carsharing/service/dao/SchemaUpdaterImpl.java
   visible: true
   learner_created: true
-- name: src/carsharing/App.java
+- name: src/carsharing/db/carsharing.trace.db
   visible: true
   learner_created: true
-- name: src/carsharing/db/carsharing.trace.db
+- name: src/carsharing/service/DbService.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/DbServiceImpl.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11502#comment
@@ -510,4 +501,4 @@ status: Solved
 feedback:
   message: Congratulations!
   time: Thu, 26 May 2022 06:15:27 UTC
-record: -1
+record: 2

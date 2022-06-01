@@ -4,6 +4,7 @@ import carsharing.cli.ActionFactory;
 import carsharing.config.AppConfig;
 import carsharing.service.dao.DaoFactory;
 import carsharing.service.dao.SchemaUpdater;
+import carsharing.service.dao.TableInitFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,33 +18,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class App implements AutoCloseable {
-    private static final String CREATE_TABLE_COMPANY = "CREATE TABLE COMPANY(ID INT PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR UNIQUE NOT NULL);";
-
-    public static final String TABLE_NAME = "COMPANY";
     private final Connection connection;
     private final Statement statement;
     private final DaoFactory daoFactory;
     private final ActionFactory actionFactory;
     private final SchemaUpdater schemaUpdater;
+    private final TableInitFactory tableInitFactory;
 
     private App(AppConfig config) throws SQLException, ClassNotFoundException {
-        this.connection = createConnetion(config);
+        this.connection = createConnection(config);
         connection.setAutoCommit(true);
         this.statement = connection.createStatement();
         this.daoFactory = DaoFactory.fromJdbcStatement(statement);
-        this.actionFactory = ActionFactory.cli();
+        this.actionFactory = ActionFactory.cli(daoFactory);
         this.schemaUpdater = SchemaUpdater.fromQueries(statement);
+        this.tableInitFactory = TableInitFactory.create(connection, statement);
     }
 
     static App create(AppConfig config) throws SQLException, ClassNotFoundException {
         return new App(config);
     }
+
     public void start() {
         try {
-            List<String> tables = loadTableList(connection);
-            if (!tables.contains(TABLE_NAME)) {
-                statement.execute(CREATE_TABLE_COMPANY);
-            }
+            tableInitFactory.company().init();
+            tableInitFactory.car().init();
             schemaUpdater.update();
             actionFactory
                     .app(daoFactory.companies())
@@ -61,18 +60,9 @@ public class App implements AutoCloseable {
         actionFactory.close();
     }
 
-    private static Connection createConnetion(AppConfig config) throws SQLException, ClassNotFoundException {
-        Class.forName("org.h2.Driver");
+    private static Connection createConnection(AppConfig config) throws SQLException {
         Path path = Paths.get(AppConfig.DB_DIR, config.getDatabaseFileName()).toAbsolutePath();
         return DriverManager.getConnection("jdbc:h2:" + path);
     }
 
-    private static List<String> loadTableList(final Connection connection) throws SQLException {
-        ResultSet res = connection.getMetaData().getTables(connection.getCatalog(), connection.getSchema(), null, new String[] {});
-        List<String> tables = new ArrayList<>();
-        while (res.next()) {
-            tables.add(res.getString("TABLE_NAME"));
-        }
-        return tables;
-    }
 }

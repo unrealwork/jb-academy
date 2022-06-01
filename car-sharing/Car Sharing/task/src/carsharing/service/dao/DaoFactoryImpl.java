@@ -1,5 +1,6 @@
 package carsharing.service.dao;
 
+import carsharing.model.Car;
 import carsharing.model.Company;
 
 import java.sql.Statement;
@@ -14,5 +15,10 @@ class DaoFactoryImpl implements DaoFactory {
     @Override
     public Dao<Company> companies() {
         return new CompanyDaoImpl(statement);
+    }
+
+    @Override
+    public CarDao cars() {
+        return new CarDaoImpl(statement);
     }
 }
