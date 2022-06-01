@@ -862,6 +862,602 @@ files:
         }
     }
   learner_created: false
+- name: src/carsharing/App.java
+  visible: true
+  text: |
+    package carsharing;
+
+    import carsharing.cli.ActionFactory;
+    import carsharing.config.AppConfig;
+    import carsharing.service.dao.DaoFactory;
+    import carsharing.service.dao.SchemaUpdater;
+    import carsharing.service.dao.TableInitFactory;
+
+    import java.io.IOException;
+    import java.nio.file.Path;
+    import java.nio.file.Paths;
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class App implements AutoCloseable {
+        private static final String CREATE_TABLE_COMPANY = "CREATE TABLE COMPANY(ID INT PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR UNIQUE NOT NULL);";
+
+        public static final String TABLE_NAME = "COMPANY";
+        private final Connection connection;
+        private final Statement statement;
+        private final DaoFactory daoFactory;
+        private final ActionFactory actionFactory;
+        private final SchemaUpdater schemaUpdater;
+        private final TableInitFactory tableInitFactory;
+
+        private App(AppConfig config) throws SQLException, ClassNotFoundException {
+            this.connection = createConnection(config);
+            connection.setAutoCommit(true);
+            this.statement = connection.createStatement();
+            this.daoFactory = DaoFactory.fromJdbcStatement(statement);
+            this.actionFactory = ActionFactory.cli(daoFactory);
+            this.schemaUpdater = SchemaUpdater.fromQueries(statement);
+            this.tableInitFactory = TableInitFactory.create(connection, statement);
+        }
+
+        static App create(AppConfig config) throws SQLException, ClassNotFoundException {
+            return new App(config);
+        }
+
+        public void start() {
+            try {
+                tableInitFactory.company().init();
+                tableInitFactory.car().init();
+                schemaUpdater.update();
+                actionFactory
+                        .app(daoFactory.companies())
+                        .execute();
+
+            } catch (SQLException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+
+        @Override
+        public void close() throws SQLException, IOException {
+            statement.close();
+            connection.close();
+            actionFactory.close();
+        }
+
+        private static Connection createConnection(AppConfig config) throws SQLException, ClassNotFoundException {
+            Class.forName("org.h2.Driver");
+            Path path = Paths.get(AppConfig.DB_DIR, config.getDatabaseFileName()).toAbsolutePath();
+            return DriverManager.getConnection("jdbc:h2:" + path);
+        }
+
+        private static List<String> loadTableList(final Connection connection) throws SQLException {
+            ResultSet res = connection.getMetaData().getTables(connection.getCatalog(), connection.getSchema(), null, new String[] {});
+            List<String> tables = new ArrayList<>();
+            while (res.next()) {
+                tables.add(res.getString("TABLE_NAME"));
+            }
+            return tables;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/model/Car.java
+  visible: true
+  text: |
+    package carsharing.model;
+
+    public class Car {
+        private final int id;
+        private final String name;
+        private final int companyId;
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getCompanyId() {
+            return companyId;
+        }
+
+        public Car(int id, String name, int companyId) {
+            this.id = id;
+            this.name = name;
+            this.companyId = companyId;
+        }
+
+        public Car(String name, int companyId) {
+            this(-1, name, companyId);
+        }
+    }
+  learner_created: true
+- name: src/carsharing/config/AppConfigImpl.java
+  visible: true
+  text: |
+    package carsharing.config;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    import static carsharing.config.ParamNames.DATABASE_FILE_NAME;
+
+    class AppConfigImpl implements AppConfig {
+
+        private static final String DEFAULT_DB_NAME = "carsharing";
+        private final String databaseFileName;
+
+        private AppConfigImpl(Map<String, String> params) {
+            this.databaseFileName = params.getOrDefault(DATABASE_FILE_NAME, DEFAULT_DB_NAME);
+
+        }
+
+
+        @Override
+        public String getDatabaseFileName() {
+            return databaseFileName;
+        }
+
+        static AppConfig fromArgs(final String... args) {
+            if (args.length % 2 != 0) {
+                throw new IllegalStateException("Each parameter should has value as next argument");
+            }
+            final Map<String, String> params = new HashMap<>(args.length / 2);
+            for (int i = 0; i < args.length; i += 2) {
+                if (args[i].startsWith("-")) {
+                    params.put(args[i].substring(1), args[i + 1]);
+                } else {
+                    throw new IllegalStateException("Invalid param name " + args[i] + ".Param name Should start with -");
+                }
+            }
+            return new AppConfigImpl(params);
+        }
+    }
+  learner_created: true
+- name: src/carsharing/service/dao/Util.java
+  visible: true
+  text: "package carsharing.service.dao;\n\nfinal class Util {\n    private Util()\
+    \ {\n        \n    }\n\n    static String concatObjects(Object... objs) {\n  \
+    \      StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < objs.length;\
+    \ i++) {\n            sb.append(objs[i]);\n            if (i != objs.length -\
+    \ 1) {\n                sb.append(\", \");\n            }\n        }\n       \
+    \ return sb.toString();\n    }\n}\n"
+  learner_created: true
+- name: src/carsharing/service/dao/CompanyBaseTableInit.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import java.sql.Connection;
+    import java.sql.Statement;
+
+    class CompanyBaseTableInit extends BaseTableInit {
+        private static final String CREATE_TABLE_COMPANY =
+                "CREATE TABLE COMPANY(ID INT PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR UNIQUE NOT NULL);";
+
+        public CompanyBaseTableInit(Statement statement, Connection connection) {
+            super(statement, connection, "COMPANY");
+        }
+
+        @Override
+        protected String query() {
+            return CREATE_TABLE_COMPANY;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/db/carsharing.trace.db
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CarDaoImpl.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import carsharing.model.Car;
+
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+    import java.text.MessageFormat;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+
+    import static carsharing.service.dao.Util.concatObjects;
+
+    public class CarDaoImpl extends BaseDao<Car> implements CarDao {
+        CarDaoImpl(Statement statement) {
+            super(statement);
+        }
+
+        @Override
+        protected String tableName() {
+            return "CAR";
+        }
+
+        @Override
+        public void create(Car entity) {
+            String query =
+                    MessageFormat.format("INSERT INTO {0} (NAME, COMPANY_ID) VALUES ({1});", tableName(), asValues(entity));
+            try {
+                getStatement().execute(query);
+            } catch (SQLException e) {
+                throw new IllegalStateException(e);
+            }
+
+        }
+
+        @Override
+        public List<Car> list() {
+            String query = MessageFormat.format(
+                    "SELECT * FROM {0}", tableName());
+            try {
+                final ResultSet rs = getStatement().executeQuery(query);
+                return readCars(rs);
+            } catch (SQLException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+
+        private List<Car> readCars(ResultSet rs) throws SQLException {
+            List<Car> cars = new ArrayList<>();
+            while (rs.next()) {
+                cars.add(rowFromResult(rs));
+            }
+            return Collections.unmodifiableList(cars);
+        }
+
+        private static String asValues(Car company) {
+            return concatObjects(
+                    "'" + company.getName() + "'",
+                    company.getCompanyId()
+            );
+        }
+
+
+        private static Car rowFromResult(ResultSet rs) throws SQLException {
+            return new Car(rs.getInt("ID"), rs.getString("NAME"), rs.getInt("COMPANY_ID"));
+        }
+
+        @Override
+        public List<Car> findByCompanyId(int companyId) {
+            String sqlQuery = MessageFormat.format(
+                    "SELECT * FROM CAR" +
+                            " WHERE COMPANY_ID = {0};", companyId
+            );
+            try {
+                return readCars(getStatement().executeQuery(sqlQuery));
+            } catch (SQLException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+  learner_created: true
+- name: src/carsharing/service/dao/TableInitFactory.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import java.sql.Connection;
+    import java.sql.Statement;
+
+    public class TableInitFactory {
+        private final Connection connection;
+        private final Statement statement;
+
+        public TableInitFactory(Connection connection, Statement statement) {
+            this.connection = connection;
+            this.statement = statement;
+        }
+
+        public TableInit company() {
+            return new CompanyBaseTableInit(statement, connection);
+        }
+
+        public static TableInitFactory create(Connection c, Statement s) {
+            return new TableInitFactory(c, s);
+        }
+
+        public TableInit car() {
+            return new CarTableInitImpl(statement, connection);
+        }
+    }
+  learner_created: true
+- name: src/carsharing/service/dao/CarTableInitImpl.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import java.sql.Connection;
+    import java.sql.Statement;
+
+    public class CarTableInitImpl extends BaseTableInit {
+
+        public CarTableInitImpl(Statement statement, Connection connection) {
+            super(statement, connection, "CAR");
+        }
+
+        @Override
+        protected String query() {
+            return "CREATE TABLE CAR (" +
+                    " ID INT PRIMARY KEY AUTO_INCREMENT," +
+                    " NAME VARCHAR UNIQUE NOT NULL," +
+                    " COMPANY_ID INT NOT NULL," +
+                    " FOREIGN KEY (company_id) REFERENCES company(id)" +
+                    ")";
+        }
+    }
+  learner_created: true
+- name: src/carsharing/cli/CarMenuOption.java
+  visible: true
+  text: |
+    package carsharing.cli;
+
+    enum CarMenuOption implements MenuOption {
+        LIST("Car list", 1),
+        CREAT("Create a car", 2),
+        BACK("Back", 0);
+
+        private final String label;
+        private final int num;
+
+        CarMenuOption(String label, int num) {
+            this.label = label;
+            this.num = num;
+        }
+
+        @Override
+        public String label() {
+            return label;
+        }
+
+        @Override
+        public int num() {
+            return num;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/cli/ListCarAction.java
+  visible: true
+  text: |+
+    package carsharing.cli;
+
+    import carsharing.model.Car;
+    import carsharing.model.Company;
+    import carsharing.service.dao.CarDao;
+    import carsharing.service.dao.Dao;
+
+    import java.util.List;
+
+    public class ListCarAction implements Action<Void> {
+        private final ActionFactory actionFactory;
+        private final CarDao carDao;
+
+        private final Company company;
+
+        public ListCarAction(ActionFactory actionFactory, CarDao carDao, Company company) {
+            this.actionFactory = actionFactory;
+            this.carDao = carDao;
+            this.company = company;
+        }
+
+        @Override
+        public Void execute() {
+            List<Car> carList = carDao.findByCompanyId(company.getId());
+
+            actionFactory.message(carListDesc(carList))
+                    .execute();
+            actionFactory.carMenu(company)
+                    .execute();
+            return null;
+        }
+
+        private static String carListDesc(final List<Car> carList) {
+            if (carList.isEmpty()) {
+                return "The car list is empty!";
+            }
+            StringBuilder desc = new StringBuilder();
+            desc.append("Car list:")
+                    .append(System.lineSeparator());
+            for (int i = 0; i < carList.size(); i++) {
+                desc.append(i + 1)
+                        .append(". ")
+                        .append(carList.get(i).getName())
+                        .append(System.lineSeparator());
+            }
+            return desc.toString();
+        }
+    }
+
+  learner_created: true
+- name: src/carsharing/service/dao/BaseTableInit.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import java.sql.Connection;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.sql.Statement;
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public abstract class BaseTableInit implements TableInit {
+        private final Statement statement;
+        private final Connection connection;
+        private final String tableName;
+        public BaseTableInit(Statement statement, Connection connection, String tableName) {
+            this.statement = statement;
+            this.connection = connection;
+            this.tableName = tableName;
+        }
+
+        @Override
+        public void init() throws SQLException {
+            List<String> tables = loadTableList(connection);
+            if (!tables.contains(tableName)) {
+                statement.execute(query());
+            }
+        }
+
+        protected abstract String query();
+
+        private static List<String> loadTableList(final Connection connection) throws SQLException {
+            ResultSet res = connection.getMetaData().getTables(connection.getCatalog(), connection.getSchema(), null, new String[] {});
+            List<String> tables = new ArrayList<>();
+            while (res.next()) {
+                tables.add(res.getString("TABLE_NAME"));
+            }
+            return tables;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/service/dao/TableInit.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import java.sql.SQLException;
+
+    public interface TableInit {
+        void init() throws SQLException;
+    }
+  learner_created: true
+- name: src/carsharing/cli/CarMenu.java
+  visible: true
+  text: |
+    package carsharing.cli;
+
+    import carsharing.model.Car;
+    import carsharing.model.Company;
+    import carsharing.service.dao.CarDao;
+    import carsharing.service.dao.Dao;
+
+    class CarMenu implements Action<Void> {
+        private final ActionFactory actionFactory;
+        private final Company company;
+        private final CarMenuActionFactory carOptionFactory;
+
+        CarMenu(ActionFactory actionFactory, MenuActionFactory menuActionFactory, CarDao carDao, Company company) {
+            this.actionFactory = actionFactory;
+            this.company = company;
+            this.carOptionFactory = CarMenuActionFactory.create(actionFactory, menuActionFactory, carDao, company);
+        }
+
+        @Override
+        public Void execute() {
+            String title = "'" + company.getName() + "' company";
+            actionFactory.message(title).execute();
+            String menuText = MenuUtils.buildMenu(CarMenuOption.values());
+            actionFactory.message(menuText).execute();
+            CarMenuOption opt = actionFactory.menuOption(CarMenuOption.values()).execute();
+            carOptionFactory.get(opt).execute();
+            return null;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/service/dao/CarDao.java
+  visible: true
+  text: |
+    package carsharing.service.dao;
+
+    import carsharing.model.Car;
+
+    import java.util.List;
+
+    public interface CarDao extends Dao<Car> {
+        List<Car> findByCompanyId(final int companyId);
+    }
+  learner_created: true
+- name: src/carsharing/cli/CreateCarAction.java
+  visible: true
+  text: |
+    package carsharing.cli;
+
+    import carsharing.model.Car;
+    import carsharing.model.Company;
+    import carsharing.service.dao.Dao;
+
+    public class CreateCarAction implements Action<Void> {
+        private final ActionFactory actionFactory;
+        private final Dao<Car> carDao;
+        private final Company company;
+
+
+        public CreateCarAction(ActionFactory actionFactory, Dao<Car> carDao, Company company) {
+            this.actionFactory = actionFactory;
+            this.carDao = carDao;
+            this.company = company;
+        }
+
+        @Override
+        public Void execute() {
+            actionFactory.message("Enter the car name:").execute();
+            String name = actionFactory.answer()
+                    .execute();
+            carDao.create(new Car(name, company.getId()));
+            actionFactory.message("The car was added!")
+                    .execute();
+            actionFactory.carMenu(company)
+                    .execute();
+            return null;
+        }
+    }
+  learner_created: true
+- name: src/carsharing/config/AppConfig.java
+  visible: true
+  text: "package carsharing.config;\n\nimport java.sql.Connection;\n\npublic interface\
+    \ AppConfig {\n    String DB_DIR = \"src/carsharing/db/\";\n    \n    String getDatabaseFileName();\n\
+    \    \n    static AppConfig fromArgs(String... args) {\n        return AppConfigImpl.fromArgs(args);\n\
+    \    }\n}\n"
+  learner_created: true
+- name: src/carsharing/cli/CarMenuActionFactory.java
+  visible: true
+  text: |
+    package carsharing.cli;
+
+    import carsharing.model.Car;
+    import carsharing.model.Company;
+    import carsharing.service.dao.CarDao;
+    import carsharing.service.dao.Dao;
+
+    final class CarMenuActionFactory {
+        private final ActionFactory actionFactory;
+        private final CarDao carDao;
+        private final Company company;
+
+
+        private CarMenuActionFactory(ActionFactory actionFactory, CarDao carDao, Company company) {
+            this.actionFactory = actionFactory;
+            this.carDao = carDao;
+            this.company = company;
+        }
+
+        static CarMenuActionFactory create(ActionFactory actionFactory, MenuActionFactory menuActionFactory, CarDao carDao, Company company) {
+            return new CarMenuActionFactory(actionFactory, carDao, company);
+        }
+
+        public Action<?> get(CarMenuOption option) {
+            switch (option) {
+                case CREAT:
+                    return new CreateCarAction(actionFactory, carDao, company);
+                case LIST:
+                    return new ListCarAction(actionFactory, carDao, company);
+                default:
+                    return actionFactory.menuAction(MainMenuOption.LOGIN);
+
+            }
+        }
+
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11504#comment
 status: Unchecked
 record: -1

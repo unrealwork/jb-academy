@@ -1,17 +1,5 @@
 type: edu
 files:
-- name: src/carsharing/Main.java
-  visible: true
-  text: |-
-    package carsharing;
-
-    public class Main {
-
-        public static void main(String[] args) {
-            // write your code here
-        }
-    }
-  learner_created: false
 - name: test/DatabaseUtil.java
   visible: false
   text: |
@@ -555,6 +543,109 @@ files:
         }
     }
   learner_created: false
+- name: src/carsharing/config/AppConfigImpl.java
+  visible: true
+  text: |
+    package carsharing.config;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    import static carsharing.config.ParamNames.DATABASE_FILE_NAME;
+
+    class AppConfigImpl implements AppConfig {
+
+        private static final String DEFAULT_DB_NAME = "carsharing";
+        private final String databaseFileName;
+
+        private AppConfigImpl(Map<String, String> params) {
+            this.databaseFileName = params.getOrDefault(DATABASE_FILE_NAME, DEFAULT_DB_NAME);
+
+        }
+
+
+        @Override
+        public String getDatabaseFileName() {
+            return databaseFileName;
+        }
+
+        static AppConfig fromArgs(final String... args) {
+            if (args.length % 2 != 0) {
+                throw new IllegalStateException("Each parameter should has value as next argument");
+            }
+            final Map<String, String> params = new HashMap<>(args.length / 2);
+            for (int i = 0; i < args.length; i += 2) {
+                if (args[i].startsWith("-")) {
+                    params.put(args[i].substring(1), args[i + 1]);
+                } else {
+                    throw new IllegalStateException("Invalid param name " + args[i] + ".Param name Should start with -");
+                }
+            }
+            return new AppConfigImpl(params);
+        }
+    }
+  learner_created: true
+- name: src/carsharing/db/carsharing.trace.db
+  visible: true
+  learner_created: true
+- name: src/carsharing/config/AppConfig.java
+  visible: true
+  text: "package carsharing.config;\n\npublic interface AppConfig {\n    public static\
+    \ String DB_DIR = \"carsharing/db/\";\n    \n    String getDatabaseFileName();\n\
+    \n    static AppConfig fromArgs(String... args) {\n        return AppConfigImpl.fromArgs(args);\n\
+    \    }\n}\n"
+  learner_created: true
+- name: src/carsharing/App.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/Main.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/model/Car.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CarDaoImpl.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/Util.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/TableInit.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/BaseTableInit.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CompanyBaseTableInit.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/TableInitFactory.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CarTableInitImpl.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/cli/CarMenuOption.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/cli/CarMenu.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/cli/CreateCarAction.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/cli/CarMenuActionFactory.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/cli/ListCarAction.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CarDao.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11503#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 29 May 2022 17:21:36 UTC
+record: 3
