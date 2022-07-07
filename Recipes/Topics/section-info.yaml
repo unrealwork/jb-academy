@@ -33,3 +33,7 @@ content:
 - Executors
 - Builder
 - Factory method
+- Switch expression
+- Detecting annotations
+- Custom annotations and types of annotations
+- Class Loader

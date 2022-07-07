@@ -1,0 +1,21 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    @interface PrintArgs {
+
+    }
+
+    class TestClass {
+        public void myMethod() {
+            // some code
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12813#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 05 Jul 2022 17:42:45 UTC
+record: -1

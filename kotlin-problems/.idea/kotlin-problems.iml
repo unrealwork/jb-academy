@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Multi-dimensional array/Cube of zeros/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Type conversion/The superior forces of the Empire/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Repeating blocks/Counting positive numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Declaring classes/Complex numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Constructors/Init usage/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Functional decomposition/Decompose a math function/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Ranges/At least one/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/If expression/Positive, Negative or Zero/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/List/Number of occurrences/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Inheritance/Constructing a hierarchy/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+  </component>
+</module>

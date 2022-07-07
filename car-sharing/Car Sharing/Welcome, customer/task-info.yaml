@@ -1040,6 +1040,15 @@ files:
 - name: src/carsharing/service/dao/Util.java
   visible: true
   learner_created: true
+- name: src/carsharing/service/dao/CustomerTableInitImpl.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/model/Customer.java
+  visible: true
+  learner_created: true
+- name: src/carsharing/service/dao/CustomerDaoImpl.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/11504#comment
 status: Unchecked
 record: -1

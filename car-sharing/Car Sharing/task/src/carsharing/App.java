@@ -43,6 +43,7 @@ public class App implements AutoCloseable {
         try {
             tableInitFactory.company().init();
             tableInitFactory.car().init();
+            tableInitFactory.customer().init();
             schemaUpdater.update();
             actionFactory
                     .app(daoFactory.companies())

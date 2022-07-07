@@ -2,6 +2,8 @@ package carsharing.cli;
 
 public enum MainMenuOption implements MenuOption {
     LOGIN("Log in as a manager", 1),
+    CUSTOMER("Log in as a customer", 2),
+    CREATE_CUSTOMER("Create a customer", 3),
     EXIT("Exit", 0);
 
     private final String label;

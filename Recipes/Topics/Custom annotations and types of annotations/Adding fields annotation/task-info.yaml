@@ -1,0 +1,21 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    @interface Version {
+
+    }
+
+    class TestClass {
+        public void myMethod() {
+            // some code
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12812#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 05 Jul 2022 17:55:32 UTC
+record: -1

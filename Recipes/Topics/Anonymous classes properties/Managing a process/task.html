@@ -17,7 +17,7 @@
   <p>The anonymous class must override all methods of the <code class="language-java">Callback</code> interface (otherwise the code won't be compiled).</p> 
   <ul> 
    <li>The method <strong><code class="language-java">onStarted</code></strong> must print the message <strong>"The process started"</strong> in the standard output.</li> 
-   <li>The method <strong><code class="language-java">onStopped</code></strong> takes a cause and print it to the standard output.</li> 
+   <li>The method <strong><code class="language-java">onStopped</code></strong> takes a cause and prints it to the standard output.</li> 
    <li>The method <strong><code class="language-java">onFinished</code></strong> takes a code of the process completion. It should print <strong>"The process successfully finished"</strong> if the process is finished with the code 0, otherwise, the method should print the text <strong>"The process is finished with error: "</strong> plus the given code (for example, <strong>"The process is finished with error: 43"</strong>).</li> 
   </ul> 
   <p>All strings must be printed without quotes. Each message should be in a new line.</p> 
@@ -29,4 +29,4 @@ callback.onFinished(0);</code></pre>
   <pre><code class="language-java">The process started
 The process successfully finished</code></pre>
  </body>
-</html><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 8 seconds</font><br><br>
+</html><br><br><font color="gray">Memory limit: 256 MB</font><br><font color="gray">Time limit: 5 seconds</font><br><br>

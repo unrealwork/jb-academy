@@ -23,4 +23,8 @@ public class TableInitFactory {
     public TableInit car() {
         return new CarTableInitImpl(statement, connection);
     }
+    
+    public TableInit customer() {
+        return new CustomerTableInitImpl(statement, connection);
+    }
 }
