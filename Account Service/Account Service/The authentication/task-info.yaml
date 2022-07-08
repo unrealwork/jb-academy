@@ -1,51 +1,21 @@
 type: edu
 files:
-- name: build.gradle
-  visible: true
-  text: |-
-    plugins {
-        id 'java'
-        id 'org.springframework.boot' version '2.3.1.RELEASE'
-        id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    sourceSets.main.resources.srcDirs = ["src/resources"]
-
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter'
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
-    }
-  learner_created: false
-- name: src/account/AccountServiceApplication.java
-  visible: true
-  text: |-
-    package account;
-
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-    @SpringBootApplication
-    public class AccountServiceApplication {
-
-        public static void main(String[] args) {
+  - name: src/account/AccountServiceApplication.java
+    visible: true
+    text: |-
+      package account;
+      
+      import org.springframework.boot.SpringApplication;
+      import org.springframework.boot.autoconfigure.SpringBootApplication;
+      
+      @SpringBootApplication
+      public class AccountServiceApplication {
+      
+          public static void main(String[] args) {
             SpringApplication.run(AccountServiceApplication.class, args);
         }
 
     }
-  learner_created: false
-- name: src/resources/application.properties
-  visible: true
-  text: |-
-    server.port=28852
-    management.endpoints.web.exposure.include=*
-    management.endpoint.shutdown.enabled=true
-    spring.jackson.serialization.INDENT_OUTPUT=true
   learner_created: false
 - name: test/AccountServiceTest.java
   visible: false
@@ -367,62 +337,41 @@ files:
       };
     }
   learner_created: false
-- name: src/account/model/SignUpResult.java
-  visible: true
-  text: "package account.model;\n\n\nimport account.api.SignUpRequest;\n\npublic class\
-    \ SignUpResult {\n    private final String name;\n    private final String lastname;\n\
-    \    private final String email;\n\n\n    private SignUpResult(String name, String\
-    \ lastname, String email) {\n        this.name = name;\n        this.lastname\
-    \ = lastname;\n        this.email = email;\n    }\n\n    public String getName()\
-    \ {\n        return name;\n    }\n\n    public String getLastname() {\n      \
-    \  return lastname;\n    }\n\n    public String getEmail() {\n        return email;\n\
-    \    }\n    \n    public static SignUpResult fromRequest(SignUpRequest request)\
-    \ {\n        return new SignUpResult(request.getName(), request.getLastname(),\
-    \ request.getEmail());\n    }\n}\n"
-  learner_created: true
-- name: src/account/api/AuthApiController.java
-  visible: true
-  text: |
-    package account.api;
-
-    import account.model.SignUpResult;
-    import org.springframework.web.bind.annotation.PostMapping;
-    import org.springframework.web.bind.annotation.RequestBody;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.ResponseBody;
-    import org.springframework.web.bind.annotation.RestController;
-
-    import javax.validation.Valid;
-
-    @RestController
-    @RequestMapping("/api/auth")
-    public class AuthApiController {
-        @PostMapping("signup")
-        @ResponseBody
-        public SignUpResult signup(@RequestBody @Valid SignUpRequest request) {
-            return SignUpResult.fromRequest(request);
-        }
-    }
-  learner_created: true
-- name: src/account/api/SignUpRequest.java
-  visible: true
-  text: |
-    package account.api;
-
-    import javax.validation.constraints.Email;
-    import javax.validation.constraints.NotBlank;
-
-    public class SignUpRequest {
-        @NotBlank
-        private String name;
-        @NotBlank
-        private String lastname;
-        @NotBlank
-        @Email(regexp = "^.+@acme\\.com$")
-        private String email;
-
-        @NotBlank
-        private String password;
+  - name: src/account/config/RestAuthenticationEntryPoint.java
+    visible: true
+    learner_created: true
+  - name: src/resources/application.properties
+    visible: true
+    text: |-
+      server.port=28852
+      management.endpoints.web.exposure.include=*
+      management.endpoint.shutdown.enabled=true
+      spring.jackson.serialization.INDENT_OUTPUT=true
+    learner_created: false
+  - name: src/account/config/AppConfig.java
+    visible: true
+    text: "package account.config;\n\nimport org.springframework.context.annotation.Configuration;\n\
+    \n@Configuration\npublic class AppConfig {\n    \n}\n"
+    learner_created: true
+  - name: src/account/api/SignUpRequest.java
+    visible: true
+    text: |
+      package account.api;
+      
+      import javax.validation.constraints.Email;
+      import javax.validation.constraints.NotBlank;
+      
+      public class SignUpRequest {
+          @NotBlank
+          private String name;
+          @NotBlank
+          private String lastname;
+          @NotBlank
+          @Email(regexp = "^.+@acme\\.com$")
+          private String email;
+      
+          @NotBlank
+          private String password;
 
         public String getName() {
             return name;
@@ -446,25 +395,88 @@ files:
 
         public void setEmail(String email) {
             this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-  learner_created: true
-- name: src/account/config/AppConfig.java
-  visible: true
-  text: "package account.config;\n\nimport org.springframework.context.annotation.Configuration;\n\
-    \n@Configuration\npublic class AppConfig {\n    \n}\n"
-  learner_created: true
-- name: src/account/config/RestAuthenticationEntryPoint.java
-  visible: true
-  learner_created: true
+          }
+      
+          public String getPassword() {
+              return password;
+          }
+      
+          public void setPassword(String password) {
+              this.password = password;
+          }
+      }
+    learner_created: true
+  - name: build.gradle
+    visible: true
+    text: |-
+      plugins {
+          id 'java'
+          id 'org.springframework.boot' version '2.3.1.RELEASE'
+          id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+      }
+      
+      repositories {
+          mavenCentral()
+      }
+      
+      sourceSets.main.resources.srcDirs = ["src/resources"]
+      
+      dependencies {
+          implementation 'org.springframework.boot:spring-boot-starter'
+          implementation 'org.springframework.boot:spring-boot-starter-actuator'
+          implementation 'org.springframework.boot:spring-boot-starter-web'
+          implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
+      }
+    learner_created: false
+  - name: src/account/service/UserExistException.java
+    visible: true
+    learner_created: true
+  - name: src/account/persistance/UserRepository.java
+    visible: true
+    learner_created: true
+  - name: src/account/model/SignUpResult.java
+    visible: true
+    text: "package account.model;\n\n\nimport account.api.SignUpRequest;\n\npublic class\
+    \ SignUpResult {\n    private final String name;\n    private final String lastname;\n\
+    \    private final String email;\n\n\n    private SignUpResult(String name, String\
+    \ lastname, String email) {\n        this.name = name;\n        this.lastname\
+    \ = lastname;\n        this.email = email;\n    }\n\n    public String getName()\
+    \ {\n        return name;\n    }\n\n    public String getLastname() {\n      \
+    \  return lastname;\n    }\n\n    public String getEmail() {\n        return email;\n\
+    \    }\n    \n    public static SignUpResult fromRequest(SignUpRequest request)\
+    \ {\n        return new SignUpResult(request.getName(), request.getLastname(),\
+    \ request.getEmail());\n    }\n}\n"
+    learner_created: true
+  - name: src/account/api/AuthApiController.java
+    visible: true
+    text: |
+      package account.api;
+      
+      import account.model.SignUpResult;
+      import org.springframework.web.bind.annotation.PostMapping;
+      import org.springframework.web.bind.annotation.RequestBody;
+      import org.springframework.web.bind.annotation.RequestMapping;
+      import org.springframework.web.bind.annotation.ResponseBody;
+      import org.springframework.web.bind.annotation.RestController;
+      
+      import javax.validation.Valid;
+      
+      @RestController
+      @RequestMapping("/api/auth")
+      public class AuthApiController {
+          @PostMapping("signup")
+          @ResponseBody
+          public SignUpResult signup(@RequestBody @Valid SignUpRequest request) {
+              return SignUpResult.fromRequest(request);
+          }
+      }
+    learner_created: true
+  - name: src/account/model/persistance/User.java
+    visible: true
+    learner_created: true
+  - name: src/account/service/UserDetailServiceImpl.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/16602#comment
 status: Unchecked
 record: -1
