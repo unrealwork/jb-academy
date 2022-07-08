@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,12 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = String.class)
     private List<String> roles;
 
-
+    @Column(nullable = false, unique = true)
     private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     private String name;
 

@@ -1,11 +1,9 @@
 package account.api;
 
 import account.model.SignUpResult;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import account.model.persistance.User;
+import org.springframework.http.MediaType;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,21 +11,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthApiController {
-    private JdbcUserDetailsManager userDetailsService;
+    private final UserDetailsManager userDetailsService;
 
-    @PostMapping("signup")
+    public AuthApiController(UserDetailsManager userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @PostMapping(value = "signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public UserDetails signup(@RequestBody @Valid SignUpRequest request) {
-        userDetailsService.createUser(userRequestToDetails(request));
-        return userDetailsService.loadUserByUsername(request.getEmail());
+    public SignUpResult signup(@RequestBody @Valid SignUpRequest request) {
+        User user = userRequestToDetails(request);
+        userDetailsService.createUser(user);
+        return SignUpResult.fromUser(user);
     }
 
     private User userRequestToDetails(SignUpRequest request) {
-        return new User(request.getEmail(), request.getPassword(), Collections.singleton(new SimpleGrantedAuthority("USER")));
+        User user = new User();
+        user.setName(request.getName());
+        user.setLastname(request.getLastname());
+        user.setPassword(request.getPassword());
+        user.setUsername(request.getEmail());
+        return user;
     }
 }
