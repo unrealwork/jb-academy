@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Account Service/task" />
+            <option value="$PROJECT_DIR$/Account Service/task/out" />
             <option value="$PROJECT_DIR$/Topics/Switch statement/A simple calculator" />
             <option value="$PROJECT_DIR$/Topics/Switch statement/From string to a number" />
             <option value="$PROJECT_DIR$/Topics/Switch statement/Harry Potter" />
