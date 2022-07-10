@@ -1,7 +1,8 @@
-package account.api;
+package account.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 public class SignUpRequest {
     @NotBlank
@@ -12,7 +13,7 @@ public class SignUpRequest {
     @Email(regexp = "^.+@acme\\.com$")
     private String email;
 
-    @NotBlank
+    @NotEmpty
     private String password;
 
     public String getName() {
