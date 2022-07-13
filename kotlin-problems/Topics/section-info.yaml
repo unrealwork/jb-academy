@@ -17,6 +17,7 @@ content:
 - If expression
 - List
 - Inheritance
+- Lambda expressions
 - Introduction to MutableList
 - Work with MutableLists
 - For loop and lists

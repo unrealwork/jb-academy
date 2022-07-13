@@ -925,7 +925,7 @@ files:
 - name: src/client/cli/RemoteDeleteAction.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/52/stages/285/implement#comment
+feedback_link: https://hyperskill.org/learn/step/5427#comment
 status: Solved
 feedback:
   message: Congratulations!

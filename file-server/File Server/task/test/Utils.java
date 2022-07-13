@@ -101,7 +101,7 @@ public class Utils {
 
     private static String getFileContent(String fileName) {
         try {
-            return new String(Files.readAllBytes(Paths.get(fileName)));
+            return new String(Files.readAllBytes(Paths.get(fileName))).trim();
         } catch (IOException e) {
         }
         throw new WrongAnswer("Can't read files content.\n" +

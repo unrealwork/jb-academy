@@ -2264,7 +2264,7 @@ files:
 
         private static String getFileContent(String fileName) {
             try {
-                return new String(Files.readAllBytes(Paths.get(fileName)));
+                return new String(Files.readAllBytes(Paths.get(fileName))).trim();
             } catch (IOException e) {
             }
             throw new WrongAnswer("Can't read files content.\n" +
@@ -2275,6 +2275,6 @@ files:
 
 
   learner_created: false
-feedback_link: https://hyperskill.org/projects/52/stages/286/implement#comment
+feedback_link: https://hyperskill.org/learn/step/5428#comment
 status: Unchecked
 record: -1

@@ -709,6 +709,422 @@ files:
       };
     }
   learner_created: false
+- name: src/account/model/SignUpResult.java
+  visible: true
+  text: |
+    package account.model;
+
+
+    import account.model.persistance.User;
+
+    public class SignUpResult {
+        private final long id;
+
+        private SignUpResult(long id, String name, String lastname, String email) {
+            this.id = id;
+            this.name = name;
+            this.lastname = lastname;
+            this.email = email;
+        }
+
+        private final String name;
+        private final String lastname;
+        private final String email;
+
+        public static SignUpResult fromUser(User request) {
+            return new SignUpResult(request.getId(), request.getName(), request.getLastname(), request.getUsername());
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getLastname() {
+            return lastname;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public long getId() {
+            return id;
+        }
+    }
+  learner_created: true
+- name: src/account/model/ChangePasswordResult.java
+  visible: true
+  text: |
+    package account.model;
+
+    public class ChangePasswordResult {
+        private static final String SUCCSESS_MSG = "The password has been updated successfully";
+
+        public String getStatus() {
+            return status;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        private final String status;
+        private final String email;
+
+        public ChangePasswordResult(String status, String username) {
+            this.status = status;
+            this.email = username;
+        }
+
+        public static ChangePasswordResult success(String username) {
+            return new ChangePasswordResult(SUCCSESS_MSG, username);
+        }
+    }
+  learner_created: true
+- name: src/account/config/WebSecurityConfig.java
+  visible: true
+  text: |
+    package account.config;
+
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.ComponentScan;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.http.HttpMethod;
+    import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+    import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+    import org.springframework.security.config.http.SessionCreationPolicy;
+    import org.springframework.security.core.userdetails.UserDetailsService;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+
+    @Configuration
+    @EnableWebSecurity
+    @ComponentScan
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final UserDetailsService userDetailsService;
+        private final PasswordEncoder passwordEncoder;
+
+        public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+            this.userDetailsService = userDetailsService;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) {
+            auth
+                    .authenticationProvider(authenticationProvider());
+
+        }
+
+        @Override
+        public void configure(HttpSecurity security) throws Exception {
+            security
+                    .csrf()
+                    .disable().headers().frameOptions().disable() // for Postman, the H2 console
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/actuator/*")
+                    .permitAll()// manage access
+                    .antMatchers(HttpMethod.POST, "/api/auth/signup")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    // other matchers
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .formLogin()
+                    .disable()
+                    .httpBasic();
+
+            security.exceptionHandling()
+                    .authenticationEntryPoint(new RestAuthenticationEntryPoint());
+        }
+
+        @Bean
+        public DaoAuthenticationProvider authenticationProvider() {
+            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+            provider.setPasswordEncoder(passwordEncoder);
+            provider.setUserDetailsService(userDetailsService);
+            return provider;
+        }
+    }
+  learner_created: true
+- name: src/account/service/RepeatedPasswordException.java
+  visible: true
+  text: |
+    package account.service;
+
+    import org.springframework.http.HttpStatus;
+    import org.springframework.web.bind.annotation.ResponseStatus;
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = RepeatedPasswordException.ERR_MSG)
+    public class RepeatedPasswordException extends RuntimeException {
+
+         static final String ERR_MSG = "The passwords must be different!";
+
+        public RepeatedPasswordException() {
+            super(ERR_MSG);
+        }
+    }
+  learner_created: true
+- name: src/account/service/NotSecurePasswordException.java
+  visible: true
+  text: |
+    package account.service;
+
+    import org.springframework.http.HttpStatus;
+    import org.springframework.web.bind.annotation.ResponseStatus;
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public class NotSecurePasswordException extends RuntimeException {
+        public NotSecurePasswordException(String message) {
+            super(message);
+        }
+    }
+  learner_created: true
+- name: src/account/api/AuthApiController.java
+  visible: true
+  text: |
+    package account.api;
+
+    import account.model.ChangePasswordRequest;
+    import account.model.ChangePasswordResult;
+    import account.model.SignUpRequest;
+    import account.model.SignUpResult;
+    import account.model.persistance.User;
+    import org.springframework.security.core.annotation.AuthenticationPrincipal;
+    import org.springframework.security.core.userdetails.UserDetails;
+    import org.springframework.security.provisioning.UserDetailsManager;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestBody;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.RestController;
+
+    import javax.validation.Valid;
+
+    @RestController
+    @RequestMapping("/api/auth")
+    public class AuthApiController {
+        private final UserDetailsManager userDetailsService;
+
+        public AuthApiController(UserDetailsManager userDetailsService) {
+            this.userDetailsService = userDetailsService;
+        }
+
+        @PostMapping("signup")
+        public SignUpResult signup(@RequestBody @Valid SignUpRequest request) {
+            User user = userRequestToDetails(request);
+            userDetailsService.createUser(user);
+            return SignUpResult.fromUser(user);
+        }
+
+
+        @PostMapping("changepass")
+        public ChangePasswordResult changePassword(final @RequestBody @Valid ChangePasswordRequest request, final @AuthenticationPrincipal UserDetails user) {
+            userDetailsService.changePassword(user.getPassword(), request.getNewPassword());
+            return ChangePasswordResult.success(user.getUsername());
+        }
+
+        private User userRequestToDetails(SignUpRequest request) {
+            User user = new User();
+            user.setName(request.getName());
+            user.setLastname(request.getLastname());
+            user.setPassword(request.getPassword());
+            user.setUsername(request.getEmail().toLowerCase());
+            return user;
+        }
+    }
+  learner_created: true
+- name: src/account/config/AppConfig.java
+  visible: true
+  text: |
+    package account.config;
+
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+
+    @Configuration
+    public class AppConfig {
+        @Bean
+        PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder(13);
+        }
+    }
+  learner_created: true
+- name: src/account/model/ChangePasswordRequest.java
+  visible: true
+  text: |
+    package account.model;
+
+    import com.fasterxml.jackson.annotation.JsonProperty;
+
+    public class ChangePasswordRequest {
+
+        @JsonProperty("new_password")
+        private String newPassword;
+
+        public String getNewPassword() {
+            return newPassword;
+        }
+
+        public void setNewPassword(String newPassword) {
+            this.newPassword = newPassword;
+        }
+    }
+  learner_created: true
+- name: src/account/config/RestAuthenticationEntryPoint.java
+  visible: true
+  text: |
+    package account.config;
+
+    import org.springframework.http.MediaType;
+    import org.springframework.security.core.AuthenticationException;
+    import org.springframework.security.web.AuthenticationEntryPoint;
+
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+
+    public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+        @Override
+        public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        }
+    }
+  learner_created: true
+- name: src/account/model/SignUpRequest.java
+  visible: true
+  text: |
+    package account.model;
+
+    import javax.validation.constraints.Email;
+    import javax.validation.constraints.NotBlank;
+    import javax.validation.constraints.NotEmpty;
+
+    public class SignUpRequest {
+        @NotBlank
+        private String name;
+        @NotBlank
+        private String lastname;
+        @NotBlank
+        @Email(regexp = "^.+@acme\\.com$")
+        private String email;
+
+        @NotEmpty
+        private String password;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getLastname() {
+            return lastname;
+        }
+
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+  learner_created: true
+- name: src/account/api/EmployementApiController.java
+  visible: true
+  text: |
+    package account.api;
+
+    import account.model.SignUpResult;
+    import account.model.persistance.User;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.ResponseBody;
+    import org.springframework.web.bind.annotation.RestController;
+
+    @RestController
+    @RequestMapping("/api/empl/")
+    public class EmployementApiController {
+        @GetMapping("payment")
+        @ResponseBody
+        public SignUpResult payment(Authentication authentication) {
+            User user = (User) authentication.getPrincipal();
+            return SignUpResult.fromUser(user);
+        }
+    }
+  learner_created: true
+- name: src/account/validation/SecurePasswordValidator.java
+  visible: true
+  text: |
+    package account.validation;
+
+    import org.springframework.stereotype.Service;
+
+    import java.util.Set;
+
+    @Service
+    public class SecurePasswordValidator {
+        private static final Set<String> BREACHED_PASSWORDS = Set.of("PasswordForJanuary", "PasswordForFebruary", "PasswordForMarch", "PasswordForApril",
+                "PasswordForMay", "PasswordForJune", "PasswordForJuly", "PasswordForAugust",
+                "PasswordForSeptember", "PasswordForOctober", "PasswordForNovember", "PasswordForDecember");
+
+        public boolean isValid(String value) {
+            return !BREACHED_PASSWORDS.contains(value);
+        }
+
+    }
+  learner_created: true
+- name: src/account/api/AccountPaymentController.java
+  visible: true
+  learner_created: true
+- name: src/account/model/AccountPaymentDTO.java
+  visible: true
+  learner_created: true
+- name: src/account/model/persistance/AccountPayment.java
+  visible: true
+  learner_created: true
+- name: src/account/service/payment/AccountPaymentService.java
+  visible: true
+  learner_created: true
+- name: src/account/service/payment/AccountPaymentServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/account/model/UploadResult.java
+  visible: true
+  learner_created: true
+- name: src/account/util/ParsingUtil.java
+  visible: true
+  learner_created: true
+- name: src/account/persistance/AccountPaymentRepository.java
+  visible: true
+  learner_created: true
+- name: src/account/persistance/AccountPaymentId.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/16604#comment
 status: Unchecked
 record: -1

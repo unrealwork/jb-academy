@@ -342,7 +342,7 @@ files:
 - name: src/server/action/builder/ExitAction.java
   visible: true
   learner_created: true
-feedback_link: https://hyperskill.org/projects/52/stages/283/implement#comment
+feedback_link: https://hyperskill.org/learn/step/5425#comment
 status: Solved
 feedback:
   message: Congratulations!
