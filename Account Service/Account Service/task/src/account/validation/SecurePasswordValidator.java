@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Service
 public class SecurePasswordValidator {
-    private static final Set<String> BREACHED_PASSWORDS = Set.of("PasswordForJanuary", "PasswordForFebruary", "PasswordForMarch", "PasswordForApril",
+    private static Set<String> BREACHED_PASSWORDS = Set.of("PasswordForJanuary", "PasswordForFebruary", "PasswordForMarch", "PasswordForApril",
             "PasswordForMay", "PasswordForJune", "PasswordForJuly", "PasswordForAugust",
             "PasswordForSeptember", "PasswordForOctober", "PasswordForNovember", "PasswordForDecember");
 

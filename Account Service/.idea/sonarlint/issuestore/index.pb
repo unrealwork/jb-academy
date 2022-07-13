@@ -283,5 +283,19 @@ n
 >Account Service/task/src/account/config/WebSecurityConfig.java,4\b\4b2ee6520e6a4947c2e24932a9fea73478347652
 l
 <Account Service/task/src/account/model/persistance/User.java,3\e\3ed3bce9efa60935304ee2d04b69acdc606e72de
+a
+1Account Service/The authentication/task-info.yaml,2\4\240f3adf4ab09aa20582a3033192345f8277db7d
+@
+course-info.yaml,8\1\81db7fbbb03b3e3f063d803783ac0942e85a4031
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+k
+;Account Service/task/src/account/api/AuthApiController.java,6\0\6009e369310658b388d346515bea307765c6f22c
+€
+P.idea/modules/Account Service/task/Account_Service.Account_Service-task.test.iml,3\2\32bdcc73285fec6da1895502204a2e2a4c1bd8ac
+f
+6Account Service/task/src/account/config/AppConfig.java,a\f\af00bc6bc362faf3e966e6a7050afb6b0657f52e
+o
+?Account Service/task/src/account/AccountServiceApplication.java,0\d\0ddb98450c53133765f0e5973a05bfd258aa306e
 Q
 !Account Service/task/build.gradle,3\3\334f915959629cd0b92966d251aebe327aae612c
