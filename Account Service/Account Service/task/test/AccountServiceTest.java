@@ -66,6 +66,10 @@ public class AccountServiceTest extends SpringTest {
   private final String postPaymentApi = "api/acct/payments";
 
 
+  static String[] breachedPass= new String[]{"PasswordForJanuary", "PasswordForFebruary", "PasswordForMarch",
+          "PasswordForApril", "PasswordForMay", "PasswordForJune",
+          "PasswordForJuly", "PasswordForAugust", "PasswordForSeptember",
+          "PasswordForOctober", "PasswordForNovember", "PasswordForDecember"};
 
   List<Integer> userIdList = new ArrayList<>();
 
@@ -415,157 +419,6 @@ public class AccountServiceTest extends SpringTest {
                       .value("message", "The password is in the hacker's database!")
                       .anyOtherValues());
 
-    }
-    return CheckResult.correct();
-  }
-
-
-  CheckResult testPostPaymentResponse(String body, int status, String message) {
-    HttpResponse response = post(postPaymentApi, body).send();
-    if (response.getStatusCode() != status) {
-      return CheckResult.wrong("POST " + postPaymentApi + " should respond with "
-              + "status code " + status + ", responded: " + response.getStatusCode() + "\n"
-              + message + "\n"
-              + "Response body:\n" + response.getContent() + "\n"
-              + "Request body:\n" + body);
-    }
-
-    // Check JSON in response
-    if (response.getStatusCode() == 200) {
-      expect(response.getContent()).asJson().check(
-              isObject()
-                      .value("status", "Added successfully!")
-                      .anyOtherValues());
-    }
-    if (response.getStatusCode() == 400) {
-      expect(response.getContent()).asJson().check(
-              isObject()
-                      .value("error", "Bad Request")
-                      .value("path", "/api/acct/payments")
-                      .value("status", 400)
-                      .anyOtherValues());
-    }
-    return CheckResult.correct();
-  }
-
-  CheckResult testPutPaymentResponse(String body, int status, String message) {
-    HttpResponse response = put(postPaymentApi, body).send();
-    if (response.getStatusCode() != status) {
-      return CheckResult.wrong("PUT " + postPaymentApi + " should respond with "
-              + "status code " + status + ", responded: " + response.getStatusCode() + "\n"
-              + message + "\n"
-              + "Response body:\n" + response.getContent() + "\n"
-              + "Request body:\n" + body);
-    }
-
-    // Check JSON in response
-    if (response.getStatusCode() == 200) {
-      expect(response.getContent()).asJson().check(
-              isObject()
-                      .value("status", "Updated successfully!")
-                      .anyOtherValues());
-    }
-    if (response.getStatusCode() == 400) {
-      expect(response.getContent()).asJson().check(
-              isObject()
-                      .value("error", "Bad Request")
-                      .value("path", "/api/acct/payments")
-                      .value("status", 400)
-                      .anyOtherValues());
-    }
-    return CheckResult.correct();
-  }
-
-  CheckResult testGetPaymentResponse(String user, int status, String correctResponse, String message) {
-    JsonObject userJson = getJson(user).getAsJsonObject();
-    String password = userJson.get("password").getAsString();
-    String login = userJson.get("email").getAsString().toLowerCase();
-    HttpResponse response = get(getEmployeePaymentApi).basicAuth(login, password).send();
-
-    // Check is it array of JSON in response or something else
-    if (!response.getJson().isJsonArray()) {
-      return CheckResult.wrong("Wrong object in response, expected array of JSON but was \n" +
-              response.getContent().getClass());
-
-    }
-
-    JsonArray correctJson = getJson(correctResponse).getAsJsonArray();
-    JsonArray responseJson = getJson(response.getContent()).getAsJsonArray();
-
-    if (response.getStatusCode() != status) {
-      return CheckResult.wrong("POST " + getEmployeePaymentApi + " should respond with "
-              + "status code " + status + ", responded: " + response.getStatusCode() + "\n"
-              + message + "\n"
-              + "Response body:\n" + response.getContent() + "\n");
-    }
-
-    if (responseJson.size() == 0)  {
-      return CheckResult.wrong("Payments was not added " + "\n"
-              + "endpoint " + getEmployeePaymentApi + "\n"
-              + "responded with " + getPrettyJson(responseJson)  + "\n"
-              + "must be " + getPrettyJson(correctJson));
-    }
-
-    if (correctJson.size() != responseJson.size()) {
-      return CheckResult.wrong("New data should not be added" + "\n"
-              + "in response " + getPrettyJson(responseJson)  + "\n"
-              + "must be " + getPrettyJson(correctJson));
-    }
-
-    // Check JSON in response
-    if (response.getStatusCode() == 200) {
-      for (int i = 0; i < responseJson.size(); i++) {
-        if (!responseJson.get(i).equals(correctJson.get(i))) {
-          return CheckResult.wrong("Get " + getEmployeePaymentApi  +" wrong data in response body" + "\n"
-                  + "in response " + getPrettyJson(responseJson) + "\n"
-                  + "must be " + getPrettyJson(correctJson));
-        }
-      }
-    }
-//    if (response.getStatusCode() == 400) {
-//      expect(response.getContent()).asJson().check(
-//              isObject()
-//                      .value("error", "Bad Request")
-//                      .value("path", "/api/acct/payments")
-//                      .value("status", 400)
-//                      .anyOtherValues());
-//    }
-    return CheckResult.correct();
-  }
-
-  CheckResult testGetPaymentResponseParam(String user, int status, String request, String correctResponse, String message) {
-    JsonObject userJson = getJson(user).getAsJsonObject();
-    String password = userJson.get("password").getAsString();
-    String login = userJson.get("email").getAsString().toLowerCase();
-    JsonObject json = getJson(correctResponse).getAsJsonObject();
-    JsonObject jsonRequest = getJson(request).getAsJsonObject();
-    String param = jsonRequest.get("period").getAsString();
-    HttpResponse response = get(getEmployeePaymentApi).addParam("period", param).basicAuth(login, password).send();
-
-    if (response.getStatusCode() != status) {
-      return CheckResult.wrong("GET " + getEmployeePaymentApi + "?period=" + param + " should respond with "
-              + "status code " + status + ", responded: " + response.getStatusCode() + "\n"
-              + message + "\n"
-              + "Response body:\n" + response.getContent() + "\n");
-    }
-
-    // Check JSON in response
-    if (response.getStatusCode() == 200) {
-      if (!response.getJson().equals(json)) {
-        return CheckResult.wrong("Get " + getEmployeePaymentApi  + "?period=" + param
-                + " wrong data in response body" + "\n"
-                + "in response " + getPrettyJson(response.getJson()) + "\n"
-                + "must be " + getPrettyJson(json));
-      }
-    }
-
-    if (response.getStatusCode() == 400) {
-      expect(response.getContent()).asJson().check(
-              isObject()
-                      .value("error", "Bad Request")
-                      .value("path", "/api/empl/payment")
-                      .value("status", 400)
-                      .anyOtherValues());
     }
     return CheckResult.correct();
   }
