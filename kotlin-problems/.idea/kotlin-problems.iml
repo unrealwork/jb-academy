@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Topics/Introduction to MutableList/Swap/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Work with MutableLists/Help the Lord Commander/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Work with MutableLists/Playing with numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Getting substrings/Exchange/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Working with strings/Operations and truth/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
