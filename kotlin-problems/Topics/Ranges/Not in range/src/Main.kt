@@ -1,4 +1,5 @@
 fun main() {
     // write your code here
-    println(readln().toInt() !in 1..10)
+    val s: String = readln()
+    println(s.toInt() !in 1..10)
 }
