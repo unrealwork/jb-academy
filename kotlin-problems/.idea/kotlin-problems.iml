@@ -12,6 +12,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Topics/Standard output/Correct the code/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and arrays/Counting/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and ranges/The minimum value of N numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/The Math library/Fractional part/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Constructors/Bank account/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
