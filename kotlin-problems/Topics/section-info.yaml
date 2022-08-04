@@ -25,3 +25,4 @@ content:
 - For loop and arrays
 - The Math library
 - Mutable List
+- toString()
