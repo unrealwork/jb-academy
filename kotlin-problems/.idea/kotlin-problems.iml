@@ -18,6 +18,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Topics/When expression/From string to a number/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Writing files/Closed case/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Arrays/Swap elements/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Image libraries/Drawing two lines/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Declaring classes/New planet/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
