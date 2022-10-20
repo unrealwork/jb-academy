@@ -5,6 +5,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps in use/Splitting with spaces/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps in use/Web colors/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Set/Element problem/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps/Help the teacher/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

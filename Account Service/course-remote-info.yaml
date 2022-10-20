@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/612593/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Fri, 15 Jul 2022 05:07:36 UTC
+update_date: Thu, 20 Oct 2022 04:10:33 UTC
 stages:
 - id: 1086
   step: 16601
@@ -40,18 +40,12 @@ topics:
     theory_id: 6633
   - title: HyperText Transfer Protocol
     theory_id: 6569
-  - title: HTML basics
-    theory_id: 6434
-  - title: HTTP URL
-    theory_id: 6740
-  - title: Tags and Attributes
-    theory_id: 7536
-  - title: HTML page structure
-    theory_id: 6491
-  - title: Introduction to Spring boot
+  - title: Introduction to Spring Boot
     theory_id: 7944
   - title: Getting started with Spring Boot
     theory_id: 6336
+  - title: HTTP URL
+    theory_id: 6740
   - title: Basic project structure
     theory_id: 6339
   - title: IoC Container
@@ -62,10 +56,14 @@ topics:
     theory_id: 14652
   - title: '@Bean vs @Component'
     theory_id: 14771
+  - title: ApplicationContext
+    theory_id: 22062
   - title: Scopes of beans
     theory_id: 19487
   - title: Bean lifecycle
     theory_id: 19550
+  - title: Spring Security Crypto
+    theory_id: 21866
   - title: HTTP messages
     theory_id: 6752
   - title: Introduction to Spring Web MVC
@@ -160,10 +158,16 @@ topics:
     theory_id: 3523
   - title: Final variables
     theory_id: 7427
+  - title: Errors in programs
+    theory_id: 3536
+  - title: What is an exception
+    theory_id: 3497
   - title: Introduction to OOP
     theory_id: 3614
   - title: Package
     theory_id: 3621
+  - title: Hierarchy of exceptions
+    theory_id: 3570
   - title: Build tools
     theory_id: 4284
   - title: Command line overview
@@ -180,22 +184,40 @@ topics:
     theory_id: 7917
   - title: Dependency management
     theory_id: 5076
-  - title: Web development
-    theory_id: 13931
   - title: External resources
     theory_id: 6216
+  - title: Web development
+    theory_id: 13931
+  - title: HTML basics
+    theory_id: 6434
   - title: Libraries
     theory_id: 8504
   - title: Frameworks
     theory_id: 6701
-  - title: JSON
-    theory_id: 6854
+  - title: Tags and Attributes
+    theory_id: 7536
+  - title: HTML page structure
+    theory_id: 6491
+  - title: What is a bug
+    theory_id: 5504
+  - title: Functional testing
+    theory_id: 13438
+  - title: Unit testing
+    theory_id: 7545
+  - title: Dependency injection
+    theory_id: 20580
   - title: YAML
     theory_id: 12722
   - title: Interfaces
     theory_id: 9640
   - title: Introduction to software architecture
     theory_id: 15368
+  - title: JSON
+    theory_id: 6854
+  - title: Introduction to logging
+    theory_id: 5538
+  - title: Debugging techniques
+    theory_id: 13775
   - title: Authentication and Authorization
     theory_id: 14219
   - title: MVC
@@ -258,17 +280,7 @@ topics:
     theory_id: 7580
   - title: Regexps in Java
     theory_id: 3670
-  - title: Sets, ranges, alternations
-    theory_id: 3674
-  - title: Quantifiers
-    theory_id: 3687
-  - title: Shorthands
-    theory_id: 3680
-  - title: Regexes in programs
-    theory_id: 3696
   3:
-  - title: Immutability
-    theory_id: 7929
   - title: Using Spring MVC
     theory_id: 14409
   - title: Introduction to Spring Data
@@ -279,14 +291,6 @@ topics:
     theory_id: 13714
   - title: Transaction management
     theory_id: 18039
-  - title: Errors in programs
-    theory_id: 3536
-  - title: What is an exception
-    theory_id: 3497
-  - title: NPE
-    theory_id: 1945
-  - title: Hierarchy of exceptions
-    theory_id: 3570
   - title: Exception handling
     theory_id: 3552
   - title: Connecting to a database with JDBC
@@ -301,14 +305,16 @@ topics:
     theory_id: 7409
   - title: Basic CREATE statement
     theory_id: 9084
-  - title: The NULL value
-    theory_id: 7907
   - title: Basic SELECT statement
     theory_id: 7392
   - title: SELECT FROM statement
     theory_id: 8611
+  - title: The NULL value
+    theory_id: 7907
   - title: Basic INSERT statement
     theory_id: 9059
+  - title: Intro to MySQL
+    theory_id: 16662
   - title: Basic UPDATE statement
     theory_id: 9067
   - title: JDBC Statements
@@ -317,40 +323,16 @@ topics:
     theory_id: 11014
   - title: JDBC Transactions
     theory_id: 11346
-  - title: Intro to MySQL
-    theory_id: 16662
   - title: Introduction to transactions
     theory_id: 12144
   - title: Understanding Transactions
     theory_id: 12357
-  - title: Introduction to generic programming
-    theory_id: 3492
-  - title: Lambda expressions
-    theory_id: 11635
-  - title: Method references
-    theory_id: 3620
-  - title: Functional interfaces
-    theory_id: 11636
-  - title: Generic methods
-    theory_id: 3606
-  - title: Standard functional interfaces
-    theory_id: 3623
-  - title: Optional
-    theory_id: 9699
   - title: Alter table
     theory_id: 9579
   - title: PRIMARY KEY constraint
     theory_id: 9781
   - title: Consistency constraints
     theory_id: 9587
-  - title: Interface
-    theory_id: 3615
-  - title: Anonymous classes
-    theory_id: 11896
-  - title: Default methods
-    theory_id: 11354
-  - title: Boxing and unboxing
-    theory_id: 3595
   4:
   - title: Introduction to JPA
     theory_id: 17125
@@ -367,11 +349,9 @@ topics:
   - title: Object-Relational Mapping (ORM)
     theory_id: 8312
   5:
-  - title: The concept of patterns
-    theory_id: 3611
   - title: Logging in Spring Boot
     theory_id: 17457
-  - title: Introduction to logging
-    theory_id: 5538
+  - title: The concept of patterns
+    theory_id: 3611
   - title: Singleton
     theory_id: 3555

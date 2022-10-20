@@ -27,9 +27,9 @@
   <p>YouTube is a good demonstration of the Observer pattern. We have a YouTube channel (Observable) and its subscribers (Observers). Every subscriber will be notified when a new video is released. </p> 
   <p>The Observable interface describes the operation to add, remove and notify the observers:</p> 
   <pre><code class="language-java">public interface Observable {
-    public void addObserver(Observer observer);
-    public void removeObserver(Observer observer);
-    public void notifyObserver();
+    void addObserver(Observer observer);
+    void removeObserver(Observer observer);
+    void notifyObserver();
 }</code></pre> 
   <p>YouTubeChannel is the concrete implementation of the Observable interface with a list of observers. Generic &lt;Observer&gt; provides low coupling between objects:</p> 
   <pre><code class="language-java">public class YoutubeChannel implements Observable {
@@ -59,7 +59,7 @@
 }</code></pre> 
   <p>Observer interface updates action when Observable makes notifications to its observers:</p> 
   <pre><code class="language-java">public interface Observer {
-    public void update(); 
+    void update(); 
 }</code></pre> 
   <p>Youtube Subscriber (Concrete Observer) will get a notification about a new video on the channel:</p> 
   <pre><code class="language-java">public class YoutubeSubscriber implements Observer {

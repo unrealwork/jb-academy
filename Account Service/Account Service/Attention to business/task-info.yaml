@@ -1,27 +1,5 @@
 type: edu
 files:
-- name: build.gradle
-  visible: true
-  text: |-
-    plugins {
-        id 'java'
-        id 'org.springframework.boot' version '2.3.1.RELEASE'
-        id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    }
-
-    repositories {
-        mavenCentral()
-    }
-
-    sourceSets.main.resources.srcDirs = ["src/resources"]
-
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter'
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
-    }
-  learner_created: false
 - name: src/account/AccountServiceApplication.java
   visible: true
   text: |-
@@ -1125,6 +1103,28 @@ files:
 - name: src/account/persistance/AccountPaymentId.java
   visible: true
   learner_created: true
+- name: build.gradle
+  visible: true
+  text: |-
+    plugins {
+        id 'java'
+        id 'org.springframework.boot' version '2.3.1.RELEASE'
+        id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceSets.main.resources.srcDirs = ["src/resources"]
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.0.Final'
+    }
+  learner_created: false
 feedback_link: https://hyperskill.org/learn/step/16604#comment
 status: Unchecked
 record: -1
