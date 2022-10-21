@@ -11,6 +11,7 @@ fun main() {
         "eight" to 8,
         "nine" to 9
     )
+    
     val line = readln();
     println(dict[line])
 }

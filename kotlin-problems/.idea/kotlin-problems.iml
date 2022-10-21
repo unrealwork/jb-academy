@@ -3,10 +3,24 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps in use/Splitting with spaces/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps in use/Web colors/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Topics/Set/Element problem/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Topics/Regexps/Help the teacher/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and lists/Number in a set/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Introduction to MutableList/Initializing a list/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Introduction to MutableList/Swap/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Work with MutableLists/Help the Lord Commander/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Work with MutableLists/Playing with numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Ranges/Not in range/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Standard output/Correct the code/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and arrays/Counting/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/For loop and ranges/The minimum value of N numbers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/The Math library/Fractional part/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Constructors/Bank account/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Declaring functions/Vowel or not/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/When expression/From string to a number/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Writing files/Closed case/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Arrays/Swap elements/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Image libraries/Drawing two lines/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Declaring classes/New planet/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/The Math library (1)/Heron's formula/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
