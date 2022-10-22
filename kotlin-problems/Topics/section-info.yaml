@@ -22,8 +22,12 @@ content:
 - For loop and lists
 - Working with strings
 - Getting substrings
-- Declaring functions
-- Writing files
-- Arrays
-- Image libraries
-- The Math library (1)
+- For loop and arrays
+- The Math library
+- Mutable List
+- toString()
+- Regexps in use
+- Set
+- Regexps
+- Nullable and non-nullable types
+- Property accessors

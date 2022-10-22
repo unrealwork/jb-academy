@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Topics/Image libraries/Drawing two lines/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/Declaring classes/New planet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Topics/The Math library (1)/Heron's formula/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Topics/Property accessors/Implement a class/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

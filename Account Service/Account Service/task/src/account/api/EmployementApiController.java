@@ -1,7 +1,6 @@
 package account.api;
 
 import account.model.SignUpResult;
-import account.model.persistance.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ public class EmployementApiController {
     @GetMapping("payment")
     @ResponseBody
     public SignUpResult payment(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return SignUpResult.fromUser(user);
+        throw new UnsupportedOperationException();
     }
 }
