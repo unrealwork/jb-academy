@@ -742,78 +742,6 @@ files:
         }
     }
   learner_created: true
-- name: src/account/config/WebSecurityConfig.java
-  visible: true
-  text: |
-    package account.config;
-
-    import org.springframework.context.annotation.Bean;
-    import org.springframework.context.annotation.ComponentScan;
-    import org.springframework.context.annotation.Configuration;
-    import org.springframework.http.HttpMethod;
-    import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-    import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-    import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-    import org.springframework.security.config.http.SessionCreationPolicy;
-    import org.springframework.security.core.userdetails.UserDetailsService;
-    import org.springframework.security.crypto.password.PasswordEncoder;
-
-    @Configuration
-    @EnableWebSecurity
-    @ComponentScan
-    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        private final UserDetailsService userDetailsService;
-        private final PasswordEncoder passwordEncoder;
-
-        public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-            this.userDetailsService = userDetailsService;
-            this.passwordEncoder = passwordEncoder;
-        }
-
-        @Override
-        protected void configure(AuthenticationManagerBuilder auth) {
-            auth
-                    .authenticationProvider(authenticationProvider());
-
-        }
-
-        @Override
-        public void configure(HttpSecurity security) throws Exception {
-            security
-                    .csrf()
-                    .disable().headers().frameOptions().disable() // for Postman, the H2 console
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/actuator/*")
-                    .permitAll()// manage access
-                    .antMatchers(HttpMethod.POST, "/api/auth/signup")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    // other matchers
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                    .formLogin()
-                    .disable()
-                    .httpBasic();
-
-            security.exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint());
-        }
-
-        @Bean
-        public DaoAuthenticationProvider authenticationProvider() {
-            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-            provider.setPasswordEncoder(passwordEncoder);
-            provider.setUserDetailsService(userDetailsService);
-            return provider;
-        }
-    }
-  learner_created: true
 - name: src/account/service/RepeatedPasswordException.java
   visible: true
   text: |
@@ -897,24 +825,6 @@ files:
             user.setPassword(request.getPassword());
             user.setUsername(request.getEmail().toLowerCase());
             return user;
-        }
-    }
-  learner_created: true
-- name: src/account/config/AppConfig.java
-  visible: true
-  text: |
-    package account.config;
-
-    import org.springframework.context.annotation.Bean;
-    import org.springframework.context.annotation.Configuration;
-    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-    import org.springframework.security.crypto.password.PasswordEncoder;
-
-    @Configuration
-    public class AppConfig {
-        @Bean
-        PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder(13);
         }
     }
   learner_created: true
@@ -1014,30 +924,6 @@ files:
         }
     }
   learner_created: true
-- name: src/account/api/EmployementApiController.java
-  visible: true
-  text: |
-    package account.api;
-
-    import account.model.SignUpResult;
-    import account.model.persistance.User;
-    import org.springframework.security.core.Authentication;
-    import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.ResponseBody;
-    import org.springframework.web.bind.annotation.RestController;
-
-    @RestController
-    @RequestMapping("/api/empl/")
-    public class EmployementApiController {
-        @GetMapping("payment")
-        @ResponseBody
-        public SignUpResult payment(Authentication authentication) {
-            User user = (User) authentication.getPrincipal();
-            return SignUpResult.fromUser(user);
-        }
-    }
-  learner_created: true
 - name: src/account/validation/SecurePasswordValidator.java
   visible: true
   text: |
@@ -1059,25 +945,10 @@ files:
 
     }
   learner_created: true
-- name: src/account/api/AccountPaymentController.java
-  visible: true
-  learner_created: true
 - name: src/account/model/UploadResult.java
   visible: true
   learner_created: true
-- name: src/account/persistance/AccountPaymentRepository.java
-  visible: true
-  learner_created: true
-- name: src/account/model/AccountPaymentDTO.java
-  visible: true
-  learner_created: true
-- name: src/account/service/payment/AccountPaymentService.java
-  visible: true
-  learner_created: true
 - name: src/account/util/ParsingUtil.java
-  visible: true
-  learner_created: true
-- name: src/account/service/payment/AccountPaymentServiceImpl.java
   visible: true
   learner_created: true
 - name: src/account/model/persistance/AccountPayment.java
@@ -1125,6 +996,135 @@ files:
 
     }
   learner_created: false
+- name: src/account/persistance/AccountPaymentRepository.java
+  visible: true
+  learner_created: true
+- name: src/account/config/AppConfig.java
+  visible: true
+  text: |
+    package account.config;
+
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+
+    @Configuration
+    public class AppConfig {
+        @Bean
+        PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder(13);
+        }
+    }
+  learner_created: true
+- name: src/account/model/AccountPaymentDTO.java
+  visible: true
+  learner_created: true
+- name: src/account/api/EmployementApiController.java
+  visible: true
+  text: |
+    package account.api;
+
+    import account.model.SignUpResult;
+    import account.model.persistance.User;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.ResponseBody;
+    import org.springframework.web.bind.annotation.RestController;
+
+    @RestController
+    @RequestMapping("/api/empl/")
+    public class EmployementApiController {
+        @GetMapping("payment")
+        @ResponseBody
+        public SignUpResult payment(Authentication authentication) {
+            User user = (User) authentication.getPrincipal();
+            return SignUpResult.fromUser(user);
+        }
+    }
+  learner_created: true
+- name: src/account/service/payment/AccountPaymentService.java
+  visible: true
+  learner_created: true
+- name: src/account/service/payment/AccountPaymentServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/account/config/WebSecurityConfig.java
+  visible: true
+  text: |
+    package account.config;
+
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.ComponentScan;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.http.HttpMethod;
+    import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+    import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+    import org.springframework.security.config.http.SessionCreationPolicy;
+    import org.springframework.security.core.userdetails.UserDetailsService;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+
+    @Configuration
+    @EnableWebSecurity
+    @ComponentScan
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final UserDetailsService userDetailsService;
+        private final PasswordEncoder passwordEncoder;
+
+        public WebSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+            this.userDetailsService = userDetailsService;
+            this.passwordEncoder = passwordEncoder;
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) {
+            auth
+                    .authenticationProvider(authenticationProvider());
+
+        }
+
+        @Override
+        public void configure(HttpSecurity security) throws Exception {
+            security
+                    .csrf()
+                    .disable().headers().frameOptions().disable() // for Postman, the H2 console
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/actuator/*")
+                    .permitAll()// manage access
+                    .antMatchers(HttpMethod.POST, "/api/auth/signup")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    // other matchers
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .formLogin()
+                    .disable()
+                    .httpBasic();
+
+            security.exceptionHandling()
+                    .authenticationEntryPoint(new RestAuthenticationEntryPoint());
+        }
+
+        @Bean
+        public DaoAuthenticationProvider authenticationProvider() {
+            DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+            provider.setPasswordEncoder(passwordEncoder);
+            provider.setUserDetailsService(userDetailsService);
+            return provider;
+        }
+    }
+  learner_created: true
+- name: src/account/api/AccountPaymentController.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/16604#comment
 status: Unchecked
 record: -1
